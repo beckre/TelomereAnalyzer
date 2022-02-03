@@ -27,6 +27,7 @@ namespace TelomereAnalyzer
                                                ("PATH") + ";" + dllDirectory);
 
             grpBoxSelectDialog.Hide();
+            Console.WriteLine("Henloooo Uwu");
         }
 
         /*
