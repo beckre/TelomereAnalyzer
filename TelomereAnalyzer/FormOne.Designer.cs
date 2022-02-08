@@ -38,9 +38,11 @@ namespace TelomereAnalyzer
             this.mnuMainMenu = new System.Windows.Forms.MenuStrip();
             this.toolStrpMnuUpload = new System.Windows.Forms.ToolStripMenuItem();
             this.tIFFToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ImageBoxTwo = new Emgu.CV.UI.ImageBox();
             ((System.ComponentModel.ISupportInitialize)(this.ImageBox)).BeginInit();
             this.grpBoxSelectDialog.SuspendLayout();
             this.mnuMainMenu.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.ImageBoxTwo)).BeginInit();
             this.SuspendLayout();
             // 
             // ImageBox
@@ -68,7 +70,7 @@ namespace TelomereAnalyzer
             this.grpBoxSelectDialog.Controls.Add(this.btnNextStep);
             this.grpBoxSelectDialog.Location = new System.Drawing.Point(12, 32);
             this.grpBoxSelectDialog.Name = "grpBoxSelectDialog";
-            this.grpBoxSelectDialog.Size = new System.Drawing.Size(1578, 100);
+            this.grpBoxSelectDialog.Size = new System.Drawing.Size(2958, 100);
             this.grpBoxSelectDialog.TabIndex = 12;
             this.grpBoxSelectDialog.TabStop = false;
             // 
@@ -112,7 +114,7 @@ namespace TelomereAnalyzer
             this.toolStrpMnuUpload});
             this.mnuMainMenu.Location = new System.Drawing.Point(0, 0);
             this.mnuMainMenu.Name = "mnuMainMenu";
-            this.mnuMainMenu.Size = new System.Drawing.Size(1631, 33);
+            this.mnuMainMenu.Size = new System.Drawing.Size(3011, 33);
             this.mnuMainMenu.TabIndex = 13;
             this.mnuMainMenu.Text = "menuStrip2";
             // 
@@ -128,15 +130,32 @@ namespace TelomereAnalyzer
             // 
             this.tIFFToolStripMenuItem.BackColor = System.Drawing.SystemColors.MenuHighlight;
             this.tIFFToolStripMenuItem.Name = "tIFFToolStripMenuItem";
-            this.tIFFToolStripMenuItem.Size = new System.Drawing.Size(270, 34);
+            this.tIFFToolStripMenuItem.Size = new System.Drawing.Size(150, 34);
             this.tIFFToolStripMenuItem.Text = ".TIFF";
             this.tIFFToolStripMenuItem.Click += new System.EventHandler(this.OnUploadTIFF);
+            // 
+            // ImageBoxTwo
+            // 
+            this.ImageBoxTwo.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.ImageBoxTwo.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.ImageBoxTwo.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.ImageBoxTwo.Location = new System.Drawing.Point(1507, 140);
+            this.ImageBoxTwo.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.ImageBoxTwo.MaximumSize = new System.Drawing.Size(1024, 1024);
+            this.ImageBoxTwo.MinimumSize = new System.Drawing.Size(1024, 1024);
+            this.ImageBoxTwo.Name = "ImageBoxTwo";
+            this.ImageBoxTwo.Size = new System.Drawing.Size(1024, 1024);
+            this.ImageBoxTwo.TabIndex = 14;
+            this.ImageBoxTwo.TabStop = false;
             // 
             // FormOne
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1631, 1422);
+            this.ClientSize = new System.Drawing.Size(3011, 1406);
+            this.Controls.Add(this.ImageBoxTwo);
             this.Controls.Add(this.mnuMainMenu);
             this.Controls.Add(this.grpBoxSelectDialog);
             this.Controls.Add(this.ImageBox);
@@ -147,6 +166,7 @@ namespace TelomereAnalyzer
             this.grpBoxSelectDialog.PerformLayout();
             this.mnuMainMenu.ResumeLayout(false);
             this.mnuMainMenu.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.ImageBoxTwo)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -162,6 +182,7 @@ namespace TelomereAnalyzer
         private System.Windows.Forms.MenuStrip mnuMainMenu;
         private System.Windows.Forms.ToolStripMenuItem toolStrpMnuUpload;
         private System.Windows.Forms.ToolStripMenuItem tIFFToolStripMenuItem;
+        private Emgu.CV.UI.ImageBox ImageBoxTwo;
     }
 }
 
