@@ -39,6 +39,7 @@ namespace TelomereAnalyzer
             this.toolStrpMnuUpload = new System.Windows.Forms.ToolStripMenuItem();
             this.tIFFToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ImageBoxTwo = new Emgu.CV.UI.ImageBox();
+            this.lblThreshold = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.ImageBox)).BeginInit();
             this.grpBoxSelectDialog.SuspendLayout();
             this.mnuMainMenu.SuspendLayout();
@@ -114,7 +115,7 @@ namespace TelomereAnalyzer
             this.toolStrpMnuUpload});
             this.mnuMainMenu.Location = new System.Drawing.Point(0, 0);
             this.mnuMainMenu.Name = "mnuMainMenu";
-            this.mnuMainMenu.Size = new System.Drawing.Size(3011, 33);
+            this.mnuMainMenu.Size = new System.Drawing.Size(3011, 36);
             this.mnuMainMenu.TabIndex = 13;
             this.mnuMainMenu.Text = "menuStrip2";
             // 
@@ -139,6 +140,7 @@ namespace TelomereAnalyzer
             this.ImageBoxTwo.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.ImageBoxTwo.BackColor = System.Drawing.SystemColors.Control;
             this.ImageBoxTwo.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ImageBoxTwo.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.ImageBoxTwo.Location = new System.Drawing.Point(1507, 140);
@@ -150,11 +152,20 @@ namespace TelomereAnalyzer
             this.ImageBoxTwo.TabIndex = 14;
             this.ImageBoxTwo.TabStop = false;
             // 
+            // lblThreshold
+            // 
+            this.lblThreshold.AutoSize = true;
+            this.lblThreshold.Location = new System.Drawing.Point(1517, 1169);
+            this.lblThreshold.Name = "lblThreshold";
+            this.lblThreshold.Size = new System.Drawing.Size(0, 20);
+            this.lblThreshold.TabIndex = 15;
+            // 
             // FormOne
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(3011, 1406);
+            this.Controls.Add(this.lblThreshold);
             this.Controls.Add(this.ImageBoxTwo);
             this.Controls.Add(this.mnuMainMenu);
             this.Controls.Add(this.grpBoxSelectDialog);
@@ -183,6 +194,7 @@ namespace TelomereAnalyzer
         private System.Windows.Forms.ToolStripMenuItem toolStrpMnuUpload;
         private System.Windows.Forms.ToolStripMenuItem tIFFToolStripMenuItem;
         private Emgu.CV.UI.ImageBox ImageBoxTwo;
+        private System.Windows.Forms.Label lblThreshold;
     }
 }
 

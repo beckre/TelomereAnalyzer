@@ -29,9 +29,11 @@ namespace TelomereAnalyzer
             grpBoxSelectDialog.Hide();
         }
 
-        /*
-         *  erstmal mit der 16 Bit Version des Bildes versuchen ohne es in 8 Bit zu konvertieren
-         */
+        /*----------------------------------------------------------------------------------------*\
+         *  is called when clicking on the uplad --> .tiff button.                                *|
+         *  Enabled the user to choose and load any file for now --> only .tiff should be         *|
+         *  acceptible.
+        \*----------------------------------------------------------------------------------------*/
 
         private void OnUploadTIFF(object sender, EventArgs e)
         {
@@ -40,6 +42,7 @@ namespace TelomereAnalyzer
 
             if (dialog.ShowDialog(this) == System.Windows.Forms.DialogResult.OK)
             {
+                //erstmal mit der 16 Bit Version des Bildes versuchen ohne es in 8 Bit zu konvertieren
 
                 MainImage = new Image<Gray, UInt16>(dialog.FileName);
                 //Main8BitImage = MainImage.Convert<Bgr, byte>();
@@ -47,24 +50,28 @@ namespace TelomereAnalyzer
                 Bitmap tiffImage = MainImage.ToBitmap();
                 //ImageBox.BackgroundImage = tiffImageConvertedTo8Bit;
                 ImageBox.BackgroundImage = tiffImage;
-                //displaySelectPicForTreshhold();
                 Thresholding(MainImage);
 
             }
         }
+        /*----------------------------------------------------------------------------------------*\
+         *  Generates the threshold of the uploaded image using the otsu's method.                *|
+         *  Converts the choosen image to grayscale and byte before thresholding                  *|
+         *  otherwise an exception is thrown.
+        \*----------------------------------------------------------------------------------------*/
 
         private void Thresholding(Image<Gray, UInt16> image)
         {
+            Image<Gray, UInt16> destImage = new Image<Gray, UInt16>(image.Width, image.Height, new Gray(0));
             try
-            {
-                Image<Gray, UInt16> destImage = new Image<Gray, UInt16>(image.Width, image.Height, new Gray(0));
-                CvInvoke.Threshold(image.Convert<Gray, byte>(), destImage, 50, 255, Emgu.CV.CvEnum.ThresholdType.Otsu);
-                Color color = Color.Black;
+            { 
+                double threshold = CvInvoke.Threshold(image.Convert<Gray, byte>(), destImage, 50, 255, Emgu.CV.CvEnum.ThresholdType.Otsu);
+                lblThreshold.Text = "Calculated Threshold: "+threshold;
+                // wäre schön das Threshold Bild in rot schwarz darzustellen anstatt von weiß schwarz
+
+                //destImage.Convert<Hsv, byte>();
                 Bitmap destImageBitmap = destImage.ToBitmap();
                 ImageBoxTwo.BackgroundImage = destImageBitmap;
-               
-
-
             }
             catch (Exception e)
             {
