@@ -69,17 +69,48 @@ namespace TelomereAnalyzer
                 lblThreshold.Text = "Calculated Threshold: "+threshold;
                 // wäre schön das Threshold Bild in rot schwarz darzustellen anstatt von weiß schwarz
 
-                //destImage.Convert<Hsv, byte>();
-                Bitmap destImageBitmap = destImage.ToBitmap();
-                ImageBoxTwo.BackgroundImage = destImageBitmap;
+
             }
             catch (Exception e)
             {
                 Console.WriteLine(e.ToString());
             }
-           
+            Bitmap destImageBitmap = destImage.ToBitmap();
+            
+            Bitmap resultBitmap = ChangingColourOfBitonalImage(destImage, destImageBitmap);
+            ImageBoxTwo.BackgroundImage = resultBitmap;
+
         }
-        private void displaySelectPicForTreshhold()
+        //funktioniert, ist wahrscheinlich nicht die effizienteste Lösung
+        private Bitmap ChangingColourOfBitonalImage(Image<Gray, UInt16> image, Bitmap imageToBeColoured)
+        {
+            Bitmap newBmp = new Bitmap(image.Width, image.Height, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+
+            int width = imageToBeColoured.Width;
+            int height = imageToBeColoured.Height;
+
+            for(int i = 0; i< width; i++)
+            {
+                for(int j = 0; j< height; j++)
+                {
+                    Color previousColor = imageToBeColoured.GetPixel(i, j);
+                    //Console.WriteLine(previousColor);
+                    if (previousColor.R == 255)
+                    {
+                        newBmp.SetPixel(i, j, Color.FromArgb(255,255, 0, 0));
+                    }
+                    else
+                    {
+                        newBmp.SetPixel(i, j, Color.FromArgb(255, 0, 0, 0));
+                    }
+                }
+            }
+            return newBmp;
+            
+        }
+
+
+        private void DisplaySelectPicForTreshhold()
         {
             grpBoxSelectDialog.Show();
 
@@ -89,5 +120,7 @@ namespace TelomereAnalyzer
         {
             lblPleaseSelectPic.Text = "The Treshhold was succesfully generated";
         }
+
+
     }
 }
