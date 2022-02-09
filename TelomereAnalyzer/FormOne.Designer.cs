@@ -30,7 +30,7 @@ namespace TelomereAnalyzer
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.ImageBox = new Emgu.CV.UI.ImageBox();
+            this.ImageBoxOne = new Emgu.CV.UI.ImageBox();
             this.grpBoxSelectDialog = new System.Windows.Forms.GroupBox();
             this.lblPleaseSelectPic = new System.Windows.Forms.Label();
             this.btnPreviousStep = new System.Windows.Forms.Button();
@@ -40,27 +40,31 @@ namespace TelomereAnalyzer
             this.tIFFToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ImageBoxTwo = new Emgu.CV.UI.ImageBox();
             this.lblThreshold = new System.Windows.Forms.Label();
-            ((System.ComponentModel.ISupportInitialize)(this.ImageBox)).BeginInit();
+            this.btnNormalize = new System.Windows.Forms.Button();
+            this.btnGenerateThreshold = new System.Windows.Forms.Button();
+            this.grpBoxSelectOptions = new System.Windows.Forms.GroupBox();
+            ((System.ComponentModel.ISupportInitialize)(this.ImageBoxOne)).BeginInit();
             this.grpBoxSelectDialog.SuspendLayout();
             this.mnuMainMenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ImageBoxTwo)).BeginInit();
+            this.grpBoxSelectOptions.SuspendLayout();
             this.SuspendLayout();
             // 
-            // ImageBox
+            // ImageBoxOne
             // 
-            this.ImageBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.ImageBoxOne.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.ImageBox.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.ImageBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.ImageBox.Location = new System.Drawing.Point(232, 140);
-            this.ImageBox.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.ImageBox.MaximumSize = new System.Drawing.Size(1024, 1024);
-            this.ImageBox.MinimumSize = new System.Drawing.Size(1024, 1024);
-            this.ImageBox.Name = "ImageBox";
-            this.ImageBox.Size = new System.Drawing.Size(1024, 1024);
-            this.ImageBox.TabIndex = 5;
-            this.ImageBox.TabStop = false;
+            this.ImageBoxOne.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.ImageBoxOne.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.ImageBoxOne.Location = new System.Drawing.Point(443, 183);
+            this.ImageBoxOne.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.ImageBoxOne.MaximumSize = new System.Drawing.Size(1024, 1024);
+            this.ImageBoxOne.MinimumSize = new System.Drawing.Size(1024, 1024);
+            this.ImageBoxOne.Name = "ImageBoxOne";
+            this.ImageBoxOne.Size = new System.Drawing.Size(1024, 1024);
+            this.ImageBoxOne.TabIndex = 5;
+            this.ImageBoxOne.TabStop = false;
             // 
             // grpBoxSelectDialog
             // 
@@ -81,9 +85,9 @@ namespace TelomereAnalyzer
             this.lblPleaseSelectPic.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblPleaseSelectPic.Location = new System.Drawing.Point(17, 22);
             this.lblPleaseSelectPic.Name = "lblPleaseSelectPic";
-            this.lblPleaseSelectPic.Size = new System.Drawing.Size(330, 29);
+            this.lblPleaseSelectPic.Size = new System.Drawing.Size(429, 29);
             this.lblPleaseSelectPic.TabIndex = 11;
-            this.lblPleaseSelectPic.Text = "Please upload a .TIFF picture";
+            this.lblPleaseSelectPic.Text = "Please upload a .TIFF file for analyzing";
             // 
             // btnPreviousStep
             // 
@@ -143,7 +147,7 @@ namespace TelomereAnalyzer
             this.ImageBoxTwo.BackColor = System.Drawing.SystemColors.Control;
             this.ImageBoxTwo.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ImageBoxTwo.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.ImageBoxTwo.Location = new System.Drawing.Point(1507, 140);
+            this.ImageBoxTwo.Location = new System.Drawing.Point(1735, 183);
             this.ImageBoxTwo.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.ImageBoxTwo.MaximumSize = new System.Drawing.Size(1024, 1024);
             this.ImageBoxTwo.MinimumSize = new System.Drawing.Size(1024, 1024);
@@ -155,29 +159,64 @@ namespace TelomereAnalyzer
             // lblThreshold
             // 
             this.lblThreshold.AutoSize = true;
-            this.lblThreshold.Location = new System.Drawing.Point(1517, 1169);
+            this.lblThreshold.Location = new System.Drawing.Point(1731, 1224);
             this.lblThreshold.Name = "lblThreshold";
             this.lblThreshold.Size = new System.Drawing.Size(0, 20);
             this.lblThreshold.TabIndex = 15;
+            // 
+            // btnNormalize
+            // 
+            this.btnNormalize.BackColor = System.Drawing.SystemColors.MenuHighlight;
+            this.btnNormalize.Location = new System.Drawing.Point(50, 45);
+            this.btnNormalize.Name = "btnNormalize";
+            this.btnNormalize.Size = new System.Drawing.Size(131, 86);
+            this.btnNormalize.TabIndex = 16;
+            this.btnNormalize.Text = "Normalize";
+            this.btnNormalize.UseVisualStyleBackColor = false;
+            this.btnNormalize.Click += new System.EventHandler(this.OnNormalize);
+            // 
+            // btnGenerateThreshold
+            // 
+            this.btnGenerateThreshold.BackColor = System.Drawing.SystemColors.MenuHighlight;
+            this.btnGenerateThreshold.Location = new System.Drawing.Point(50, 169);
+            this.btnGenerateThreshold.Name = "btnGenerateThreshold";
+            this.btnGenerateThreshold.Size = new System.Drawing.Size(131, 76);
+            this.btnGenerateThreshold.TabIndex = 17;
+            this.btnGenerateThreshold.Text = "Threshold";
+            this.btnGenerateThreshold.UseVisualStyleBackColor = false;
+            this.btnGenerateThreshold.Click += new System.EventHandler(this.OnThreshold);
+            // 
+            // grpBoxSelectOptions
+            // 
+            this.grpBoxSelectOptions.Controls.Add(this.btnNormalize);
+            this.grpBoxSelectOptions.Controls.Add(this.btnGenerateThreshold);
+            this.grpBoxSelectOptions.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.grpBoxSelectOptions.Location = new System.Drawing.Point(74, 138);
+            this.grpBoxSelectOptions.Name = "grpBoxSelectOptions";
+            this.grpBoxSelectOptions.Size = new System.Drawing.Size(244, 1026);
+            this.grpBoxSelectOptions.TabIndex = 18;
+            this.grpBoxSelectOptions.TabStop = false;
             // 
             // FormOne
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(3011, 1406);
+            this.Controls.Add(this.grpBoxSelectOptions);
             this.Controls.Add(this.lblThreshold);
             this.Controls.Add(this.ImageBoxTwo);
             this.Controls.Add(this.mnuMainMenu);
             this.Controls.Add(this.grpBoxSelectDialog);
-            this.Controls.Add(this.ImageBox);
+            this.Controls.Add(this.ImageBoxOne);
             this.Name = "FormOne";
             this.Text = "Form1";
-            ((System.ComponentModel.ISupportInitialize)(this.ImageBox)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ImageBoxOne)).EndInit();
             this.grpBoxSelectDialog.ResumeLayout(false);
             this.grpBoxSelectDialog.PerformLayout();
             this.mnuMainMenu.ResumeLayout(false);
             this.mnuMainMenu.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ImageBoxTwo)).EndInit();
+            this.grpBoxSelectOptions.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -185,7 +224,7 @@ namespace TelomereAnalyzer
 
         #endregion
 
-        private Emgu.CV.UI.ImageBox ImageBox;
+        private Emgu.CV.UI.ImageBox ImageBoxOne;
         private System.Windows.Forms.GroupBox grpBoxSelectDialog;
         private System.Windows.Forms.Label lblPleaseSelectPic;
         private System.Windows.Forms.Button btnPreviousStep;
@@ -195,6 +234,9 @@ namespace TelomereAnalyzer
         private System.Windows.Forms.ToolStripMenuItem tIFFToolStripMenuItem;
         private Emgu.CV.UI.ImageBox ImageBoxTwo;
         private System.Windows.Forms.Label lblThreshold;
+        private System.Windows.Forms.Button btnNormalize;
+        private System.Windows.Forms.Button btnGenerateThreshold;
+        private System.Windows.Forms.GroupBox grpBoxSelectOptions;
     }
 }
 

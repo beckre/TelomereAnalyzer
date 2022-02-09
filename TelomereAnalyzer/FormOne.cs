@@ -17,21 +17,24 @@ namespace TelomereAnalyzer
 {
     public partial class FormOne : Form
     {
-        Image<Gray, UInt16> MainImage = null;       // Das Hauptbild
         //Image<Bgr, byte> Main8BitImage = null;       // Das Hauptbild
+        Image<Gray, UInt16> _uploadedRawImage = null;       // Das Hauptbild
+        Bitmap _btmUploadedRawImage = null;
+        Bitmap _btmResultImageNormalized = null;
+        Bitmap _btmResultImage = null;
+
         public FormOne()
         {
             InitializeComponent();
             var dllDirectory = @"./OpenCv";
             Environment.SetEnvironmentVariable("PATH", Environment.GetEnvironmentVariable
                                                ("PATH") + ";" + dllDirectory);
-
-            grpBoxSelectDialog.Hide();
+            grpBoxSelectOptions.Hide();
         }
-
+        #region Callbacks--------------------------------------------------------------------------------------------
         /*----------------------------------------------------------------------------------------*\
-         *  is called when clicking on the uplad --> .tiff button.                                *|
-         *  Enabled the user to choose and load any file for now --> only .tiff should be         *|
+         *  is called when clicking on the upload --> .tiff button.                                *|
+         *  Enables the user to choose and load any file for now --> only .tiff should be         *|
          *  acceptible.
         \*----------------------------------------------------------------------------------------*/
 
@@ -44,22 +47,40 @@ namespace TelomereAnalyzer
             {
                 //erstmal mit der 16 Bit Version des Bildes versuchen ohne es in 8 Bit zu konvertieren
 
-                MainImage = new Image<Gray, UInt16>(dialog.FileName);
+                _uploadedRawImage = new Image<Gray, UInt16>(dialog.FileName);
                 //Main8BitImage = MainImage.Convert<Bgr, byte>();
                 //Bitmap tiffImageConvertedTo8Bit = Main8BitImage.ToBitmap();
-                Bitmap tiffImage = MainImage.ToBitmap();
                 //ImageBox.BackgroundImage = tiffImageConvertedTo8Bit;
-                ImageBox.BackgroundImage = tiffImage;
-                Thresholding(MainImage);
+                _btmUploadedRawImage = _uploadedRawImage.ToBitmap();
+                ImageBoxOne.BackgroundImage = _btmUploadedRawImage;
+                //Thresholding(_uploadedRawImage);
+                grpBoxSelectOptions.Show();
 
             }
         }
+        private void OnNormalize(object sender, EventArgs e)
+        {
+            //funktioniert nicht, macht das Bild einfach nur schwarz
+            Image<Gray, UInt16> destImage = new Image<Gray, UInt16>(_uploadedRawImage.Width, _uploadedRawImage.Height, new Gray(0));
+            //CvInvoke.Normalize(_uploadedRawImage, destImage, 0, 1, Emgu.CV.CvEnum.NormType.MinMax);
+            CvInvoke.Normalize(_uploadedRawImage, destImage, 1, 0, Emgu.CV.CvEnum.NormType.MinMax);
+            _btmResultImageNormalized = destImage.ToBitmap();
+            ShowBitmapOnForm(ImageBoxOne, _btmResultImageNormalized);
+        }
+
         /*----------------------------------------------------------------------------------------*\
          *  Generates the threshold of the uploaded image using the otsu's method.                *|
          *  Converts the choosen image to grayscale and byte before thresholding                  *|
          *  otherwise an exception is thrown.
         \*----------------------------------------------------------------------------------------*/
+        private void OnThreshold(object sender, EventArgs e)
+        {
+            Thresholding(_uploadedRawImage);
+        }
 
+        #endregion
+
+        #region Thresholding---------------------------------------------------------------------------------
         private void Thresholding(Image<Gray, UInt16> image)
         {
             Image<Gray, UInt16> destImage = new Image<Gray, UInt16>(image.Width, image.Height, new Gray(0));
@@ -72,10 +93,11 @@ namespace TelomereAnalyzer
             {
                 Console.WriteLine(e.ToString());
             }
-            Bitmap resultBitmap = ChangingColourOfBitonalImage(destImage);
-            ImageBoxTwo.BackgroundImage = resultBitmap;
+            _btmResultImage = ChangingColourOfBitonalImage(destImage);
+            ShowBitmapOnForm(ImageBoxTwo, _btmResultImage);
 
         }
+
         //funktioniert, ist wahrscheinlich nicht die effizienteste Lösung
         private Bitmap ChangingColourOfBitonalImage(Image<Gray, UInt16> image)
         {
@@ -106,7 +128,12 @@ namespace TelomereAnalyzer
                 }
             }
             return resultBmpToBeColoured;
+        }
+        #endregion
 
+        private void ShowBitmapOnForm(ImageBox imageBox, Bitmap bitmap)
+        {
+            imageBox.BackgroundImage = bitmap;
         }
 
 
@@ -120,7 +147,5 @@ namespace TelomereAnalyzer
         {
             lblPleaseSelectPic.Text = "The Treshhold was succesfully generated";
         }
-
-
     }
 }
