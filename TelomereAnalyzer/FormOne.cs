@@ -67,46 +67,46 @@ namespace TelomereAnalyzer
             { 
                 double threshold = CvInvoke.Threshold(image.Convert<Gray, byte>(), destImage, 50, 255, Emgu.CV.CvEnum.ThresholdType.Otsu);
                 lblThreshold.Text = "Calculated Threshold: "+threshold;
-                // wäre schön das Threshold Bild in rot schwarz darzustellen anstatt von weiß schwarz
-
-
             }
             catch (Exception e)
             {
                 Console.WriteLine(e.ToString());
             }
-            Bitmap destImageBitmap = destImage.ToBitmap();
-            
-            Bitmap resultBitmap = ChangingColourOfBitonalImage(destImage, destImageBitmap);
+            Bitmap resultBitmap = ChangingColourOfBitonalImage(destImage);
             ImageBoxTwo.BackgroundImage = resultBitmap;
 
         }
         //funktioniert, ist wahrscheinlich nicht die effizienteste Lösung
-        private Bitmap ChangingColourOfBitonalImage(Image<Gray, UInt16> image, Bitmap imageToBeColoured)
+        private Bitmap ChangingColourOfBitonalImage(Image<Gray, UInt16> image)
         {
-            Bitmap newBmp = new Bitmap(image.Width, image.Height, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+            Bitmap destImageBitmap = image.ToBitmap();
+            //Ziel Bitmap muss diese Art von Bitmap sein, weil sonst die Methode .SetPixel() nicht aufrufbar ist
+            Bitmap resultBmpToBeColoured = new Bitmap(image.Width, image.Height, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
 
-            int width = imageToBeColoured.Width;
-            int height = imageToBeColoured.Height;
+            int width = destImageBitmap.Width;
+            int height = destImageBitmap.Height;
 
             for(int i = 0; i< width; i++)
             {
                 for(int j = 0; j< height; j++)
                 {
-                    Color previousColor = imageToBeColoured.GetPixel(i, j);
-                    //Console.WriteLine(previousColor);
-                    if (previousColor.R == 255)
+                    Color checkedColor = destImageBitmap.GetPixel(i, j);
+                    /*
+                     * Das Bild ist schwarzweiß, also 2 farbig. Weenn ein Rotanteil in dem Pixel drin ist, ist dieser Pixel weiß.
+                     * Der weiße Pixel wird in rot umgewandelt und die restlichen Pixel werden schwarz gesetzt.
+                     */
+                    if (checkedColor.R == 255)
                     {
-                        newBmp.SetPixel(i, j, Color.FromArgb(255,255, 0, 0));
+                        resultBmpToBeColoured.SetPixel(i, j, Color.FromArgb(255,255, 0, 0));
                     }
                     else
                     {
-                        newBmp.SetPixel(i, j, Color.FromArgb(255, 0, 0, 0));
+                        resultBmpToBeColoured.SetPixel(i, j, Color.FromArgb(255, 0, 0, 0));
                     }
                 }
             }
-            return newBmp;
-            
+            return resultBmpToBeColoured;
+
         }
 
 
