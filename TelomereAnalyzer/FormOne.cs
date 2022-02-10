@@ -7,6 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Drawing.Imaging;
+using System.Runtime.InteropServices;
 using Emgu.CV;
 using Emgu.CV.Structure;
 using Emgu.CV.UI;
@@ -18,10 +20,15 @@ namespace TelomereAnalyzer
     public partial class FormOne : Form
     {
         //Image<Bgr, byte> Main8BitImage = null;       // Das Hauptbild
-        Image<Gray, UInt16> _uploadedRawImage = null;       // Das Hauptbild
+
+        //Image und Bitmap vom originalen hochgeladenen Bild
+        Image<Gray, UInt16> _uploadedRawImage = null;       
         Bitmap _btmUploadedRawImage = null;
+        //Image und Bitmap vom normalisierten Bild
+        Image<Gray, UInt16> _resultImageNormalized = null;
         Bitmap _btmResultImageNormalized = null;
-        Bitmap _btmResultImage = null;
+        //Bitmap vom normalisierten Bild, wo die Threshold Methode angewandt wurde
+        Bitmap _btmResultImageThreshold = null;
 
         public FormOne()
         {
@@ -33,7 +40,7 @@ namespace TelomereAnalyzer
         }
         #region Callbacks--------------------------------------------------------------------------------------------
         /*----------------------------------------------------------------------------------------*\
-         *  is called when clicking on the upload --> .tiff button.                                *|
+         *  is called when clicking on the upload --> .tiff button.                               *|
          *  Enables the user to choose and load any file for now --> only .tiff should be         *|
          *  acceptible.
         \*----------------------------------------------------------------------------------------*/
@@ -58,24 +65,26 @@ namespace TelomereAnalyzer
 
             }
         }
+        
         private void OnNormalize(object sender, EventArgs e)
         {
-            //funktioniert nicht, macht das Bild einfach nur schwarz
             Image<Gray, UInt16> destImage = new Image<Gray, UInt16>(_uploadedRawImage.Width, _uploadedRawImage.Height, new Gray(0));
-            //CvInvoke.Normalize(_uploadedRawImage, destImage, 0, 1, Emgu.CV.CvEnum.NormType.MinMax);
-            CvInvoke.Normalize(_uploadedRawImage, destImage, 1, 0, Emgu.CV.CvEnum.NormType.MinMax);
+            CvInvoke.Normalize(_uploadedRawImage, destImage, 0, 65535, Emgu.CV.CvEnum.NormType.MinMax);
+            _resultImageNormalized = destImage;
             _btmResultImageNormalized = destImage.ToBitmap();
             ShowBitmapOnForm(ImageBoxOne, _btmResultImageNormalized);
         }
+        
 
-        /*----------------------------------------------------------------------------------------*\
-         *  Generates the threshold of the uploaded image using the otsu's method.                *|
-         *  Converts the choosen image to grayscale and byte before thresholding                  *|
-         *  otherwise an exception is thrown.
-        \*----------------------------------------------------------------------------------------*/
-        private void OnThreshold(object sender, EventArgs e)
+            /*----------------------------------------------------------------------------------------*\
+             *  Generates the threshold of the uploaded image using the otsu's method.                *|
+             *  Converts the choosen image to grayscale and byte before thresholding                  *|
+             *  otherwise an exception is thrown.
+            \*----------------------------------------------------------------------------------------*/
+            private void OnThreshold(object sender, EventArgs e)
         {
-            Thresholding(_uploadedRawImage);
+            //Thresholding(_uploadedRawImage);
+            Thresholding(_resultImageNormalized);
         }
 
         #endregion
@@ -93,8 +102,8 @@ namespace TelomereAnalyzer
             {
                 Console.WriteLine(e.ToString());
             }
-            _btmResultImage = ChangingColourOfBitonalImage(destImage);
-            ShowBitmapOnForm(ImageBoxTwo, _btmResultImage);
+            _btmResultImageThreshold = ChangingColourOfBitonalImage(destImage);
+            ShowBitmapOnForm(ImageBoxTwo, _btmResultImageThreshold);
 
         }
 
