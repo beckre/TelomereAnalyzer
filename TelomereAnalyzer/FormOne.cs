@@ -62,6 +62,7 @@ namespace TelomereAnalyzer
                 ImageBoxOne.BackgroundImage = _btmUploadedRawImage;
                 //Thresholding(_uploadedRawImage);
                 grpBoxSelectOptions.Show();
+                btnGenerateThreshold.Hide();
 
             }
         }
@@ -73,9 +74,8 @@ namespace TelomereAnalyzer
             _resultImageNormalized = destImage;
             _btmResultImageNormalized = destImage.ToBitmap();
             ShowBitmapOnForm(ImageBoxOne, _btmResultImageNormalized);
+            btnGenerateThreshold.Show();
         }
-        
-
             /*----------------------------------------------------------------------------------------*\
              *  Generates the threshold of the uploaded image using the otsu's method.                *|
              *  Converts the choosen image to grayscale and byte before thresholding                  *|
