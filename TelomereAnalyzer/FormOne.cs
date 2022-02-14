@@ -1,17 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using System.Drawing.Imaging;
-using System.Runtime.InteropServices;
-using Emgu.CV;
+﻿using Emgu.CV;
 using Emgu.CV.Structure;
 using Emgu.CV.UI;
+using System;
+using System.Drawing;
+using System.Windows.Forms;
 
 
 
@@ -20,14 +12,19 @@ namespace TelomereAnalyzer
     public partial class FormOne : Form
     {
 
-        Boolean nucleiImageUploaded = false;
-        Boolean telomereImageUploaded = false;
+        Boolean _nucleiImageUploaded = false;
+        Boolean _telomereImageUploaded = false;
 
         //Image<Bgr, byte> Main8BitImage = null;       // Das Hauptbild
 
         //Image und Bitmap vom originalen hochgeladenen Bild
-        Image<Gray, UInt16> _uploadedRawImage = null;       
-        Bitmap _btmUploadedRawImage = null;
+        Image<Gray, UInt16> _uploadedRawNucleiImage = null;       
+        Bitmap _btmUploadedRawNucleiImage = null;
+
+        Image<Gray, UInt16> _uploadedRawTelomereImage = null;
+        Bitmap _btmUploadedRawTelomereImage = null;
+
+
 
         //Image und Bitmap vom normalisierten Bild
         Image<Gray, UInt16> _resultImageNormalized = null;
@@ -54,22 +51,24 @@ namespace TelomereAnalyzer
         private void OnUploadTIFF(object sender, EventArgs e)
         {
             //Wenn noch kein Nuclei oder Telomer-Bild hochgeladen wurde, kann man ein Bild hochladen
-            if(!nucleiImageUploaded)
+            if(!_nucleiImageUploaded)
             {
-                UploadingTIFF();
-                nucleiImageUploaded = true;
+                UploadingTIFF(_uploadedRawNucleiImage, _btmUploadedRawNucleiImage);
+                _nucleiImageUploaded = true;
                 lblPleaseSelectPic.Text = "Please upload a Telomere .TIFF file";
                 return;
             }
-            if (nucleiImageUploaded && telomereImageUploaded)
+            //Wenn schon beide Bilder hochgeladen wurden sind, kann man kein weiteres hochladen und es erscheint eine Message
+            if (_nucleiImageUploaded && _telomereImageUploaded)
             {
                 lblPleaseSelectPic.Text = "A Nuclei file and a Telomere file were already uploaded. Press Next to proceed";
                 return;
             }
-            if (nucleiImageUploaded)
+            //Wenn nur 1 Bild (Nuclei-Bild) hochgeladen wurde, kann man noch ein Telomere-Bild hochladen
+            if (_nucleiImageUploaded)
             {
-                UploadingTIFF();
-                telomereImageUploaded = true;
+                UploadingTIFF(_uploadedRawTelomereImage, _btmUploadedRawTelomereImage);
+                _telomereImageUploaded = true;
                 lblPleaseSelectPic.Text = "Please press Next to proceed";
                 return;
             }
@@ -77,21 +76,20 @@ namespace TelomereAnalyzer
 
         }
 
-        private void UploadingTIFF()
+        private void UploadingTIFF(Image<Gray, UInt16> uploadedRawImage, Bitmap btmUploadedRawImage)
         {
             System.Windows.Forms.OpenFileDialog dialog = new
             System.Windows.Forms.OpenFileDialog();
             if (dialog.ShowDialog(this) == System.Windows.Forms.DialogResult.OK)
             {
-                //erstmal mit der 16 Bit Version des Bildes versuchen ohne es in 8 Bit zu konvertieren
+                //erstmal mit der 16 Bit Version des Bildes ohne es in 8 Bit zu konvertieren
 
-                _uploadedRawImage = new Image<Gray, UInt16>(dialog.FileName);
+                uploadedRawImage = new Image<Gray, UInt16>(dialog.FileName);
                 //Main8BitImage = MainImage.Convert<Bgr, byte>();
                 //Bitmap tiffImageConvertedTo8Bit = Main8BitImage.ToBitmap();
                 //ImageBox.BackgroundImage = tiffImageConvertedTo8Bit;
-                _btmUploadedRawImage = _uploadedRawImage.ToBitmap();
-                ImageBoxOne.BackgroundImage = _btmUploadedRawImage;
-                //Thresholding(_uploadedRawImage);
+                btmUploadedRawImage = uploadedRawImage.ToBitmap();
+                ImageBoxOne.BackgroundImage = btmUploadedRawImage;
                 grpBoxSelectOptions.Show();
                 btnGenerateThreshold.Hide();
             }
