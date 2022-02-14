@@ -11,24 +11,30 @@ namespace TelomereAnalyzer
 {
     public partial class FormOne : Form
     {
-
+        //Image<Bgr, byte> Main8BitImage = null;       // Das Hauptbild
+        
         Boolean _nucleiImageUploaded = false;
         Boolean _telomereImageUploaded = false;
 
-        //Image<Bgr, byte> Main8BitImage = null;       // Das Hauptbild
+        /*
+         * Die Bilder werden alle seperat gespeichert, da es die Option geben soll
+         * die unterschiedlichen Stadien der Bilder später zu speichern.
+         */
 
-        //Image und Bitmap vom originalen hochgeladenen Bild
+        //Image und Bitmap vom originalen hochgeladenen Nuclei Bild
         Image<Gray, UInt16> _uploadedRawNucleiImage = null;       
         Bitmap _btmUploadedRawNucleiImage = null;
-
+        //Image und Bitmap vom originalen hochgeladenen Telomer Bild
         Image<Gray, UInt16> _uploadedRawTelomereImage = null;
         Bitmap _btmUploadedRawTelomereImage = null;
 
+        //Image und Bitmap vom normalisierten Nuclei Bild
+        Image<Gray, UInt16> _resultNucleiImageNormalized = null;
+        Bitmap _btmResultNucleiImageNormalized = null;
 
-
-        //Image und Bitmap vom normalisierten Bild
-        Image<Gray, UInt16> _resultImageNormalized = null;
-        Bitmap _btmResultImageNormalized = null;
+        //Image und Bitmap vom normalisierten Telomer Bild
+        Image<Gray, UInt16> _resultTelomereImageNormalized = null;
+        Bitmap _btmResultTelomereImageNormalized = null;
 
         //Bitmap vom normalisierten Bild, wo die Threshold Methode angewandt wurde
         Bitmap _btmResultImageThreshold = null;
@@ -48,35 +54,7 @@ namespace TelomereAnalyzer
          *  acceptible.
         \*----------------------------------------------------------------------------------------*/
 
-        private void OnUploadTIFF(object sender, EventArgs e)
-        {
-            //Wenn noch kein Nuclei oder Telomer-Bild hochgeladen wurde, kann man ein Bild hochladen
-            if(!_nucleiImageUploaded)
-            {
-                UploadingTIFF(_uploadedRawNucleiImage, _btmUploadedRawNucleiImage);
-                _nucleiImageUploaded = true;
-                lblPleaseSelectPic.Text = "Please upload a Telomere .TIFF file";
-                return;
-            }
-            //Wenn schon beide Bilder hochgeladen wurden sind, kann man kein weiteres hochladen und es erscheint eine Message
-            if (_nucleiImageUploaded && _telomereImageUploaded)
-            {
-                lblPleaseSelectPic.Text = "A Nuclei file and a Telomere file were already uploaded. Press Next to proceed";
-                return;
-            }
-            //Wenn nur 1 Bild (Nuclei-Bild) hochgeladen wurde, kann man noch ein Telomere-Bild hochladen
-            if (_nucleiImageUploaded)
-            {
-                UploadingTIFF(_uploadedRawTelomereImage, _btmUploadedRawTelomereImage);
-                _telomereImageUploaded = true;
-                lblPleaseSelectPic.Text = "Please press Next to proceed";
-                return;
-            }
-
-
-        }
-
-        private void UploadingTIFF(Image<Gray, UInt16> uploadedRawImage, Bitmap btmUploadedRawImage)
+        private void OnUploadNucleiImage(object sender, EventArgs e)
         {
             System.Windows.Forms.OpenFileDialog dialog = new
             System.Windows.Forms.OpenFileDialog();
@@ -84,24 +62,56 @@ namespace TelomereAnalyzer
             {
                 //erstmal mit der 16 Bit Version des Bildes ohne es in 8 Bit zu konvertieren
 
-                uploadedRawImage = new Image<Gray, UInt16>(dialog.FileName);
+                _uploadedRawNucleiImage = new Image<Gray, UInt16>(dialog.FileName);
                 //Main8BitImage = MainImage.Convert<Bgr, byte>();
                 //Bitmap tiffImageConvertedTo8Bit = Main8BitImage.ToBitmap();
                 //ImageBox.BackgroundImage = tiffImageConvertedTo8Bit;
-                btmUploadedRawImage = uploadedRawImage.ToBitmap();
-                ImageBoxOne.BackgroundImage = btmUploadedRawImage;
-                grpBoxSelectOptions.Show();
+                _btmUploadedRawNucleiImage = _uploadedRawNucleiImage.ToBitmap();
+                ShowBitmapOnForm(ImageBoxOne, _btmUploadedRawNucleiImage);
                 btnGenerateThreshold.Hide();
+                _nucleiImageUploaded = true;
             }
         }
-        
+
+        private void OnUploadTelomereImage(object sender, EventArgs e)
+        {
+            System.Windows.Forms.OpenFileDialog dialog = new
+            System.Windows.Forms.OpenFileDialog();
+            if (dialog.ShowDialog(this) == System.Windows.Forms.DialogResult.OK)
+            {
+                //erstmal mit der 16 Bit Version des Bildes ohne es in 8 Bit zu konvertieren
+
+                _uploadedRawTelomereImage = new Image<Gray, UInt16>(dialog.FileName);
+                //Main8BitImage = MainImage.Convert<Bgr, byte>();
+                //Bitmap tiffImageConvertedTo8Bit = Main8BitImage.ToBitmap();
+                //ImageBox.BackgroundImage = tiffImageConvertedTo8Bit;
+                _btmUploadedRawTelomereImage = _uploadedRawTelomereImage.ToBitmap();
+                ShowBitmapOnForm(ImageBoxTwo, _btmUploadedRawTelomereImage);
+                btnGenerateThreshold.Hide();
+                _telomereImageUploaded = true;
+                if (_nucleiImageUploaded && _telomereImageUploaded)
+                {
+                    grpBoxSelectOptions.Show();
+                }
+            }
+        }
+
         private void OnNormalize(object sender, EventArgs e)
         {
-            Image<Gray, UInt16> destImage = new Image<Gray, UInt16>(_uploadedRawImage.Width, _uploadedRawImage.Height, new Gray(0));
-            CvInvoke.Normalize(_uploadedRawImage, destImage, 0, 65535, Emgu.CV.CvEnum.NormType.MinMax);
-            _resultImageNormalized = destImage;
-            _btmResultImageNormalized = destImage.ToBitmap();
-            ShowBitmapOnForm(ImageBoxOne, _btmResultImageNormalized);
+            //Normalizing the Nuclei Image
+            Image<Gray, UInt16> destNucleiImage = new Image<Gray, UInt16>(_uploadedRawNucleiImage.Width, _uploadedRawNucleiImage.Height, new Gray(0));
+            CvInvoke.Normalize(_uploadedRawNucleiImage, destNucleiImage, 0, 65535, Emgu.CV.CvEnum.NormType.MinMax);
+            _resultNucleiImageNormalized = destNucleiImage;
+            _btmResultNucleiImageNormalized = destNucleiImage.ToBitmap();
+
+            //Normalizing the Telomere Image
+            Image<Gray, UInt16> destTelomereImage = new Image<Gray, UInt16>(_uploadedRawTelomereImage.Width, _uploadedRawTelomereImage.Height, new Gray(0));
+            CvInvoke.Normalize(_uploadedRawTelomereImage, destTelomereImage, 0, 65535, Emgu.CV.CvEnum.NormType.MinMax);
+            _resultTelomereImageNormalized = destTelomereImage;
+            _btmResultTelomereImageNormalized = destTelomereImage.ToBitmap();
+
+            //only shows the normaized nuclei image for now
+            ShowBitmapOnForm(ImageBoxOne, _btmResultNucleiImageNormalized);
             btnGenerateThreshold.Show();
         }
             /*----------------------------------------------------------------------------------------*\
@@ -111,8 +121,7 @@ namespace TelomereAnalyzer
             \*----------------------------------------------------------------------------------------*/
             private void OnThreshold(object sender, EventArgs e)
         {
-            //Thresholding(_uploadedRawImage);
-            Thresholding(_resultImageNormalized);
+            Thresholding(_resultTelomereImageNormalized);
         }
 
         #endregion
@@ -197,5 +206,7 @@ namespace TelomereAnalyzer
             }
             */
         }
+
+
     }
 }

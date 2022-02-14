@@ -38,6 +38,7 @@ namespace TelomereAnalyzer
             this.mnuMainMenu = new System.Windows.Forms.MenuStrip();
             this.toolStrpMnuUpload = new System.Windows.Forms.ToolStripMenuItem();
             this.tIFFToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.telomerImageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ImageBoxTwo = new Emgu.CV.UI.ImageBox();
             this.lblThreshold = new System.Windows.Forms.Label();
             this.btnNormalize = new System.Windows.Forms.Button();
@@ -58,7 +59,7 @@ namespace TelomereAnalyzer
             this.ImageBoxOne.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ImageBoxOne.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.ImageBoxOne.Location = new System.Drawing.Point(394, 146);
-            this.ImageBoxOne.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.ImageBoxOne.Margin = new System.Windows.Forms.Padding(4);
             this.ImageBoxOne.MaximumSize = new System.Drawing.Size(910, 820);
             this.ImageBoxOne.MinimumSize = new System.Drawing.Size(910, 820);
             this.ImageBoxOne.Name = "ImageBoxOne";
@@ -130,7 +131,8 @@ namespace TelomereAnalyzer
             // toolStrpMnuUpload
             // 
             this.toolStrpMnuUpload.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.tIFFToolStripMenuItem});
+            this.tIFFToolStripMenuItem,
+            this.telomerImageToolStripMenuItem});
             this.toolStrpMnuUpload.Name = "toolStrpMnuUpload";
             this.toolStrpMnuUpload.Size = new System.Drawing.Size(76, 24);
             this.toolStrpMnuUpload.Text = "Upload ";
@@ -139,9 +141,17 @@ namespace TelomereAnalyzer
             // 
             this.tIFFToolStripMenuItem.BackColor = System.Drawing.SystemColors.MenuHighlight;
             this.tIFFToolStripMenuItem.Name = "tIFFToolStripMenuItem";
-            this.tIFFToolStripMenuItem.Size = new System.Drawing.Size(121, 26);
-            this.tIFFToolStripMenuItem.Text = ".TIFF";
-            this.tIFFToolStripMenuItem.Click += new System.EventHandler(this.OnUploadTIFF);
+            this.tIFFToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.tIFFToolStripMenuItem.Text = "Nuclei Image";
+            this.tIFFToolStripMenuItem.Click += new System.EventHandler(this.OnUploadNucleiImage);
+            // 
+            // telomerImageToolStripMenuItem
+            // 
+            this.telomerImageToolStripMenuItem.BackColor = System.Drawing.SystemColors.MenuHighlight;
+            this.telomerImageToolStripMenuItem.Name = "telomerImageToolStripMenuItem";
+            this.telomerImageToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.telomerImageToolStripMenuItem.Text = "Telomer Image";
+            this.telomerImageToolStripMenuItem.Click += new System.EventHandler(this.OnUploadTelomereImage);
             // 
             // ImageBoxTwo
             // 
@@ -152,7 +162,7 @@ namespace TelomereAnalyzer
             this.ImageBoxTwo.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ImageBoxTwo.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.ImageBoxTwo.Location = new System.Drawing.Point(1542, 146);
-            this.ImageBoxTwo.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.ImageBoxTwo.Margin = new System.Windows.Forms.Padding(4);
             this.ImageBoxTwo.MaximumSize = new System.Drawing.Size(910, 820);
             this.ImageBoxTwo.MinimumSize = new System.Drawing.Size(910, 820);
             this.ImageBoxTwo.Name = "ImageBoxTwo";
@@ -247,6 +257,7 @@ namespace TelomereAnalyzer
         private System.Windows.Forms.Button btnNormalize;
         private System.Windows.Forms.Button btnGenerateThreshold;
         private System.Windows.Forms.GroupBox grpBoxSelectOptions;
+        private System.Windows.Forms.ToolStripMenuItem telomerImageToolStripMenuItem;
     }
 }
 
