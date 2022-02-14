@@ -19,14 +19,20 @@ namespace TelomereAnalyzer
 {
     public partial class FormOne : Form
     {
+
+        Boolean nucleiImageUploaded = false;
+        Boolean telomereImageUploaded = false;
+
         //Image<Bgr, byte> Main8BitImage = null;       // Das Hauptbild
 
         //Image und Bitmap vom originalen hochgeladenen Bild
         Image<Gray, UInt16> _uploadedRawImage = null;       
         Bitmap _btmUploadedRawImage = null;
+
         //Image und Bitmap vom normalisierten Bild
         Image<Gray, UInt16> _resultImageNormalized = null;
         Bitmap _btmResultImageNormalized = null;
+
         //Bitmap vom normalisierten Bild, wo die Threshold Methode angewandt wurde
         Bitmap _btmResultImageThreshold = null;
 
@@ -47,9 +53,34 @@ namespace TelomereAnalyzer
 
         private void OnUploadTIFF(object sender, EventArgs e)
         {
-            System.Windows.Forms.OpenFileDialog dialog = new
-                System.Windows.Forms.OpenFileDialog();
+            //Wenn noch kein Nuclei oder Telomer-Bild hochgeladen wurde, kann man ein Bild hochladen
+            if(!nucleiImageUploaded)
+            {
+                UploadingTIFF();
+                nucleiImageUploaded = true;
+                lblPleaseSelectPic.Text = "Please upload a Telomere .TIFF file";
+                return;
+            }
+            if (nucleiImageUploaded && telomereImageUploaded)
+            {
+                lblPleaseSelectPic.Text = "A Nuclei file and a Telomere file were already uploaded. Press Next to proceed";
+                return;
+            }
+            if (nucleiImageUploaded)
+            {
+                UploadingTIFF();
+                telomereImageUploaded = true;
+                lblPleaseSelectPic.Text = "Please press Next to proceed";
+                return;
+            }
 
+
+        }
+
+        private void UploadingTIFF()
+        {
+            System.Windows.Forms.OpenFileDialog dialog = new
+            System.Windows.Forms.OpenFileDialog();
             if (dialog.ShowDialog(this) == System.Windows.Forms.DialogResult.OK)
             {
                 //erstmal mit der 16 Bit Version des Bildes versuchen ohne es in 8 Bit zu konvertieren
@@ -63,7 +94,6 @@ namespace TelomereAnalyzer
                 //Thresholding(_uploadedRawImage);
                 grpBoxSelectOptions.Show();
                 btnGenerateThreshold.Hide();
-
             }
         }
         
@@ -154,7 +184,20 @@ namespace TelomereAnalyzer
 
         private void OnClickNext(object sender, EventArgs e)
         {
-            lblPleaseSelectPic.Text = "The Treshhold was succesfully generated";
+            /*
+            if(!nucleiImageUploaded && !telomereImageUploaded)
+            {
+                lblPleaseSelectPic.Text = "Please upload a Nuclei .TIFF file";
+            }
+            if (nucleiImageUploaded && !telomereImageUploaded)
+            {
+                lblPleaseSelectPic.Text = "Please upload a Telomere .TIFF file";
+            }
+            if(nucleiImageUploaded && telomereImageUploaded)
+            {
+                //lblPleaseSelectPic.Text
+            }
+            */
         }
     }
 }
