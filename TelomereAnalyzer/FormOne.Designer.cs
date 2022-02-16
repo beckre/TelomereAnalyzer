@@ -58,12 +58,12 @@ namespace TelomereAnalyzer
             | System.Windows.Forms.AnchorStyles.Right)));
             this.ImageBoxOne.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ImageBoxOne.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.ImageBoxOne.Location = new System.Drawing.Point(394, 146);
-            this.ImageBoxOne.Margin = new System.Windows.Forms.Padding(4);
-            this.ImageBoxOne.MaximumSize = new System.Drawing.Size(910, 820);
-            this.ImageBoxOne.MinimumSize = new System.Drawing.Size(910, 820);
+            this.ImageBoxOne.Location = new System.Drawing.Point(443, 182);
+            this.ImageBoxOne.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.ImageBoxOne.MaximumSize = new System.Drawing.Size(1024, 1024);
+            this.ImageBoxOne.MinimumSize = new System.Drawing.Size(1024, 1024);
             this.ImageBoxOne.Name = "ImageBoxOne";
-            this.ImageBoxOne.Size = new System.Drawing.Size(910, 820);
+            this.ImageBoxOne.Size = new System.Drawing.Size(1024, 1024);
             this.ImageBoxOne.TabIndex = 5;
             this.ImageBoxOne.TabStop = false;
             // 
@@ -74,11 +74,11 @@ namespace TelomereAnalyzer
             this.grpBoxSelectDialog.Controls.Add(this.lblPleaseSelectPic);
             this.grpBoxSelectDialog.Controls.Add(this.btnPreviousStep);
             this.grpBoxSelectDialog.Controls.Add(this.btnNextStep);
-            this.grpBoxSelectDialog.Location = new System.Drawing.Point(11, 26);
+            this.grpBoxSelectDialog.Location = new System.Drawing.Point(12, 32);
             this.grpBoxSelectDialog.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.grpBoxSelectDialog.Name = "grpBoxSelectDialog";
             this.grpBoxSelectDialog.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.grpBoxSelectDialog.Size = new System.Drawing.Size(2629, 80);
+            this.grpBoxSelectDialog.Size = new System.Drawing.Size(4104, 100);
             this.grpBoxSelectDialog.TabIndex = 12;
             this.grpBoxSelectDialog.TabStop = false;
             // 
@@ -86,19 +86,19 @@ namespace TelomereAnalyzer
             // 
             this.lblPleaseSelectPic.AutoSize = true;
             this.lblPleaseSelectPic.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblPleaseSelectPic.Location = new System.Drawing.Point(15, 18);
+            this.lblPleaseSelectPic.Location = new System.Drawing.Point(17, 22);
             this.lblPleaseSelectPic.Name = "lblPleaseSelectPic";
-            this.lblPleaseSelectPic.Size = new System.Drawing.Size(297, 25);
+            this.lblPleaseSelectPic.Size = new System.Drawing.Size(370, 29);
             this.lblPleaseSelectPic.TabIndex = 11;
             this.lblPleaseSelectPic.Text = "Please upload a Nuclei .TIFF file ";
             // 
             // btnPreviousStep
             // 
             this.btnPreviousStep.BackColor = System.Drawing.SystemColors.MenuHighlight;
-            this.btnPreviousStep.Location = new System.Drawing.Point(1063, 36);
+            this.btnPreviousStep.Location = new System.Drawing.Point(1196, 45);
             this.btnPreviousStep.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnPreviousStep.Name = "btnPreviousStep";
-            this.btnPreviousStep.Size = new System.Drawing.Size(76, 26);
+            this.btnPreviousStep.Size = new System.Drawing.Size(86, 32);
             this.btnPreviousStep.TabIndex = 10;
             this.btnPreviousStep.Text = "Back";
             this.btnPreviousStep.UseVisualStyleBackColor = false;
@@ -106,10 +106,10 @@ namespace TelomereAnalyzer
             // btnNextStep
             // 
             this.btnNextStep.BackColor = System.Drawing.SystemColors.MenuHighlight;
-            this.btnNextStep.Location = new System.Drawing.Point(1172, 36);
+            this.btnNextStep.Location = new System.Drawing.Point(1318, 45);
             this.btnNextStep.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnNextStep.Name = "btnNextStep";
-            this.btnNextStep.Size = new System.Drawing.Size(78, 26);
+            this.btnNextStep.Size = new System.Drawing.Size(88, 32);
             this.btnNextStep.TabIndex = 9;
             this.btnNextStep.Text = "Next";
             this.btnNextStep.UseVisualStyleBackColor = false;
@@ -123,8 +123,7 @@ namespace TelomereAnalyzer
             this.toolStrpMnuUpload});
             this.mnuMainMenu.Location = new System.Drawing.Point(0, 0);
             this.mnuMainMenu.Name = "mnuMainMenu";
-            this.mnuMainMenu.Padding = new System.Windows.Forms.Padding(5, 2, 0, 2);
-            this.mnuMainMenu.Size = new System.Drawing.Size(1710, 28);
+            this.mnuMainMenu.Size = new System.Drawing.Size(3065, 33);
             this.mnuMainMenu.TabIndex = 13;
             this.mnuMainMenu.Text = "menuStrip2";
             // 
@@ -134,14 +133,14 @@ namespace TelomereAnalyzer
             this.tIFFToolStripMenuItem,
             this.telomerImageToolStripMenuItem});
             this.toolStrpMnuUpload.Name = "toolStrpMnuUpload";
-            this.toolStrpMnuUpload.Size = new System.Drawing.Size(76, 24);
+            this.toolStrpMnuUpload.Size = new System.Drawing.Size(91, 29);
             this.toolStrpMnuUpload.Text = "Upload ";
             // 
             // tIFFToolStripMenuItem
             // 
             this.tIFFToolStripMenuItem.BackColor = System.Drawing.SystemColors.MenuHighlight;
             this.tIFFToolStripMenuItem.Name = "tIFFToolStripMenuItem";
-            this.tIFFToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.tIFFToolStripMenuItem.Size = new System.Drawing.Size(231, 34);
             this.tIFFToolStripMenuItem.Text = "Nuclei Image";
             this.tIFFToolStripMenuItem.Click += new System.EventHandler(this.OnUploadNucleiImage);
             // 
@@ -149,7 +148,7 @@ namespace TelomereAnalyzer
             // 
             this.telomerImageToolStripMenuItem.BackColor = System.Drawing.SystemColors.MenuHighlight;
             this.telomerImageToolStripMenuItem.Name = "telomerImageToolStripMenuItem";
-            this.telomerImageToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.telomerImageToolStripMenuItem.Size = new System.Drawing.Size(231, 34);
             this.telomerImageToolStripMenuItem.Text = "Telomer Image";
             this.telomerImageToolStripMenuItem.Click += new System.EventHandler(this.OnUploadTelomereImage);
             // 
@@ -161,30 +160,30 @@ namespace TelomereAnalyzer
             this.ImageBoxTwo.BackColor = System.Drawing.SystemColors.Control;
             this.ImageBoxTwo.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ImageBoxTwo.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.ImageBoxTwo.Location = new System.Drawing.Point(1542, 146);
-            this.ImageBoxTwo.Margin = new System.Windows.Forms.Padding(4);
-            this.ImageBoxTwo.MaximumSize = new System.Drawing.Size(910, 820);
-            this.ImageBoxTwo.MinimumSize = new System.Drawing.Size(910, 820);
+            this.ImageBoxTwo.Location = new System.Drawing.Point(1735, 182);
+            this.ImageBoxTwo.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.ImageBoxTwo.MaximumSize = new System.Drawing.Size(1024, 1024);
+            this.ImageBoxTwo.MinimumSize = new System.Drawing.Size(1024, 1024);
             this.ImageBoxTwo.Name = "ImageBoxTwo";
-            this.ImageBoxTwo.Size = new System.Drawing.Size(910, 820);
+            this.ImageBoxTwo.Size = new System.Drawing.Size(1024, 1024);
             this.ImageBoxTwo.TabIndex = 14;
             this.ImageBoxTwo.TabStop = false;
             // 
             // lblThreshold
             // 
             this.lblThreshold.AutoSize = true;
-            this.lblThreshold.Location = new System.Drawing.Point(1539, 979);
+            this.lblThreshold.Location = new System.Drawing.Point(1731, 1224);
             this.lblThreshold.Name = "lblThreshold";
-            this.lblThreshold.Size = new System.Drawing.Size(0, 16);
+            this.lblThreshold.Size = new System.Drawing.Size(0, 20);
             this.lblThreshold.TabIndex = 15;
             // 
             // btnNormalize
             // 
             this.btnNormalize.BackColor = System.Drawing.SystemColors.MenuHighlight;
-            this.btnNormalize.Location = new System.Drawing.Point(44, 36);
+            this.btnNormalize.Location = new System.Drawing.Point(50, 45);
             this.btnNormalize.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnNormalize.Name = "btnNormalize";
-            this.btnNormalize.Size = new System.Drawing.Size(116, 69);
+            this.btnNormalize.Size = new System.Drawing.Size(130, 86);
             this.btnNormalize.TabIndex = 16;
             this.btnNormalize.Text = "Normalize";
             this.btnNormalize.UseVisualStyleBackColor = false;
@@ -193,10 +192,10 @@ namespace TelomereAnalyzer
             // btnGenerateThreshold
             // 
             this.btnGenerateThreshold.BackColor = System.Drawing.SystemColors.MenuHighlight;
-            this.btnGenerateThreshold.Location = new System.Drawing.Point(44, 135);
+            this.btnGenerateThreshold.Location = new System.Drawing.Point(50, 169);
             this.btnGenerateThreshold.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnGenerateThreshold.Name = "btnGenerateThreshold";
-            this.btnGenerateThreshold.Size = new System.Drawing.Size(116, 61);
+            this.btnGenerateThreshold.Size = new System.Drawing.Size(130, 76);
             this.btnGenerateThreshold.TabIndex = 17;
             this.btnGenerateThreshold.Text = "Threshold";
             this.btnGenerateThreshold.UseVisualStyleBackColor = false;
@@ -207,19 +206,19 @@ namespace TelomereAnalyzer
             this.grpBoxSelectOptions.Controls.Add(this.btnNormalize);
             this.grpBoxSelectOptions.Controls.Add(this.btnGenerateThreshold);
             this.grpBoxSelectOptions.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.grpBoxSelectOptions.Location = new System.Drawing.Point(66, 110);
+            this.grpBoxSelectOptions.Location = new System.Drawing.Point(74, 138);
             this.grpBoxSelectOptions.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.grpBoxSelectOptions.Name = "grpBoxSelectOptions";
             this.grpBoxSelectOptions.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.grpBoxSelectOptions.Size = new System.Drawing.Size(217, 821);
+            this.grpBoxSelectOptions.Size = new System.Drawing.Size(244, 1026);
             this.grpBoxSelectOptions.TabIndex = 18;
             this.grpBoxSelectOptions.TabStop = false;
             // 
             // FormOne
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1710, 844);
+            this.ClientSize = new System.Drawing.Size(3065, 1351);
             this.Controls.Add(this.grpBoxSelectOptions);
             this.Controls.Add(this.lblThreshold);
             this.Controls.Add(this.ImageBoxTwo);
@@ -227,7 +226,6 @@ namespace TelomereAnalyzer
             this.Controls.Add(this.grpBoxSelectDialog);
             this.Controls.Add(this.ImageBoxOne);
             this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.MaximumSize = new System.Drawing.Size(1728, 891);
             this.Name = "FormOne";
             this.Text = "Form1";
             ((System.ComponentModel.ISupportInitialize)(this.ImageBoxOne)).EndInit();
