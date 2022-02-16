@@ -4,6 +4,8 @@ using Emgu.CV.UI;
 using System;
 using System.Drawing;
 using System.Windows.Forms;
+using System.Drawing.Drawing2D;
+using System.Drawing.Imaging;
 
 
 
@@ -29,15 +31,18 @@ namespace TelomereAnalyzer
         Bitmap _btmUploadedRawTelomereImage = null;
 
         //Image und Bitmap vom normalisierten Nuclei Bild
-        Image<Gray, UInt16> _resultNucleiImageNormalized = null;
-        Bitmap _btmResultNucleiImageNormalized = null;
+        Image<Gray, UInt16> _NucleiImageNormalized = null;
+        Bitmap _btmNucleiImageNormalized = null;
 
         //Image und Bitmap vom normalisierten Telomer Bild
-        Image<Gray, UInt16> _resultTelomereImageNormalized = null;
-        Bitmap _btmResultTelomereImageNormalized = null;
+        Image<Gray, UInt16> _TelomereImageNormalized = null;
+        Bitmap _btmTelomereImageNormalized = null;
 
         //Bitmap vom normalisierten Bild, wo die Threshold Methode angewandt wurde
-        Bitmap _btmResultImageThreshold = null;
+        Bitmap _btmTelomereImageThreshold = null;
+
+        //Bitmap vom normalisierten Bild, wo die Threshold Methode angewandt wurde und die Transparenz auf die Hälfte gesetzt wurde
+        Bitmap _btmTelomereImageHalfTransparent = null;
 
         public FormOne()
         {
@@ -69,6 +74,7 @@ namespace TelomereAnalyzer
                 _btmUploadedRawNucleiImage = _uploadedRawNucleiImage.ToBitmap();
                 ShowBitmapOnForm(ImageBoxOne, _btmUploadedRawNucleiImage);
                 btnGenerateThreshold.Hide();
+                btnMergeImages.Hide();
                 _nucleiImageUploaded = true;
                 if (_nucleiImageUploaded && _telomereImageUploaded)
                 {
@@ -120,17 +126,17 @@ namespace TelomereAnalyzer
             //Normalizing the Nuclei Image
             Image<Gray, UInt16> destNucleiImage = new Image<Gray, UInt16>(_uploadedRawNucleiImage.Width, _uploadedRawNucleiImage.Height, new Gray(0));
             CvInvoke.Normalize(_uploadedRawNucleiImage, destNucleiImage, 0, 65535, Emgu.CV.CvEnum.NormType.MinMax);
-            _resultNucleiImageNormalized = destNucleiImage;
-            _btmResultNucleiImageNormalized = destNucleiImage.ToBitmap();
+            _NucleiImageNormalized = destNucleiImage;
+            _btmNucleiImageNormalized = destNucleiImage.ToBitmap();
 
             //Normalizing the Telomere Image
             Image<Gray, UInt16> destTelomereImage = new Image<Gray, UInt16>(_uploadedRawTelomereImage.Width, _uploadedRawTelomereImage.Height, new Gray(0));
             CvInvoke.Normalize(_uploadedRawTelomereImage, destTelomereImage, 0, 65535, Emgu.CV.CvEnum.NormType.MinMax);
-            _resultTelomereImageNormalized = destTelomereImage;
-            _btmResultTelomereImageNormalized = destTelomereImage.ToBitmap();
+            _TelomereImageNormalized = destTelomereImage;
+            _btmTelomereImageNormalized = destTelomereImage.ToBitmap();
 
             //shows both of the images normalized
-            ShowBitmapOnForm(ImageBoxOne, _btmResultNucleiImageNormalized);
+            ShowBitmapOnForm(ImageBoxOne, _btmNucleiImageNormalized);
             lblPleaseSelectPic.Text = "Please click on Threshold to automatically generate a Threshold for the Telomere Image";
             btnGenerateThreshold.Show();
         }
@@ -141,7 +147,7 @@ namespace TelomereAnalyzer
             \*----------------------------------------------------------------------------------------*/
             private void OnThreshold(object sender, EventArgs e)
         {
-            if(IsImageOkay(_resultTelomereImageNormalized))
+            if(IsImageOkay(_TelomereImageNormalized))
                 Thresholding();
         }
 
@@ -150,7 +156,7 @@ namespace TelomereAnalyzer
         #region Thresholding---------------------------------------------------------------------------------
         private void Thresholding()
         {
-            Image<Gray, UInt16> image = _resultTelomereImageNormalized;
+            Image<Gray, UInt16> image = _TelomereImageNormalized;
             Image<Gray, UInt16> destImage = new Image<Gray, UInt16>(image.Width, image.Height, new Gray(0));
             try
             { 
@@ -161,8 +167,10 @@ namespace TelomereAnalyzer
             {
                 Console.WriteLine(e.ToString());
             }
-            _btmResultImageThreshold = ChangingColourOfBitonalImage(destImage);
-            ShowBitmapOnForm(ImageBoxTwo, _btmResultImageThreshold);
+            _btmTelomereImageThreshold = ChangingColourOfBitonalImage(destImage);
+            ShowBitmapOnForm(ImageBoxTwo, _btmTelomereImageThreshold);
+            lblPleaseSelectPic.Text = "Please click on Merge Images to overlay both of the Images on top of each other";
+            btnMergeImages.Show();
 
         }
 
@@ -234,7 +242,27 @@ namespace TelomereAnalyzer
 
         private void OnMergeImages(object sender, EventArgs e)
         {
+            var finalImage = new Bitmap(_btmTelomereImageThreshold.Width, _btmTelomereImageThreshold.Height);
+            var graphics = Graphics.FromImage(finalImage);
+            graphics.CompositingMode = CompositingMode.SourceOver;
 
+            // is supposed to change the transparency of the telomere image but doesn't work
+            double alphaTransparent = 0.0;
+            var transparentImage = new Bitmap(_btmTelomereImageThreshold.Width, _btmTelomereImageThreshold.Height);
+            //var finalImage = new Bitmap(_btmTelomereImageThreshold.Width, _btmTelomereImageThreshold.Height);
+            for (int x = 0; x < _btmTelomereImageThreshold.Width; ++x)
+            {
+                for (int y = 0; y < _btmTelomereImageThreshold.Height; ++y)
+                {
+                    Color pixel = _btmTelomereImageThreshold.GetPixel(x, y);
+                    alphaTransparent = pixel.A / 2.0;
+                    transparentImage.SetPixel(x, y, Color.FromArgb(Convert.ToInt32(alphaTransparent), pixel.R, pixel.G, pixel.B));
+                }
+            }
+            _btmTelomereImageHalfTransparent = transparentImage;
+            graphics.DrawImage(_btmNucleiImageNormalized, 0, 0);
+            graphics.DrawImage(_btmTelomereImageHalfTransparent, 0, 0);
+            ShowBitmapOnForm(ImageBoxOne, finalImage);
         }
     }
 }
