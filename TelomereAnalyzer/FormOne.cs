@@ -70,6 +70,13 @@ namespace TelomereAnalyzer
                 ShowBitmapOnForm(ImageBoxOne, _btmUploadedRawNucleiImage);
                 btnGenerateThreshold.Hide();
                 _nucleiImageUploaded = true;
+                if (_nucleiImageUploaded && _telomereImageUploaded)
+                {
+                    lblPleaseSelectPic.Text = "Please click on Normalize to normalize both images";
+                    grpBoxSelectOptions.Show();
+                }
+                if (!_telomereImageUploaded)
+                    lblPleaseSelectPic.Text = "Please upload a Telomere .TIFF file";
             }
         }
 
@@ -91,12 +98,24 @@ namespace TelomereAnalyzer
                 _telomereImageUploaded = true;
                 if (_nucleiImageUploaded && _telomereImageUploaded)
                 {
+                    lblPleaseSelectPic.Text = "Please click on Normalize to normalize both images";
                     grpBoxSelectOptions.Show();
                 }
+                if (!_nucleiImageUploaded)
+                    lblPleaseSelectPic.Text = "Please upload a Nuclei .TIFF file";
             }
         }
 
+        /*
+         * Normalizes the nuclei and telomer Image at once
+         */
         private void OnNormalize(object sender, EventArgs e)
+        {
+            if (IsImageOkay(_uploadedRawNucleiImage) && IsImageOkay(_uploadedRawTelomereImage))
+                Normalize();
+        }
+
+        private void Normalize()
         {
             //Normalizing the Nuclei Image
             Image<Gray, UInt16> destNucleiImage = new Image<Gray, UInt16>(_uploadedRawNucleiImage.Width, _uploadedRawNucleiImage.Height, new Gray(0));
@@ -110,8 +129,9 @@ namespace TelomereAnalyzer
             _resultTelomereImageNormalized = destTelomereImage;
             _btmResultTelomereImageNormalized = destTelomereImage.ToBitmap();
 
-            //only shows the normaized nuclei image for now
+            //shows both of the images normalized
             ShowBitmapOnForm(ImageBoxOne, _btmResultNucleiImageNormalized);
+            lblPleaseSelectPic.Text = "Please click on Threshold to automatically generate a Threshold for the Telomere Image";
             btnGenerateThreshold.Show();
         }
             /*----------------------------------------------------------------------------------------*\
@@ -121,14 +141,16 @@ namespace TelomereAnalyzer
             \*----------------------------------------------------------------------------------------*/
             private void OnThreshold(object sender, EventArgs e)
         {
-            Thresholding(_resultTelomereImageNormalized);
+            if(IsImageOkay(_resultTelomereImageNormalized))
+                Thresholding();
         }
 
         #endregion
 
         #region Thresholding---------------------------------------------------------------------------------
-        private void Thresholding(Image<Gray, UInt16> image)
+        private void Thresholding()
         {
+            Image<Gray, UInt16> image = _resultTelomereImageNormalized;
             Image<Gray, UInt16> destImage = new Image<Gray, UInt16>(image.Width, image.Height, new Gray(0));
             try
             { 
@@ -164,13 +186,9 @@ namespace TelomereAnalyzer
                      * Der weiße Pixel wird in rot umgewandelt und die restlichen Pixel werden schwarz gesetzt.
                      */
                     if (checkedColor.R == 255)
-                    {
                         resultBmpToBeColoured.SetPixel(i, j, Color.FromArgb(255,255, 0, 0));
-                    }
                     else
-                    {
                         resultBmpToBeColoured.SetPixel(i, j, Color.FromArgb(255, 0, 0, 0));
-                    }
                 }
             }
             return resultBmpToBeColoured;
@@ -206,7 +224,17 @@ namespace TelomereAnalyzer
             }
             */
         }
+        //only checks if image is null --> needs to be extended probably
+        private Boolean IsImageOkay(Image<Gray, UInt16> image)
+        {
+            if (image == null)
+                return false;
+            return true;
+        }
 
+        private void OnMergeImages(object sender, EventArgs e)
+        {
 
+        }
     }
 }

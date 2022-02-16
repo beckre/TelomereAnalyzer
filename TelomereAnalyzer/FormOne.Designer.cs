@@ -44,6 +44,7 @@ namespace TelomereAnalyzer
             this.btnNormalize = new System.Windows.Forms.Button();
             this.btnGenerateThreshold = new System.Windows.Forms.Button();
             this.grpBoxSelectOptions = new System.Windows.Forms.GroupBox();
+            this.btnMergeImages = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.ImageBoxOne)).BeginInit();
             this.grpBoxSelectDialog.SuspendLayout();
             this.mnuMainMenu.SuspendLayout();
@@ -203,6 +204,7 @@ namespace TelomereAnalyzer
             // 
             // grpBoxSelectOptions
             // 
+            this.grpBoxSelectOptions.Controls.Add(this.btnMergeImages);
             this.grpBoxSelectOptions.Controls.Add(this.btnNormalize);
             this.grpBoxSelectOptions.Controls.Add(this.btnGenerateThreshold);
             this.grpBoxSelectOptions.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -213,6 +215,18 @@ namespace TelomereAnalyzer
             this.grpBoxSelectOptions.Size = new System.Drawing.Size(244, 1026);
             this.grpBoxSelectOptions.TabIndex = 18;
             this.grpBoxSelectOptions.TabStop = false;
+            // 
+            // btnMergeImages
+            // 
+            this.btnMergeImages.BackColor = System.Drawing.SystemColors.MenuHighlight;
+            this.btnMergeImages.Location = new System.Drawing.Point(50, 284);
+            this.btnMergeImages.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.btnMergeImages.Name = "btnMergeImages";
+            this.btnMergeImages.Size = new System.Drawing.Size(130, 76);
+            this.btnMergeImages.TabIndex = 18;
+            this.btnMergeImages.Text = "Merge Images";
+            this.btnMergeImages.UseVisualStyleBackColor = false;
+            this.btnMergeImages.Click += new System.EventHandler(this.OnMergeImages);
             // 
             // FormOne
             // 
@@ -256,6 +270,7 @@ namespace TelomereAnalyzer
         private System.Windows.Forms.Button btnGenerateThreshold;
         private System.Windows.Forms.GroupBox grpBoxSelectOptions;
         private System.Windows.Forms.ToolStripMenuItem telomerImageToolStripMenuItem;
+        private System.Windows.Forms.Button btnMergeImages;
     }
 }
 
