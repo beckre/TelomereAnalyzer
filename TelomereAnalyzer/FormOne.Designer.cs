@@ -45,6 +45,7 @@ namespace TelomereAnalyzer
             this.btnGenerateThreshold = new System.Windows.Forms.Button();
             this.grpBoxSelectOptions = new System.Windows.Forms.GroupBox();
             this.btnMergeImages = new System.Windows.Forms.Button();
+            this.btnFindNucleiContours = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.ImageBoxOne)).BeginInit();
             this.grpBoxSelectDialog.SuspendLayout();
             this.mnuMainMenu.SuspendLayout();
@@ -119,6 +120,7 @@ namespace TelomereAnalyzer
             // mnuMainMenu
             // 
             this.mnuMainMenu.BackColor = System.Drawing.SystemColors.MenuHighlight;
+            this.mnuMainMenu.GripMargin = new System.Windows.Forms.Padding(2, 2, 0, 2);
             this.mnuMainMenu.ImageScalingSize = new System.Drawing.Size(24, 24);
             this.mnuMainMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStrpMnuUpload});
@@ -204,6 +206,7 @@ namespace TelomereAnalyzer
             // 
             // grpBoxSelectOptions
             // 
+            this.grpBoxSelectOptions.Controls.Add(this.btnFindNucleiContours);
             this.grpBoxSelectOptions.Controls.Add(this.btnMergeImages);
             this.grpBoxSelectOptions.Controls.Add(this.btnNormalize);
             this.grpBoxSelectOptions.Controls.Add(this.btnGenerateThreshold);
@@ -227,6 +230,18 @@ namespace TelomereAnalyzer
             this.btnMergeImages.Text = "Merge Images";
             this.btnMergeImages.UseVisualStyleBackColor = false;
             this.btnMergeImages.Click += new System.EventHandler(this.OnMergeImages);
+            // 
+            // btnFindNucleiContours
+            // 
+            this.btnFindNucleiContours.BackColor = System.Drawing.SystemColors.MenuHighlight;
+            this.btnFindNucleiContours.Location = new System.Drawing.Point(50, 400);
+            this.btnFindNucleiContours.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.btnFindNucleiContours.Name = "btnFindNucleiContours";
+            this.btnFindNucleiContours.Size = new System.Drawing.Size(130, 76);
+            this.btnFindNucleiContours.TabIndex = 19;
+            this.btnFindNucleiContours.Text = "Find Nuclei Contours";
+            this.btnFindNucleiContours.UseVisualStyleBackColor = false;
+            this.btnFindNucleiContours.Click += new System.EventHandler(this.OnFindNucleiContours);
             // 
             // FormOne
             // 
@@ -271,6 +286,7 @@ namespace TelomereAnalyzer
         private System.Windows.Forms.GroupBox grpBoxSelectOptions;
         private System.Windows.Forms.ToolStripMenuItem telomerImageToolStripMenuItem;
         private System.Windows.Forms.Button btnMergeImages;
+        private System.Windows.Forms.Button btnFindNucleiContours;
     }
 }
 

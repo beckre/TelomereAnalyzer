@@ -18,6 +18,8 @@ namespace TelomereAnalyzer
         Boolean _nucleiImageUploaded = false;
         Boolean _telomereImageUploaded = false;
 
+        NucleiEdgeDetection _nucleiEdgeDetection = null;
+
         /*
          * Die Bilder werden alle seperat gespeichert, da es die Option geben soll
          * die unterschiedlichen Stadien der Bilder später zu speichern.
@@ -43,6 +45,10 @@ namespace TelomereAnalyzer
 
         //Bitmap vom normalisierten Bild, wo die Threshold Methode angewandt wurde und die Transparenz auf die Hälfte gesetzt wurde
         Bitmap _btmTelomereImageHalfTransparent = null;
+
+        //Image und Bitmap vom Nuclei Bild mit Anwendung von Edge Detection
+        Image<Gray, byte> _nucleiImageEdgesDetected = null;
+        Bitmap _btmNucleiImageEdgesDetected = null;
 
         public FormOne()
         {
@@ -177,6 +183,24 @@ namespace TelomereAnalyzer
             ShowBitmapOnForm(ImageBoxTwo, finalImage);
         }
 
+        private void OnFindNucleiContours(object sender, EventArgs e)
+        {
+            _nucleiEdgeDetection = new NucleiEdgeDetection(this);
+            if (IsImageOkay(_NucleiImageNormalized))
+            {
+                _nucleiImageEdgesDetected = _nucleiEdgeDetection.FindingContours(_NucleiImageNormalized);
+                /*
+                if (IsImageOkay(_nucleiImageEdgesDetected))
+                {
+                    _btmNucleiImageEdgesDetected = _nucleiImageEdgesDetected.ToBitmap();
+                    ShowBitmapOnForm(ImageBoxTwo, _btmNucleiImageEdgesDetected);
+                }
+                */
+            }
+            _btmNucleiImageEdgesDetected = _nucleiImageEdgesDetected.ToBitmap();
+            ShowBitmapOnForm(ImageBoxOne, _btmNucleiImageEdgesDetected);
+        }
+
         #endregion
 
         #region Thresholding---------------------------------------------------------------------------------
@@ -229,7 +253,7 @@ namespace TelomereAnalyzer
         }
         #endregion
 
-        private void ShowBitmapOnForm(ImageBox imageBox, Bitmap bitmap)
+        public void ShowBitmapOnForm(ImageBox imageBox, Bitmap bitmap)
         {
             imageBox.BackgroundImage = bitmap;
         }
@@ -238,7 +262,6 @@ namespace TelomereAnalyzer
         private void DisplaySelectPicForTreshhold()
         {
             grpBoxSelectDialog.Show();
-
         }
 
         private void OnClickNext(object sender, EventArgs e)
