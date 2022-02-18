@@ -94,6 +94,7 @@
     <Compile Include="FormOne.Designer.cs">
       <DependentUpon>FormOne.cs</DependentUpon>
     </Compile>
+    <Compile Include="NucleiEdgeDetection.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="FormOne.resx">

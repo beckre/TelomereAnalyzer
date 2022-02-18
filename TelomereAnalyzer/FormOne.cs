@@ -63,6 +63,7 @@ namespace TelomereAnalyzer
         {
             System.Windows.Forms.OpenFileDialog dialog = new
             System.Windows.Forms.OpenFileDialog();
+            dialog.Filter = "Image Files|*.tif;*.tiff";
             if (dialog.ShowDialog(this) == System.Windows.Forms.DialogResult.OK)
             {
                 //erstmal mit der 16 Bit Version des Bildes ohne es in 8 Bit zu konvertieren
@@ -90,6 +91,7 @@ namespace TelomereAnalyzer
         {
             System.Windows.Forms.OpenFileDialog dialog = new
             System.Windows.Forms.OpenFileDialog();
+            dialog.Filter = "Image Files|*.tif;*.tiff";
             if (dialog.ShowDialog(this) == System.Windows.Forms.DialogResult.OK)
             {
                 //erstmal mit der 16 Bit Version des Bildes ohne es in 8 Bit zu konvertieren
@@ -158,10 +160,8 @@ namespace TelomereAnalyzer
             var graphics = Graphics.FromImage(finalImage);
             graphics.CompositingMode = CompositingMode.SourceOver;
 
-            // is supposed to change the transparency of the telomere image but doesn't work
             double alphaTransparent = 0.0;
             var transparentImage = new Bitmap(_btmTelomereImageThreshold.Width, _btmTelomereImageThreshold.Height);
-            //var finalImage = new Bitmap(_btmTelomereImageThreshold.Width, _btmTelomereImageThreshold.Height);
             for (int x = 0; x < _btmTelomereImageThreshold.Width; ++x)
             {
                 for (int y = 0; y < _btmTelomereImageThreshold.Height; ++y)
@@ -265,7 +265,5 @@ namespace TelomereAnalyzer
                 return false;
             return true;
         }
-
-
     }
 }
