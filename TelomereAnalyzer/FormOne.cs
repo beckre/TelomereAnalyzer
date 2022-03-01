@@ -33,7 +33,7 @@ namespace TelomereAnalyzer
         Bitmap _btmUploadedRawTelomereImage = null;
 
         //Image und Bitmap vom normalisierten Nuclei Bild
-        Image<Gray, UInt16> _NucleiImageNormalized = null;
+        public Image<Gray, UInt16> _NucleiImageNormalized = null;
         Bitmap _btmNucleiImageNormalized = null;
 
         //Image und Bitmap vom normalisierten Telomer Bild
@@ -136,16 +136,16 @@ namespace TelomereAnalyzer
             //Normalizing the Nuclei Image
             Image<Gray, UInt16> destNucleiImage = new Image<Gray, UInt16>(_uploadedRawNucleiImage.Width, _uploadedRawNucleiImage.Height, new Gray(0));
             //CvInvoke.Normalize(_uploadedRawNucleiImage, destNucleiImage, 0, 65535, Emgu.CV.CvEnum.NormType.MinMax);
-            //CvInvoke.cvNormalize(_uploadedRawNucleiImage, destNucleiImage, 0, 65535, Emgu.CV.CvEnum.NORM_TYPE.CV_MINMAX, _uploadedRawNucleiImage);
-            CvInvoke.cvEqualizeHist(_uploadedRawNucleiImage, destNucleiImage);
+            CvInvoke.cvNormalize(_uploadedRawNucleiImage, destNucleiImage, 0, 65535, Emgu.CV.CvEnum.NORM_TYPE.CV_MINMAX, _uploadedRawNucleiImage);
+            //CvInvoke.cvEqualizeHist(_uploadedRawNucleiImage, destNucleiImage);
             _NucleiImageNormalized = destNucleiImage;
             _btmNucleiImageNormalized = destNucleiImage.ToBitmap();
 
             //Normalizing the Telomere Image --> doesn't really make a visible difference
             Image<Gray, UInt16> destTelomereImage = new Image<Gray, UInt16>(_uploadedRawTelomereImage.Width, _uploadedRawTelomereImage.Height, new Gray(0));
             //CvInvoke.Normalize(_uploadedRawTelomereImage, destTelomereImage, 0, 65535, Emgu.CV.CvEnum.NormType.MinMax);
-            //CvInvoke.cvNormalize(_uploadedRawTelomereImage, destNucleiImage, 0, 65535, Emgu.CV.CvEnum.NORM_TYPE.CV_MINMAX, _uploadedRawTelomereImage);
-            CvInvoke.cvEqualizeHist(_uploadedRawTelomereImage, destTelomereImage);
+            CvInvoke.cvNormalize(_uploadedRawTelomereImage, destNucleiImage, 0, 65535, Emgu.CV.CvEnum.NORM_TYPE.CV_MINMAX, _uploadedRawTelomereImage);
+            //CvInvoke.cvEqualizeHist(_uploadedRawTelomereImage, destTelomereImage);
             _TelomereImageNormalized = destTelomereImage;
             _btmTelomereImageNormalized = destTelomereImage.ToBitmap();
 
@@ -208,7 +208,9 @@ namespace TelomereAnalyzer
             _nucleiEdgeDetection = new NucleiEdgeDetection(this);
             if (IsImageOkay(_NucleiImageNormalized))
             {
-                _nucleiImageEdgesDetected = _nucleiEdgeDetection.FindingContours(_NucleiImageNormalized);
+                //_nucleiImageEdgesDetected = _nucleiEdgeDetection.FindingContours(_NucleiImageNormalized);
+                //_nucleiImageEdgesDetected = _nucleiEdgeDetection.FindingContours();
+                _nucleiEdgeDetection.FindingContours();
                 /*
                 if (IsImageOkay(_nucleiImageEdgesDetected))
                 {
@@ -226,6 +228,7 @@ namespace TelomereAnalyzer
         #region Thresholding---------------------------------------------------------------------------------
         private void Thresholding()
         {
+            //hat vorher mit 16 Bit Bildern funktioniert! aber auch nur mit der Emgu.Cv.World.dll...
             Image<Gray, byte> image = _TelomereImageNormalized.Convert<Gray, byte>();
             Image<Gray, byte> destImage = new Image<Gray, byte>(image.Width, image.Height, new Gray(0));
             try

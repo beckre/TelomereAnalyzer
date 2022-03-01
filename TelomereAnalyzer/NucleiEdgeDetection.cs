@@ -1,15 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Emgu.CV;
 using Emgu.CV.Structure;
-using Emgu.CV.UI;
+using Emgu.CV.CvEnum;
 using System.Drawing;
-using System.Windows.Forms;
-using System.Drawing.Drawing2D;
-using System.Drawing.Imaging;
 
 
 
@@ -27,11 +20,12 @@ namespace TelomereAnalyzer
         {
             this._formOne = formOne;
         }
-        /*
-        private void FindingContours(object sender, EventArgs e)
+
+        public void FindingContours()
         {
             //rtfResultBox.Text = "";
-            Image<Gray, UInt16> grayImage = null;
+            Image<Gray, UInt16> grayImage = _formOne._NucleiImageNormalized;
+
             /*
             if (ProcessedImage == null)
             {
@@ -40,10 +34,9 @@ namespace TelomereAnalyzer
             }
             else
                 grayImage = ProcessedImage.Convert<Gray, Byte>();
-  
+            */
 
-            using (MemStorage storage = new MemStorage())
-            {
+            MemStorage storage = new MemStorage();
                 Bgr color = new Bgr(Color.Red);
 
                 Int32 contourFound = 0;
@@ -67,15 +60,16 @@ namespace TelomereAnalyzer
                     {
                         if (contour.Area > 50)
                         {
-                            if (chbConvexHull.Checked == true)
-                            {
+                            //if (chbConvexHull.Checked == true)
+                            //{
                                 var ch = contour.GetConvexHull(ORIENTATION.CV_CLOCKWISE, storage);
                                 //    var ch1=contour.ApproxPoly(0.001);
                                 contourPoints = Array.ConvertAll(ch.ToArray(), input => new Point(input.X, input.Y));
-                            }
-                            else
+                            //}
+                            /*
+                             * else
                                 contourPoints = Array.ConvertAll(contour.ToArray(), input => new Point(input.X, input.Y));
-
+                            */
                             huMoments = momentsOfContour.GetHuMoment();
                             contourFound++;
                             AddContourPoints(ref allContours, contourPoints);
@@ -84,8 +78,6 @@ namespace TelomereAnalyzer
                         }
                     }
                 }
-            }
-
         }
 
         protected void AddContourPoints(ref Point[][] allContours, Point[] points)
@@ -120,11 +112,13 @@ namespace TelomereAnalyzer
             tmp[elements].Y = centerPoint.Y;
             centerPoints = tmp;
         }
-        */
+
 
         /*
          * Code compiliert zwar aber es werden byte-Bilder behandelt --> muss aber eigentlich mit 16Bit Bildern passieren
          */
+
+        /*
         public Image<Gray, byte> FindingContours(Image<Gray, UInt16> NucleiImageNormalized)
         {
 
@@ -148,6 +142,7 @@ namespace TelomereAnalyzer
             return destImageSobel.Convert<Gray, byte>();
             */
 
-        }
+        //}
+        
     }
 }
