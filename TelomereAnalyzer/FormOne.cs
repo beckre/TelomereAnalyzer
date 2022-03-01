@@ -1,6 +1,7 @@
 ﻿using Emgu.CV;
 using Emgu.CV.Structure;
 using Emgu.CV.UI;
+using Emgu.CV.CvEnum;
 using System;
 using System.Drawing;
 using System.Windows.Forms;
@@ -81,6 +82,7 @@ namespace TelomereAnalyzer
                 ShowBitmapOnForm(ImageBoxOne, _btmUploadedRawNucleiImage);
                 btnGenerateThreshold.Hide();
                 btnMergeImages.Hide();
+                btnFindNucleiContours.Hide();
                 _nucleiImageUploaded = true;
                 if (_nucleiImageUploaded && _telomereImageUploaded)
                 {
@@ -130,23 +132,30 @@ namespace TelomereAnalyzer
 
         private void Normalize()
         {
+            /*
             //Normalizing the Nuclei Image
             Image<Gray, UInt16> destNucleiImage = new Image<Gray, UInt16>(_uploadedRawNucleiImage.Width, _uploadedRawNucleiImage.Height, new Gray(0));
-            CvInvoke.Normalize(_uploadedRawNucleiImage, destNucleiImage, 0, 65535, Emgu.CV.CvEnum.NormType.MinMax);
+            //CvInvoke.Normalize(_uploadedRawNucleiImage, destNucleiImage, 0, 65535, Emgu.CV.CvEnum.NormType.MinMax);
+            //CvInvoke.cvNormalize(_uploadedRawNucleiImage, destNucleiImage, 0, 65535, Emgu.CV.CvEnum.NORM_TYPE.CV_MINMAX, _uploadedRawNucleiImage);
+            CvInvoke.cvEqualizeHist(_uploadedRawNucleiImage, destNucleiImage);
             _NucleiImageNormalized = destNucleiImage;
             _btmNucleiImageNormalized = destNucleiImage.ToBitmap();
 
             //Normalizing the Telomere Image --> doesn't really make a visible difference
             Image<Gray, UInt16> destTelomereImage = new Image<Gray, UInt16>(_uploadedRawTelomereImage.Width, _uploadedRawTelomereImage.Height, new Gray(0));
-            CvInvoke.Normalize(_uploadedRawTelomereImage, destTelomereImage, 0, 65535, Emgu.CV.CvEnum.NormType.MinMax);
+            //CvInvoke.Normalize(_uploadedRawTelomereImage, destTelomereImage, 0, 65535, Emgu.CV.CvEnum.NormType.MinMax);
+            //CvInvoke.cvNormalize(_uploadedRawTelomereImage, destNucleiImage, 0, 65535, Emgu.CV.CvEnum.NORM_TYPE.CV_MINMAX, _uploadedRawTelomereImage);
+            CvInvoke.cvEqualizeHist(_uploadedRawTelomereImage, destTelomereImage);
             _TelomereImageNormalized = destTelomereImage;
             _btmTelomereImageNormalized = destTelomereImage.ToBitmap();
 
             //shows both of the images normalized
             ShowBitmapOnForm(ImageBoxOne, _btmNucleiImageNormalized);
             ShowBitmapOnForm(ImageBoxTwo, _btmTelomereImageNormalized);
+            */
             lblPleaseSelectPic.Text = "Please click on Threshold to automatically generate a Threshold for the Telomere Image";
             btnGenerateThreshold.Show();
+            
         }
             /*----------------------------------------------------------------------------------------*\
              *  Generates the threshold of the uploaded image using the otsu's method.                *|
@@ -155,8 +164,19 @@ namespace TelomereAnalyzer
             \*----------------------------------------------------------------------------------------*/
             private void OnThreshold(object sender, EventArgs e)
         {
-            if(IsImageOkay(_TelomereImageNormalized))
+            if (IsImageOkay(_TelomereImageNormalized))
+            {
                 Thresholding();
+            }
+            else
+            {
+                _TelomereImageNormalized = _uploadedRawTelomereImage;
+                _btmTelomereImageNormalized = _uploadedRawTelomereImage.ToBitmap();
+                _NucleiImageNormalized = _uploadedRawNucleiImage;
+                _btmNucleiImageNormalized = _uploadedRawNucleiImage.ToBitmap();
+                Thresholding();
+            }
+                
         }
 
         private void OnMergeImages(object sender, EventArgs e)
@@ -180,6 +200,7 @@ namespace TelomereAnalyzer
             graphics.DrawImage(_btmNucleiImageNormalized, 0, 0);
             graphics.DrawImage(_btmTelomereImageHalfTransparent, 0, 0);
             ShowBitmapOnForm(ImageBoxTwo, finalImage);
+            btnFindNucleiContours.Show();
         }
 
         private void OnFindNucleiContours(object sender, EventArgs e)
@@ -205,18 +226,19 @@ namespace TelomereAnalyzer
         #region Thresholding---------------------------------------------------------------------------------
         private void Thresholding()
         {
-            Image<Gray, UInt16> image = _TelomereImageNormalized;
-            Image<Gray, UInt16> destImage = new Image<Gray, UInt16>(image.Width, image.Height, new Gray(0));
+            Image<Gray, byte> image = _TelomereImageNormalized.Convert<Gray, byte>();
+            Image<Gray, byte> destImage = new Image<Gray, byte>(image.Width, image.Height, new Gray(0));
             try
-            { 
-                double threshold = CvInvoke.Threshold(image.Convert<Gray, byte>(), destImage, 50, 255, Emgu.CV.CvEnum.ThresholdType.Otsu);
+            {
+                //double threshold = CvInvoke.Threshold(image.Convert<Gray, byte>(), destImage, 50, 255, Emgu.CV.CvEnum.ThresholdType.Otsu);
+                double threshold = CvInvoke.cvThreshold(image.Convert<Gray, byte>(), destImage, 0.0, 255.0, THRESH.CV_THRESH_OTSU);
                 lblThreshold.Text = "Calculated Threshold: "+threshold;
             }
             catch (Exception e)
             {
                 Console.WriteLine(e.ToString());
             }
-            _btmTelomereImageThreshold = ChangingColourOfBitonalImage(destImage);
+            _btmTelomereImageThreshold = ChangingColourOfBitonalImage(destImage.Convert<Gray, UInt16>());
             ShowBitmapOnForm(ImageBoxTwo, _btmTelomereImageThreshold);
             lblPleaseSelectPic.Text = "Please click on Merge Images to overlay both of the Images on top of each other";
             btnMergeImages.Show();
