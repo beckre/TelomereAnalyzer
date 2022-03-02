@@ -69,7 +69,7 @@ namespace TelomereAnalyzer
         {
             System.Windows.Forms.OpenFileDialog dialog = new
             System.Windows.Forms.OpenFileDialog();
-            dialog.Filter = "Image Files|*.tif;*.tiff";
+            //dialog.Filter = "Image Files|*.tif;*.tiff";
             if (dialog.ShowDialog(this) == System.Windows.Forms.DialogResult.OK)
             {
                 //erstmal mit der 16 Bit Version des Bildes ohne es in 8 Bit zu konvertieren
@@ -280,6 +280,9 @@ namespace TelomereAnalyzer
         public void ShowBitmapOnForm(ImageBox imageBox, Bitmap bitmap)
         {
             imageBox.BackgroundImage = bitmap;
+            imageBox.Width = bitmap.Width;
+            imageBox.Height = bitmap.Height;
+            imageBox.Refresh();
         }
 
 
