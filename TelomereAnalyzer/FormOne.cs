@@ -262,7 +262,7 @@ namespace TelomereAnalyzer
                 {
                     Color checkedColor = destImageBitmap.GetPixel(i, j);
                     /*
-                     * Das Bild ist schwarzweiß, also 2 farbig. Weenn ein Rotanteil in dem Pixel drin ist, ist dieser Pixel weiß.
+                     * Das Bild ist schwarzweiß, also 2 farbig. Wenn ein Rotanteil in dem Pixel drin ist, ist dieser Pixel weiß.
                      * Der weiße Pixel wird in rot umgewandelt und die restlichen Pixel werden schwarz gesetzt.
                      */
                     if (checkedColor.R == 255)

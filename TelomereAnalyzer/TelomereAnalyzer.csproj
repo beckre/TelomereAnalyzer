@@ -108,6 +108,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ElmiWood.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="FormOne.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -117,6 +120,10 @@
     <Compile Include="NucleiEdgeDetection.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="StochasticsClass.cs" />
+    <Compile Include="VesselAnalysisClass.cs" />
+    <Compile Include="VesselClass.cs" />
+    <Compile Include="vesselDetectorClass.cs" />
     <EmbeddedResource Include="FormOne.resx">
       <DependentUpon>FormOne.cs</DependentUpon>
     </EmbeddedResource>
