@@ -13,7 +13,7 @@ namespace TelomereAnalyzer
     class NucleiEdgeDetection
     {
         FormOne _formOne = null;
-
+        Image<Bgr, UInt16> _ProcessedImage = null;
 
 
         public NucleiEdgeDetection(FormOne formOne)
@@ -24,7 +24,8 @@ namespace TelomereAnalyzer
         public void FindingContours()
         {
             //rtfResultBox.Text = "";
-            Image<Gray, UInt16> grayImage = _formOne._NucleiImageNormalized;
+            Image<Gray, byte> grayImage = _formOne._NucleiImageNormalized.Convert<Gray, byte>();
+            _ProcessedImage = grayImage.Convert<Bgr, UInt16>();
 
             /*
             if (ProcessedImage == null)
@@ -78,6 +79,20 @@ namespace TelomereAnalyzer
                         }
                     }
                 }
+            if (centerPoints != null)
+                for (Int32 E = 0; E < centerPoints.Length; E++)
+                    DrawPoint(centerPoints[E]);
+
+
+
+            if (allContours != null)
+                for (Int32 E = 0; E < allContours.Length; E++)
+                    DrawContour(allContours[E]);
+
+
+            _formOne._NucleiImageEdgesDetected = _ProcessedImage;
+            //rtfResultBox.Text = contourFound.ToString() + " Objekte gefunden\n\n" + resultValues;
+            //   MessageBox.Show(contourFound.ToString() + " Objekte gefunden\n\n" + resultValues);
         }
 
         protected void AddContourPoints(ref Point[][] allContours, Point[] points)
@@ -113,6 +128,30 @@ namespace TelomereAnalyzer
             centerPoints = tmp;
         }
 
+        protected void DrawPoint(Point cP)
+        {
+            Int32 sizeCross = 5;
+            Point[] halfLRCross = new Point[2];
+            Point[] halfTBCross = new Point[2];
+
+            halfLRCross[0] = new Point(cP.X - sizeCross, cP.Y);
+            halfLRCross[1] = new Point(cP.X + sizeCross, cP.Y);
+
+            halfTBCross[0] = new Point(cP.X, cP.Y - sizeCross);
+            halfTBCross[1] = new Point(cP.X, cP.Y + sizeCross);
+
+            Bgr colorBlue = new Bgr(Color.Blue);
+
+            _ProcessedImage.DrawPolyline(halfLRCross, false, colorBlue, 1);
+            _ProcessedImage.DrawPolyline(halfTBCross, false, colorBlue, 1);
+        }
+        protected void DrawContour(Point[] contour)
+        {
+            Bgr colorYellow = new Bgr(Color.Red);
+
+            _ProcessedImage.DrawPolyline(contour, true, colorYellow, 1);
+        }
+
 
         /*
          * Code compiliert zwar aber es werden byte-Bilder behandelt --> muss aber eigentlich mit 16Bit Bildern passieren
@@ -135,14 +174,14 @@ namespace TelomereAnalyzer
             return destImageSobel.Convert<Gray, byte>();
             */
 
-            /*
-            //Laplacian Edge Detection
-            Image<Gray, float> destImageSobel = new Image<Gray, float>(NucleiImageNormalized.Width, NucleiImageNormalized.Height);
-            destImageSobel = NucleiImageNormalized.Convert<Gray, byte>().Laplace(3);
-            return destImageSobel.Convert<Gray, byte>();
-            */
+        /*
+        //Laplacian Edge Detection
+        Image<Gray, float> destImageSobel = new Image<Gray, float>(NucleiImageNormalized.Width, NucleiImageNormalized.Height);
+        destImageSobel = NucleiImageNormalized.Convert<Gray, byte>().Laplace(3);
+        return destImageSobel.Convert<Gray, byte>();
+        */
 
         //}
-        
+
     }
 }

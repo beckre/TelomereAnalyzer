@@ -62,6 +62,7 @@ namespace TelomereAnalyzer
             this.ImageBoxOne.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.ImageBoxOne.Location = new System.Drawing.Point(443, 182);
             this.ImageBoxOne.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.ImageBoxOne.MaximumSize = new System.Drawing.Size(1024, 1024);
             this.ImageBoxOne.Name = "ImageBoxOne";
             this.ImageBoxOne.Size = new System.Drawing.Size(1024, 1024);
             this.ImageBoxOne.TabIndex = 5;
@@ -124,7 +125,7 @@ namespace TelomereAnalyzer
             this.toolStrpMnuUpload});
             this.mnuMainMenu.Location = new System.Drawing.Point(0, 0);
             this.mnuMainMenu.Name = "mnuMainMenu";
-            this.mnuMainMenu.Size = new System.Drawing.Size(3065, 36);
+            this.mnuMainMenu.Size = new System.Drawing.Size(3065, 33);
             this.mnuMainMenu.TabIndex = 13;
             this.mnuMainMenu.Text = "menuStrip2";
             // 
@@ -134,7 +135,7 @@ namespace TelomereAnalyzer
             this.tIFFToolStripMenuItem,
             this.telomerImageToolStripMenuItem});
             this.toolStrpMnuUpload.Name = "toolStrpMnuUpload";
-            this.toolStrpMnuUpload.Size = new System.Drawing.Size(91, 32);
+            this.toolStrpMnuUpload.Size = new System.Drawing.Size(91, 29);
             this.toolStrpMnuUpload.Text = "Upload ";
             // 
             // tIFFToolStripMenuItem
@@ -163,6 +164,7 @@ namespace TelomereAnalyzer
             this.ImageBoxTwo.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.ImageBoxTwo.Location = new System.Drawing.Point(1735, 182);
             this.ImageBoxTwo.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.ImageBoxTwo.MaximumSize = new System.Drawing.Size(1024, 1024);
             this.ImageBoxTwo.Name = "ImageBoxTwo";
             this.ImageBoxTwo.Size = new System.Drawing.Size(1024, 1024);
             this.ImageBoxTwo.TabIndex = 14;

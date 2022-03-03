@@ -47,7 +47,7 @@ namespace TelomereAnalyzer
         Bitmap _btmTelomereImageHalfTransparent = null;
 
         //Image und Bitmap vom Nuclei Bild mit Anwendung von Edge Detection
-        Image<Gray, byte> _nucleiImageEdgesDetected = null;
+        public Image<Bgr, UInt16> _NucleiImageEdgesDetected = null;
         Bitmap _btmNucleiImageEdgesDetected = null;
 
         public FormOne()
@@ -208,8 +208,6 @@ namespace TelomereAnalyzer
             _nucleiEdgeDetection = new NucleiEdgeDetection(this);
             if (IsImageOkay(_NucleiImageNormalized))
             {
-                //_nucleiImageEdgesDetected = _nucleiEdgeDetection.FindingContours(_NucleiImageNormalized);
-                //_nucleiImageEdgesDetected = _nucleiEdgeDetection.FindingContours();
                 _nucleiEdgeDetection.FindingContours();
                 /*
                 if (IsImageOkay(_nucleiImageEdgesDetected))
@@ -219,7 +217,7 @@ namespace TelomereAnalyzer
                 }
                 */
             }
-            _btmNucleiImageEdgesDetected = _nucleiImageEdgesDetected.ToBitmap();
+            _btmNucleiImageEdgesDetected = _NucleiImageEdgesDetected.ToBitmap();
             ShowBitmapOnForm(ImageBoxOne, _btmNucleiImageEdgesDetected);
         }
 
@@ -228,7 +226,7 @@ namespace TelomereAnalyzer
         #region Thresholding---------------------------------------------------------------------------------
         private void Thresholding()
         {
-            //hat vorher mit 16 Bit Bildern funktioniert! aber auch nur mit der Emgu.Cv.World.dll...
+            //hat vorher mit 16 Bit Bildern funktioniert! aber auch nur mit der Emgu.Cv.World.dll
             Image<Gray, byte> image = _TelomereImageNormalized.Convert<Gray, byte>();
             Image<Gray, byte> destImage = new Image<Gray, byte>(image.Width, image.Height, new Gray(0));
             try
@@ -279,10 +277,16 @@ namespace TelomereAnalyzer
 
         public void ShowBitmapOnForm(ImageBox imageBox, Bitmap bitmap)
         {
-            imageBox.BackgroundImage = bitmap;
-            imageBox.Width = bitmap.Width;
-            imageBox.Height = bitmap.Height;
-            imageBox.Refresh();
+            if(imageBox.BackgroundImage == null)
+            {
+                imageBox.BackgroundImage = bitmap;
+                imageBox.Width = bitmap.Width;
+                imageBox.Height = bitmap.Height;
+                imageBox.MaximumSize = bitmap.Size;
+                imageBox.Refresh();
+            }
+            else
+                imageBox.BackgroundImage = bitmap;
         }
 
 
