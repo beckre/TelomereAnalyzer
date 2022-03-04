@@ -17,6 +17,7 @@ namespace TelomereAnalyzer
 {
     public partial class ElmiWood : Form
     {
+        FormOne _formOne = null;
         vesselDetectorClass _imgProcessor = null;
         StreamWriter txtStream = null;
 
@@ -51,15 +52,17 @@ namespace TelomereAnalyzer
         Double _neighborSearchVer = 0.0;
 
         #endregion(stuff for vessel analysis)
-        /*
-        public ElmiWood()
+        
+        public ElmiWood(FormOne formOne)
         {
-            SetLocalPathDescriptions(Environment.CurrentDirectory);
+            //SetLocalPathDescriptions(Environment.CurrentDirectory);
             //InitializeComponent();
-            InitButtons();
-            ReadConfigurationFile();
+            //InitButtons();
+            //ReadConfigurationFile();
+            _formOne = formOne;
+            DoAnalyze(_formOne._NucleiImageNormalized);
         }
-
+        /*
         protected void SetLocalPathDescriptions(String baseDir)
         {
             var dllDirectory = baseDir + @"\Dlls";
@@ -195,7 +198,12 @@ namespace TelomereAnalyzer
                 return false;
             }
         }
-*/
+        */
+        /*
+         * Hier wird zuerst geschaut, ob schon eine Analyse gemacht wurde.
+         * Der Path von dem Bild + Bildname wird der Methode DoAnalyze als Referenz übergeben.
+         */
+        /*
         private void OnDoEarlyWoodVessels(Object sender, EventArgs e)
         {
             String fileToSave = null;
@@ -215,8 +223,10 @@ namespace TelomereAnalyzer
             _vesselAnalysisDone = true;
             Application.DoEvents();
         }
+        */
 
-        protected bool DoAnalyze(ref String bmpToSave)
+        //protected bool DoAnalyze(ref String bmpToSave)
+        protected bool DoAnalyze(Image<Gray, UInt16> imageToAnalyze)
         {
             if (_vesselsFound != null)
             {
@@ -230,7 +240,7 @@ namespace TelomereAnalyzer
 
             _vesselAnalysis = null;
 
-            this.Text = "ElmiWood-> " + bmpToSave;
+            //this.Text = "ElmiWood-> " + bmpToSave;
             /*
             //labOutPut.Text = "Start investigation: Generate gray scaled image...";
             Console.WriteLine("Start investigation: Generate gray scaled image...");
