@@ -13,6 +13,9 @@ namespace TelomereAnalyzer
 {
     public partial class FormOne : Form
     {
+        ElmiWood _elmiWood = null;
+
+
         //Image<Bgr, byte> Main8BitImage = null;       // Das Hauptbild
         
         Boolean _nucleiImageUploaded = false;
@@ -205,17 +208,12 @@ namespace TelomereAnalyzer
 
         private void OnFindNucleiContours(object sender, EventArgs e)
         {
-            _nucleiEdgeDetection = new NucleiEdgeDetection(this);
+            //_nucleiEdgeDetection = new NucleiEdgeDetection(this);
+            _elmiWood = new ElmiWood(this);
             if (IsImageOkay(_NucleiImageNormalized))
             {
-                _nucleiEdgeDetection.FindingContours();
-                /*
-                if (IsImageOkay(_nucleiImageEdgesDetected))
-                {
-                    _btmNucleiImageEdgesDetected = _nucleiImageEdgesDetected.ToBitmap();
-                    ShowBitmapOnForm(ImageBoxTwo, _btmNucleiImageEdgesDetected);
-                }
-                */
+                //_nucleiEdgeDetection.FindingContours();
+                _elmiWood = new ElmiWood(this);
             }
             _btmNucleiImageEdgesDetected = _NucleiImageEdgesDetected.ToBitmap();
             ShowBitmapOnForm(ImageBoxOne, _btmNucleiImageEdgesDetected);

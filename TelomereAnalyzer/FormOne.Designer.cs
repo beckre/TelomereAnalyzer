@@ -268,8 +268,6 @@ namespace TelomereAnalyzer
         }
 
         #endregion
-
-        private Emgu.CV.UI.ImageBox ImageBoxOne;
         private System.Windows.Forms.GroupBox grpBoxSelectDialog;
         private System.Windows.Forms.Label lblPleaseSelectPic;
         private System.Windows.Forms.Button btnPreviousStep;
@@ -285,6 +283,7 @@ namespace TelomereAnalyzer
         private System.Windows.Forms.ToolStripMenuItem telomerImageToolStripMenuItem;
         private System.Windows.Forms.Button btnMergeImages;
         private System.Windows.Forms.Button btnFindNucleiContours;
+        public Emgu.CV.UI.ImageBox ImageBoxOne;
     }
 }
 

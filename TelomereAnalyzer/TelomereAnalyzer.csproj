@@ -108,6 +108,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="circularMorphologicalOperator.cs" />
     <Compile Include="ElmiWood.cs">
       <SubType>Form</SubType>
     </Compile>

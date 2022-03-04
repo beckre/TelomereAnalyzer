@@ -17,7 +17,7 @@ namespace TelomereAnalyzer
 {
     public partial class ElmiWood : Form
     {
-        FormOne _formOne = null;
+        public FormOne _formOne = null;
         vesselDetectorClass _imgProcessor = null;
         StreamWriter txtStream = null;
 
@@ -59,6 +59,9 @@ namespace TelomereAnalyzer
             //InitializeComponent();
             //InitButtons();
             //ReadConfigurationFile();
+            /*
+             * Ruft hier die DoAnalyze Methode auf und übergibt das normalisierte Bild
+             */
             _formOne = formOne;
             DoAnalyze(_formOne._NucleiImageNormalized);
         }
@@ -253,14 +256,15 @@ namespace TelomereAnalyzer
             picBox.Height = _grayImage.Height;
             */
             //labOutPut.Text = "Start investigation: Generate gray scaled image...done";
+            _grayImage = imageToAnalyze.Convert<Gray, byte>();
             Application.DoEvents();
 
             if (_imgProcessor == null)
-                _imgProcessor = new vesselDetectorClass(this);
+                _imgProcessor = new vesselDetectorClass(this); 
 
-            if (_imgProcessor.DoThresholding(ref _vesselsFound) == false)
+            if (_imgProcessor.DoThresholding(ref _vesselsFound) == false) //hier war ich das letzte mal
             {
-                this.Text = "ElmiWood";
+                //this.Text = "ElmiWood";
                 return false;
             }
 

@@ -80,20 +80,24 @@ namespace TelomereAnalyzer
             bool success = true;
             Gray colorWhite = new Gray(255);
             MemStorage mem = new MemStorage();
+            //Kopiert das normalisierte Bild in ElmiWood.shadowImage hinein
             Image<Gray, byte> shadowImage = _parentControl._grayImage.CopyBlank();
 
-            _parentControl.labOutPut.Text = "Image equilization...";
+            //_parentControl.labOutPut.Text = "Image equilization...";
+            Console.WriteLine("Image equilization...");
             Application.DoEvents();
 
             #region--1. Grayscale image erzeugen
+            //Bild ist zwar schon grau, wird aber hier nach bestimmten Vorgaben zum grayscale Image gemacht
             AutoContrastBrightness(_parentControl._grayImage, ref _settingsVesselDetector.imgBrightness, ref _settingsVesselDetector.imgContrast);
-            _parentControl.labOutPut.Text = "Image equilization...done. Adapt image energy for optimized vessels display...";
+            //_parentControl.labOutPut.Text = "Image equilization...done. Adapt image energy for optimized vessels display...";
             Application.DoEvents();
 
             // _parentControl._grayImage.Save("E:\\1.jpg");
             _settingsVesselDetector.imgBrightness = OptimizeBrightnessForVessels(_settingsVesselDetector.imgBrightness);
             // _parentControl._grayImage.Save("E:\\2.jpg");
-            _parentControl.labOutPut.Text = "Image equilization...done. Adapt image energy for optimized vessels display... done";
+            //_parentControl.labOutPut.Text = "Image equilization...done. Adapt image energy for optimized vessels display... done";
+            Console.WriteLine("Image equilization...done. Adapt image energy for optimized vessels display... done");
             #endregion
 
             #region--2. Binary image erzeugen
@@ -101,8 +105,13 @@ namespace TelomereAnalyzer
             shadowImage = _parentControl._grayImage.ConvertScale<Byte>(_settingsVesselDetector.imgContrast, _settingsVesselDetector.imgBrightness);
             shadowImage._GammaCorrect(_settingsVesselDetector.imgGamma);
             // shadowImage.Save("E:\\3.jpg");
-            _parentControl.picBox.Image = shadowImage.ToBitmap();
-            _parentControl.labOutPut.Text = "Calculate threshold...";
+            //_parentControl.picBox.Image = shadowImage.ToBitmap();
+            /*
+             * Hier aufgehangen Bild muss dargestellt werden.
+             */
+            //_parentControl._formOne.ShowBitmapOnForm(this.ImageBoxOne, shadowImage.ToBitmap()); //Funktioniert im Moment nicht, irgendwie muss das Bild aber auf der Form dargestellt werden
+            //_parentControl.labOutPut.Text = "Calculate threshold...";
+            Console.WriteLine("Calculate threshold...");
             Application.DoEvents();
 
             CvInvoke.cvThreshold(shadowImage, shadowImage, _settingsVesselDetector.minPixelEnergy, 255, THRESH.CV_THRESH_TOZERO);
@@ -120,15 +129,20 @@ namespace TelomereAnalyzer
             shadowImage = Bin.Copy();
             //  shadowImage.Save("E:\\4.jpg");
             Bin.Dispose();
-            _parentControl.labOutPut.Text = "Calculate threshold... done";
-            _parentControl.picBox.Image = shadowImage.ToBitmap();
+            //_parentControl.labOutPut.Text = "Calculate threshold... done";
+            Console.WriteLine("Calculate threshold... done");
+            /*
+            * Hier aufgehangen Bild muss dargestellt werden.
+            */
+            //_parentControl.picBox.Image = shadowImage.ToBitmap();
             Application.DoEvents();
             // MessageBox.Show("Stop");
             #endregion
 
             #region Operation using the structural element
             Int32 radius = 12;
-            _parentControl.labOutPut.Text = "Detecting vessels...";
+            //_parentControl.labOutPut.Text = "Detecting vessels...";
+            Console.WriteLine("Detecting vessels...");
             Application.DoEvents();
             circularMorphologicalOperator ellipseObject = new circularMorphologicalOperator(radius);
             Image<Gray, Byte> MaskImage = shadowImage.CopyBlank();
@@ -157,7 +171,8 @@ namespace TelomereAnalyzer
             // processedBinary= shadowImage.ToBitmap();
             // processedBinary= _resultVesselImg.ToBitmap();
             shadowImage.Dispose();
-            _parentControl.labOutPut.Text = "Detecting vessels...done";
+            //_parentControl.labOutPut.Text = "Detecting vessels...done";
+            Console.WriteLine("Detecting vessels...done");
             Application.DoEvents();
             if (listOfVessels != null)
             {
@@ -180,12 +195,14 @@ namespace TelomereAnalyzer
             else
                 success = false;
 
-            _parentControl.labOutPut.Text = "Sorting vessels...";
+            //_parentControl.labOutPut.Text = "Sorting vessels...";
+            Console.WriteLine("Sorting vessels...");
             Application.DoEvents();
             if (success == true)
             {
                 Array.Sort(vesselsFound, (x, y) => x._gravCenter.X.CompareTo(y._gravCenter.X));   //  Sort from left to right
-                _parentControl.labOutPut.Text = "Sorting vessels...done";
+                //_parentControl.labOutPut.Text = "Sorting vessels...done";
+                Console.WriteLine("Sorting vessels...done");
                 Application.DoEvents();
             }
             return success;
@@ -542,7 +559,7 @@ namespace TelomereAnalyzer
                 for (Int32 A = 0; A < range; A++)
                 {
                     countDown--;
-                    _parentControl.labOutPut.Text = "Image equilization...done. Adapt image energy for optimized vessels display...(" + countDown.ToString() + ")";
+                   // _parentControl.labOutPut.Text = "Image equilization...done. Adapt image energy for optimized vessels display...(" + countDown.ToString() + ")";
                     Application.DoEvents();
                     shadowImage = _parentControl._grayImage.ConvertScale<Byte>(_settingsVesselDetector.imgContrast, testBrightness);
                     shadowImage._GammaCorrect(_settingsVesselDetector.imgGamma);
