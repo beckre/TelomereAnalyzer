@@ -13,7 +13,7 @@ namespace TelomereAnalyzer
     class NucleiEdgeDetection
     {
         FormOne _formOne = null;
-        Image<Bgr, UInt16> _ProcessedImage = null;
+        Image<Bgr, byte> _ProcessedImage = null;
 
 
         public NucleiEdgeDetection(FormOne formOne)
@@ -25,7 +25,7 @@ namespace TelomereAnalyzer
         {
             //rtfResultBox.Text = "";
             Image<Gray, byte> grayImage = _formOne._NucleiImageNormalized.Convert<Gray, byte>();
-            _ProcessedImage = grayImage.Convert<Bgr, UInt16>();
+            _ProcessedImage = grayImage.Convert<Bgr, byte>();
 
             /*
             if (ProcessedImage == null)

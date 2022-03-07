@@ -26,18 +26,18 @@ namespace TelomereAnalyzer
          */
 
         //Image und Bitmap vom originalen hochgeladenen Nuclei Bild
-        Image<Gray, UInt16> _uploadedRawNucleiImage = null;       
+        Image<Gray, byte> _uploadedRawNucleiImage = null;       
         Bitmap _btmUploadedRawNucleiImage = null;
         //Image und Bitmap vom originalen hochgeladenen Telomer Bild
-        Image<Gray, UInt16> _uploadedRawTelomereImage = null;
+        Image<Gray, byte> _uploadedRawTelomereImage = null;
         Bitmap _btmUploadedRawTelomereImage = null;
 
         //Image und Bitmap vom normalisierten Nuclei Bild
-        public Image<Gray, UInt16> _NucleiImageNormalized = null;
+        public Image<Gray, byte> _NucleiImageNormalized = null;
         Bitmap _btmNucleiImageNormalized = null;
 
         //Image und Bitmap vom normalisierten Telomer Bild
-        Image<Gray, UInt16> _TelomereImageNormalized = null;
+        Image<Gray, byte> _TelomereImageNormalized = null;
         Bitmap _btmTelomereImageNormalized = null;
 
         //Bitmap vom normalisierten Bild, wo die Threshold Methode angewandt wurde
@@ -47,7 +47,7 @@ namespace TelomereAnalyzer
         Bitmap _btmTelomereImageHalfTransparent = null;
 
         //Image und Bitmap vom Nuclei Bild mit Anwendung von Edge Detection
-        public Image<Bgr, UInt16> _NucleiImageEdgesDetected = null;
+        public Image<Bgr, byte> _NucleiImageEdgesDetected = null;
         Bitmap _btmNucleiImageEdgesDetected = null;
 
         public FormOne()
@@ -73,24 +73,31 @@ namespace TelomereAnalyzer
             if (dialog.ShowDialog(this) == System.Windows.Forms.DialogResult.OK)
             {
                 //erstmal mit der 16 Bit Version des Bildes ohne es in 8 Bit zu konvertieren
-
-                _uploadedRawNucleiImage = new Image<Gray, UInt16>(dialog.FileName);
-                //Main8BitImage = MainImage.Convert<Bgr, byte>();
-                //Bitmap tiffImageConvertedTo8Bit = Main8BitImage.ToBitmap();
-                //ImageBox.BackgroundImage = tiffImageConvertedTo8Bit;
-                _btmUploadedRawNucleiImage = _uploadedRawNucleiImage.ToBitmap();
-                ShowBitmapOnForm(ImageBoxOne, _btmUploadedRawNucleiImage);
-                btnGenerateThreshold.Hide();
-                btnMergeImages.Hide();
-                btnFindNucleiContours.Hide();
-                _nucleiImageUploaded = true;
-                if (_nucleiImageUploaded && _telomereImageUploaded)
+                if (IsUploadedImageUsable(dialog.FileName))
                 {
-                    lblPleaseSelectPic.Text = "Please click on Normalize to normalize both images";
-                    grpBoxSelectOptions.Show();
+                    _uploadedRawNucleiImage = new Image<Gray, byte>(dialog.FileName);
+                    //Main8BitImage = MainImage.Convert<Bgr, byte>();
+                    //Bitmap tiffImageConvertedTo8Bit = Main8BitImage.ToBitmap();
+                    //ImageBox.BackgroundImage = tiffImageConvertedTo8Bit;
+                    _btmUploadedRawNucleiImage = _uploadedRawNucleiImage.ToBitmap();
+                    ShowBitmapOnForm(ImageBoxOne, _btmUploadedRawNucleiImage);
+                    btnGenerateThreshold.Hide();
+                    btnMergeImages.Hide();
+                    btnFindNucleiContours.Hide();
+                    _nucleiImageUploaded = true;
+                    if (_nucleiImageUploaded && _telomereImageUploaded)
+                    {
+                        lblPleaseSelectPic.Text = "Please click on Normalize to normalize both images";
+                        grpBoxSelectOptions.Show();
+                    }
+                    if (!_telomereImageUploaded)
+                        lblPleaseSelectPic.Text = "Please upload a Telomere .TIFF file";
                 }
-                if (!_telomereImageUploaded)
-                    lblPleaseSelectPic.Text = "Please upload a Telomere .TIFF file";
+
+            }
+            else
+            {
+                lblPleaseSelectPic.Text = "The Image you tried to upload is not suitable. Please upload a suitable Image.";
             }
         }
 
@@ -98,26 +105,32 @@ namespace TelomereAnalyzer
         {
             System.Windows.Forms.OpenFileDialog dialog = new
             System.Windows.Forms.OpenFileDialog();
-            dialog.Filter = "Image Files|*.tif;*.tiff";
+            //dialog.Filter = "Image Files|*.tif;*.tiff";
             if (dialog.ShowDialog(this) == System.Windows.Forms.DialogResult.OK)
             {
                 //erstmal mit der 16 Bit Version des Bildes ohne es in 8 Bit zu konvertieren
-
-                _uploadedRawTelomereImage = new Image<Gray, UInt16>(dialog.FileName);
-                //Main8BitImage = MainImage.Convert<Bgr, byte>();
-                //Bitmap tiffImageConvertedTo8Bit = Main8BitImage.ToBitmap();
-                //ImageBox.BackgroundImage = tiffImageConvertedTo8Bit;
-                _btmUploadedRawTelomereImage = _uploadedRawTelomereImage.ToBitmap();
-                ShowBitmapOnForm(ImageBoxTwo, _btmUploadedRawTelomereImage);
-                btnGenerateThreshold.Hide();
-                _telomereImageUploaded = true;
-                if (_nucleiImageUploaded && _telomereImageUploaded)
+                if (IsUploadedImageUsable(dialog.FileName))
                 {
-                    lblPleaseSelectPic.Text = "Please click on Normalize to normalize both images";
-                    grpBoxSelectOptions.Show();
+                    _uploadedRawTelomereImage = new Image<Gray, byte>(dialog.FileName);
+                    //Main8BitImage = MainImage.Convert<Bgr, byte>();
+                    //Bitmap tiffImageConvertedTo8Bit = Main8BitImage.ToBitmap();
+                    //ImageBox.BackgroundImage = tiffImageConvertedTo8Bit;
+                    _btmUploadedRawTelomereImage = _uploadedRawTelomereImage.ToBitmap();
+                    ShowBitmapOnForm(ImageBoxTwo, _btmUploadedRawTelomereImage);
+                    btnGenerateThreshold.Hide();
+                    _telomereImageUploaded = true;
+                    if (_nucleiImageUploaded && _telomereImageUploaded)
+                    {
+                        lblPleaseSelectPic.Text = "Please click on Normalize to normalize both images";
+                        grpBoxSelectOptions.Show();
+                    }
+                    if (!_nucleiImageUploaded)
+                        lblPleaseSelectPic.Text = "Please upload a Nuclei .TIFF file";
                 }
-                if (!_nucleiImageUploaded)
-                    lblPleaseSelectPic.Text = "Please upload a Nuclei .TIFF file";
+            }
+            else
+            {
+                lblPleaseSelectPic.Text = "The Image you tried to upload is not suitable. Please upload a suitable Image.";
             }
         }
 
@@ -126,7 +139,7 @@ namespace TelomereAnalyzer
          */
         private void OnNormalize(object sender, EventArgs e)
         {
-            if (IsImageOkay(_uploadedRawNucleiImage) && IsImageOkay(_uploadedRawTelomereImage))
+            if (IsImageUsable(_uploadedRawNucleiImage) && IsImageUsable(_uploadedRawTelomereImage))
                 Normalize();
         }
 
@@ -164,7 +177,7 @@ namespace TelomereAnalyzer
             \*----------------------------------------------------------------------------------------*/
             private void OnThreshold(object sender, EventArgs e)
         {
-            if (IsImageOkay(_TelomereImageNormalized))
+            if (IsImageUsable(_TelomereImageNormalized))
             {
                 Thresholding();
             }
@@ -206,7 +219,7 @@ namespace TelomereAnalyzer
         private void OnFindNucleiContours(object sender, EventArgs e)
         {
             _nucleiEdgeDetection = new NucleiEdgeDetection(this);
-            if (IsImageOkay(_NucleiImageNormalized))
+            if (IsImageUsable(_NucleiImageNormalized))
             {
                 _nucleiEdgeDetection.FindingContours();
                 /*
@@ -227,19 +240,19 @@ namespace TelomereAnalyzer
         private void Thresholding()
         {
             //hat vorher mit 16 Bit Bildern funktioniert! aber auch nur mit der Emgu.Cv.World.dll
-            Image<Gray, byte> image = _TelomereImageNormalized.Convert<Gray, byte>();
+            Image<Gray, byte> image = _TelomereImageNormalized;
             Image<Gray, byte> destImage = new Image<Gray, byte>(image.Width, image.Height, new Gray(0));
             try
             {
                 //double threshold = CvInvoke.Threshold(image.Convert<Gray, byte>(), destImage, 50, 255, Emgu.CV.CvEnum.ThresholdType.Otsu);
-                double threshold = CvInvoke.cvThreshold(image.Convert<Gray, byte>(), destImage, 0.0, 255.0, THRESH.CV_THRESH_OTSU);
+                double threshold = CvInvoke.cvThreshold(image, destImage, 0.0, 255.0, THRESH.CV_THRESH_OTSU);
                 lblThreshold.Text = "Calculated Threshold: "+threshold;
             }
             catch (Exception e)
             {
                 Console.WriteLine(e.ToString());
             }
-            _btmTelomereImageThreshold = ChangingColourOfBitonalImage(destImage.Convert<Gray, UInt16>());
+            _btmTelomereImageThreshold = ChangingColourOfBitonalImage(destImage);
             ShowBitmapOnForm(ImageBoxTwo, _btmTelomereImageThreshold);
             lblPleaseSelectPic.Text = "Please click on Merge Images to overlay both of the Images on top of each other";
             btnMergeImages.Show();
@@ -247,7 +260,7 @@ namespace TelomereAnalyzer
         }
 
         //funktioniert, ist wahrscheinlich nicht die effizienteste Lösung
-        private Bitmap ChangingColourOfBitonalImage(Image<Gray, UInt16> image)
+        private Bitmap ChangingColourOfBitonalImage(Image<Gray, byte> image)
         {
             Bitmap destImageBitmap = image.ToBitmap();
             //Ziel Bitmap muss diese Art von Bitmap sein, weil sonst die Methode .SetPixel() nicht aufrufbar ist
@@ -312,8 +325,24 @@ namespace TelomereAnalyzer
             }
             */
         }
+
+        private Boolean IsUploadedImageUsable(String fileName)
+        {
+            try
+            {
+                Bitmap image = new Bitmap(fileName);
+                return true;
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine(e.ToString());
+                return false;
+            }
+
+        }
+
         // checks if image is null --> needs to be extended probably
-        private Boolean IsImageOkay(Image<Gray, UInt16> image)
+        private Boolean IsImageUsable(Image<Gray, byte> image)
         {
             if (image == null)
                 return false;
