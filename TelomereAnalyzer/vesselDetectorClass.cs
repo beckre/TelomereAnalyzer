@@ -95,8 +95,10 @@ namespace TelomereAnalyzer
             Application.DoEvents();
 
             // _parentControl._grayImage.Save("E:\\1.jpg");
+            _parentControl._grayImage.Save("D:\\Hochschule Emden Leer - Bachelor Bioinformatik\\Praxisphase Bachelorarbeit Vorbereitungen\\Praktikumsstelle\\MHH Hannover Telomere\\Programm Bilder\\1_ImageEqualization.tiff");
             _settingsVesselDetector.imgBrightness = OptimizeBrightnessForVessels(_settingsVesselDetector.imgBrightness);
             // _parentControl._grayImage.Save("E:\\2.jpg");
+            _parentControl._grayImage.Save("D:\\Hochschule Emden Leer - Bachelor Bioinformatik\\Praxisphase Bachelorarbeit Vorbereitungen\\Praktikumsstelle\\MHH Hannover Telomere\\Programm Bilder\\2_ImageEqualization_Done.tiff");
             //_parentControl.labOutPut.Text = "Image equilization...done. Adapt image energy for optimized vessels display... done";
             Console.WriteLine("Image equilization...done. Adapt image energy for optimized vessels display... done");
             _parentControl.lblElmiTesting.Text = "Image equilization...done. Adapt image energy for optimized vessels display... done";
@@ -107,6 +109,7 @@ namespace TelomereAnalyzer
             shadowImage = _parentControl._grayImage.ConvertScale<Byte>(_settingsVesselDetector.imgContrast, _settingsVesselDetector.imgBrightness);
             shadowImage._GammaCorrect(_settingsVesselDetector.imgGamma);
             // shadowImage.Save("E:\\3.jpg");
+            shadowImage.Save("D:\\Hochschule Emden Leer - Bachelor Bioinformatik\\Praxisphase Bachelorarbeit Vorbereitungen\\Praktikumsstelle\\MHH Hannover Telomere\\Programm Bilder\\3_ConvertScale.tiff");
             //_parentControl.picBox.Image = shadowImage.ToBitmap();
             /*
              * Übergangsweise wird das generierte Bild von einem Extra Fenster von ElmiWood dargestellt
@@ -131,6 +134,7 @@ namespace TelomereAnalyzer
             }
             shadowImage = Bin.Copy();
             //  shadowImage.Save("E:\\4.jpg");
+            shadowImage.Save("D:\\Hochschule Emden Leer - Bachelor Bioinformatik\\Praxisphase Bachelorarbeit Vorbereitungen\\Praktikumsstelle\\MHH Hannover Telomere\\Programm Bilder\\4_Threshold_Done.tiff");
             Bin.Dispose();
             //_parentControl.labOutPut.Text = "Calculate threshold... done";
             //Übergangsweise wird das generierte Bild von einem Extra Fenster von ElmiWood dargestellt
@@ -143,7 +147,7 @@ namespace TelomereAnalyzer
             #endregion
 
             #region Operation using the structural element
-            Int32 radius = 12;
+            Int32 radius = 12; //Muss das 12 sein???
             //_parentControl.labOutPut.Text = "Detecting vessels...";
             Console.WriteLine("Detecting vessels...");
             _parentControl.lblElmiTesting.Text = "Detecting vessels...";
@@ -159,13 +163,14 @@ namespace TelomereAnalyzer
             #endregion
 
             //  shadowImage.Save("E:\\5.jpg");
-
+            shadowImage.Save("D:\\Hochschule Emden Leer - Bachelor Bioinformatik\\Praxisphase Bachelorarbeit Vorbereitungen\\Praktikumsstelle\\MHH Hannover Telomere\\Programm Bilder\\5_VesselDetect.tiff");
             #region Dilation using Watershed
             List<VesselClass> listOfVessels = null;
             Image<Bgr, Byte> oriColorImage = new Image<Bgr, Byte>(_parentControl._oriImage);
 
             DoWatershedDilation(ref oriColorImage, ref listOfVessels, shadowImage);
             //  shadowImage.Save("E:\\6.jpg");
+            shadowImage.Save("D:\\Hochschule Emden Leer - Bachelor Bioinformatik\\Praxisphase Bachelorarbeit Vorbereitungen\\Praktikumsstelle\\MHH Hannover Telomere\\Programm Bilder\\6_WaterShedDilation.tiff");
             #endregion
 
             //-- Save result and cleanup

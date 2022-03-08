@@ -260,6 +260,7 @@ namespace TelomereAnalyzer
             picBox.Height = _grayImage.Height;
             */
             //labOutPut.Text = "Start investigation: Generate gray scaled image...done";
+            _oriImage = imageToAnalyze.ToBitmap();
             _grayImage = imageToAnalyze.Convert<Gray, byte>();
             Application.DoEvents();
 
@@ -459,8 +460,10 @@ namespace TelomereAnalyzer
 
             try
             {
+                /*
                 if (chbShowOrbitals.Checked == true)
                     oDc.DrawRectangle(Pens.Red, X, Y, W, H);
+                */
 
                 brushText = new SolidBrush(textCol);
                 outText = "Sc:" + vesselCluster.ToString() + " /" + vesselId.ToString();
@@ -542,6 +545,7 @@ namespace TelomereAnalyzer
                 #endregion trusted clusters
 
                 #region mistrusted clusters
+                /*
                 if (_vesselAnalysis._vesselCluster[vC].mistrustedCluster == true && chmMistrustedClusters.Checked == true)
                 {
                     GetMistrustedClusterColor(colCount, ref clusCol, ref textCol);
@@ -558,6 +562,7 @@ namespace TelomereAnalyzer
                     for (Int32 V = 0; V < _vesselAnalysis._vesselCluster[vC].vessels.Length; V++)
                         DrawClusterVessel(oDc, vC, V, clusCol, textCol, sf, oFont);
                 }
+                */
                 #endregion
             }
             oFont.Dispose();
@@ -602,9 +607,11 @@ namespace TelomereAnalyzer
         private void OnPaint(Object sender, PaintEventArgs e)
         {
             DrawVesselInformation(e.Graphics);
-            Graphics picGraph = picBox.CreateGraphics();
+            //hier aufpassen 
+            /*Graphics picGraph = picBox.CreateGraphics();
             DrawVesselInformation(picGraph);
             picGraph.Dispose();
+            */
         }
         private void DrawContour(Graphics dc, VesselClass vessel, Color clusCol)
         {
@@ -650,12 +657,14 @@ namespace TelomereAnalyzer
 
         private void OnScrollArea(Object sender, EventArgs e)
         {
+            /*
             Double dMax = (Double)(trkArea.Maximum);
             Double dMin = (Double)(trkArea.Minimum);
 
             Double val = (1.0 - ((trkArea.Value) - dMin) / (dMax - dMin)) * 100.0;
 
             //labAreaThreshold.Text= val.ToString("##0.0") +  "%";
+            */
         }
 
         private void OnScrollerReleased(Object sender, MouseEventArgs e)
@@ -721,16 +730,20 @@ namespace TelomereAnalyzer
             if (_settingsInAction == true)
                 return;
 
-            Double dHorMultiplicator = (Double)numHorDist.Value;
-            Double dVerMultiplicator = (Double)numVerDist.Value;
+            //Double dHorMultiplicator = (Double)numHorDist.Value;
+            //Double dVerMultiplicator = (Double)numVerDist.Value;
+            Double dHorMultiplicator = 1.70;
+            Double dVerMultiplicator = 1.70;
             _vesselAnalysis.ClusterVessels(dHorMultiplicator, dVerMultiplicator);
 
             if (_vesselAnalysis._vesselCluster == null)
             {
-                labOutPut.Text = "No clusters found.";
+                //labOutPut.Text = "No clusters found.";
+                Console.WriteLine("No clusters found.");
                 return;
             }
-            labOutPut.Text = _vesselAnalysis._vesselCluster.Length.ToString() + " clusters found.";
+            //labOutPut.Text = _vesselAnalysis._vesselCluster.Length.ToString() + " clusters found.";
+            Console.WriteLine(_vesselAnalysis._vesselCluster.Length.ToString() + " clusters found.");
             this.Refresh();
         }
 
@@ -742,36 +755,44 @@ namespace TelomereAnalyzer
             if (_settingsInAction == true)
                 return;
 
-            _neighborSearchHor = (Double)numHorDist.Value;
-            _neighborSearchVer = (Double)numVerDist.Value;
+            //_neighborSearchHor = (Double)numHorDist.Value;
+            //_neighborSearchVer = (Double)numVerDist.Value;
+            _neighborSearchHor = 1.70;
+            _neighborSearchVer = 1.70;
             _vesselAnalysis.ClusterVessels(_neighborSearchHor, _neighborSearchVer);
             if (_vesselAnalysis._vesselCluster == null)
             {
-                labOutPut.Text = "No clusters found.";
+                //labOutPut.Text = "No clusters found.";
+                Console.WriteLine("No clusters found.");
                 return;
             }
 
-            labOutPut.Text = _vesselAnalysis._vesselCluster.Length.ToString() + " clusters found.";
+            //labOutPut.Text = _vesselAnalysis._vesselCluster.Length.ToString() + " clusters found.";
+            Console.WriteLine(_vesselAnalysis._vesselCluster.Length.ToString() + " clusters found.");
             this.Refresh();
         }
 
         private void OnSaveResultImage(Object sender, EventArgs e)
         {
-            labOutPut.Text = "Saving image...";
+            //labOutPut.Text = "Saving image...";
+            Console.WriteLine("Saving image...");
             Application.DoEvents();
             CompileResultImage(_singleFileAnalysisImageToSave);
-            labOutPut.Text = "Saving image...done";
+            //labOutPut.Text = "Saving image...done";
+            Console.WriteLine("Saving image...done");
         }
 
         private void OnAboutDlg(Object sender, EventArgs e)
         {
+            /*
             DlgAbout aboutDlg = new DlgAbout();
             aboutDlg.Show();
+            */
         }
 
         private void OnShowUnsafeClusters(Object sender, EventArgs e)
         {
-            picBox.Refresh();
+            //picBox.Refresh();
         }
 
         private void SaveNumericalResults(String bmpToSave)
@@ -864,8 +885,8 @@ namespace TelomereAnalyzer
 
         private void OnShown(Object sender, EventArgs e)
         {
-            numHorDist.Value = (Decimal)_neighborSearchHor;
-            numVerDist.Value = (Decimal)_neighborSearchVer;
+            //numHorDist.Value = (Decimal)_neighborSearchHor;
+            //numVerDist.Value = (Decimal)_neighborSearchVer;
         }
 
         #region Configuration file ------------------------------------------------------------------------------------------------
@@ -1126,21 +1147,28 @@ namespace TelomereAnalyzer
                 AddVesselToNewCluster();
                 DeleteVesselFromOldCluster();
 
-                picBox.Refresh();
+                //picBox.Refresh();
 
                 Int32 safeClusters = 0;
                 Int32 unsafeClusters = 0;
                 _vesselAnalysis.GetAmountClustersFound(ref safeClusters, ref unsafeClusters);
 
                 if (unsafeClusters != 0)
-                    labOutPut.Text = "Merging successfull! " + safeClusters.ToString() + " safe clusters and " + unsafeClusters.ToString() + " unsafe items found.";
+                {
+                    //labOutPut.Text = "Merging successfull! " + safeClusters.ToString() + " safe clusters and " + unsafeClusters.ToString() + " unsafe items found.";
+                    Console.WriteLine("Merging successfull! " + safeClusters.ToString() + " safe clusters and " + unsafeClusters.ToString() + " unsafe items found.");
+                }
+
                 else
-                    labOutPut.Text = "Merging successfull! " + safeClusters.ToString() + " safe clusters found.";
+                {
+                    //labOutPut.Text = "Merging successfull! " + safeClusters.ToString() + " safe clusters found.";
+                }
+
                 Application.DoEvents();
 
                 hitFirstVessel = false;
                 hitSecondVessel = false;
-                MergeButton.Hide();
+                //MergeButton.Hide();
             }
         }
 
@@ -1200,7 +1228,7 @@ namespace TelomereAnalyzer
 
         private void OnScroll(object sender, ScrollEventArgs e)
         {
-            picBox.Invalidate();
+            //picBox.Invalidate();
         }
 
         private void OnMouseClickInPicWood(object sender, MouseEventArgs e)
@@ -1235,7 +1263,8 @@ namespace TelomereAnalyzer
                             vesselToMergeNumber = vT;
                             vesselToMergeClusterNumber = vC;
                             hitFirstVessel = true;
-                            labOutPut.Text = "Vessel no. " + vT + " of Cluster no. " + vC + " selected.";
+                            //labOutPut.Text = "Vessel no. " + vT + " of Cluster no. " + vC + " selected.";
+                            Console.WriteLine("Vessel no. " + vT + " of Cluster no. " + vC + " selected.");
                             Application.DoEvents();
                             return;
                         }
@@ -1264,18 +1293,25 @@ namespace TelomereAnalyzer
                                 _vesselAnalysis.GetAmountClustersFound(ref safeClusters, ref unsafeClusters);
 
                                 if (unsafeClusters != 0)
-                                    labOutPut.Text = "Operation canceled! Please select a vessel from a different cluster than the first one! " + safeClusters.ToString() + " safe clusters and " + unsafeClusters.ToString() + " unsafe items found.";
+                                {
+                                    //labOutPut.Text = "Operation canceled! Please select a vessel from a different cluster than the first one! " + safeClusters.ToString() + " safe clusters and " + unsafeClusters.ToString() + " unsafe items found.";
+                                    Console.WriteLine("Operation canceled! Please select a vessel from a different cluster than the first one! " + safeClusters.ToString() + " safe clusters and " + unsafeClusters.ToString() + " unsafe items found.");
+                                }
                                 else
-                                    labOutPut.Text = "Operation canceled! Please select a different vessel than the first one! " + safeClusters.ToString() + " safe clusters found";
+                                {
+                                    //labOutPut.Text = "Operation canceled! Please select a different vessel than the first one! " + safeClusters.ToString() + " safe clusters found";
+                                    Console.WriteLine("Operation canceled! Please select a different vessel than the first one! " + safeClusters.ToString() + " safe clusters found");
+                                }   
                                 Application.DoEvents();
                                 return;
                             }
                             else
                             {
-                                MergeButton.Show();
+                                //MergeButton.Show();
                                 newClusterNumber = vC;
                                 hitSecondVessel = true;
-                                labOutPut.Text = "Vessel no. " + vesselToMergeNumber + " of Cluster no. " + vesselToMergeClusterNumber + " and Cluster no. " + newClusterNumber + " selected. For adding this vessel to the new cluster, click the Button 'Merge'.";
+                                //labOutPut.Text = "Vessel no. " + vesselToMergeNumber + " of Cluster no. " + vesselToMergeClusterNumber + " and Cluster no. " + newClusterNumber + " selected. For adding this vessel to the new cluster, click the Button 'Merge'.";
+                                Console.WriteLine("Vessel no. " + vesselToMergeNumber + " of Cluster no. " + vesselToMergeClusterNumber + " and Cluster no. " + newClusterNumber + " selected. For adding this vessel to the new cluster, click the Button 'Merge'.");
                                 Application.DoEvents();
                             }
                         }
@@ -1289,7 +1325,7 @@ namespace TelomereAnalyzer
             if (_vesselAnalysisDone == false)
                 return;
 
-            MergeButton.Hide();
+            //MergeButton.Hide();
             vesselToMerge = null;
             hitFirstVessel = false;
             hitSecondVessel = false;
@@ -1299,9 +1335,15 @@ namespace TelomereAnalyzer
             _vesselAnalysis.GetAmountClustersFound(ref safeClusters, ref unsafeClusters);
 
             if (unsafeClusters != 0)
-                labOutPut.Text = "Selection canceled! " + safeClusters.ToString() + " safe clusters and " + unsafeClusters.ToString() + " unsafe items found.";
+            {
+                //labOutPut.Text = "Selection canceled! " + safeClusters.ToString() + " safe clusters and " + unsafeClusters.ToString() + " unsafe items found.";
+                Console.WriteLine("Selection canceled! " + safeClusters.ToString() + " safe clusters and " + unsafeClusters.ToString() + " unsafe items found.");
+            }
             else
-                labOutPut.Text = "Selection canceled! " + safeClusters.ToString() + " safe clusters found";
+            {
+                //labOutPut.Text = "Selection canceled! " + safeClusters.ToString() + " safe clusters found";
+                Console.WriteLine("Selection canceled! " + safeClusters.ToString() + " safe clusters found");
+            }
             Application.DoEvents();
         }
 

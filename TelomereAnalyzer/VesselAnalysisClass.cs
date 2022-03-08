@@ -217,7 +217,7 @@ namespace TelomereAnalyzer
 
             Array.Sort(vesselsInCluster);
 
-            Int32 Median = vesselsInCluster[vesselsInCluster.Length / 2];
+            Int32 Median = vesselsInCluster[vesselsInCluster.Length / 2]; //Exception System.IndexOutOfRangeException: Der Index war außerhalb des Arraybereichs
             Int32 percentil = Convert.ToInt32(Median * 0.1);
             Int32 confidence = 2;
 
