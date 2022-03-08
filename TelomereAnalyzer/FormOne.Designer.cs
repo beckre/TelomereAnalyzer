@@ -46,6 +46,7 @@ namespace TelomereAnalyzer
             this.grpBoxSelectOptions = new System.Windows.Forms.GroupBox();
             this.btnFindNucleiContours = new System.Windows.Forms.Button();
             this.btnMergeImages = new System.Windows.Forms.Button();
+            this.btnElmliWood = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.ImageBoxOne)).BeginInit();
             this.grpBoxSelectDialog.SuspendLayout();
             this.mnuMainMenu.SuspendLayout();
@@ -241,11 +242,24 @@ namespace TelomereAnalyzer
             this.btnMergeImages.UseVisualStyleBackColor = false;
             this.btnMergeImages.Click += new System.EventHandler(this.OnMergeImages);
             // 
+            // btnElmliWood
+            // 
+            this.btnElmliWood.BackColor = System.Drawing.SystemColors.MenuHighlight;
+            this.btnElmliWood.Location = new System.Drawing.Point(138, 1179);
+            this.btnElmliWood.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.btnElmliWood.Name = "btnElmliWood";
+            this.btnElmliWood.Size = new System.Drawing.Size(130, 76);
+            this.btnElmliWood.TabIndex = 20;
+            this.btnElmliWood.Text = "ElmiWood";
+            this.btnElmliWood.UseVisualStyleBackColor = false;
+            this.btnElmliWood.Click += new System.EventHandler(this.OnBtnElmiWood);
+            // 
             // FormOne
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(3065, 1351);
+            this.Controls.Add(this.btnElmliWood);
             this.Controls.Add(this.grpBoxSelectOptions);
             this.Controls.Add(this.lblThreshold);
             this.Controls.Add(this.ImageBoxTwo);
@@ -284,6 +298,7 @@ namespace TelomereAnalyzer
         private System.Windows.Forms.Button btnMergeImages;
         private System.Windows.Forms.Button btnFindNucleiContours;
         public Emgu.CV.UI.ImageBox ImageBoxOne;
+        private System.Windows.Forms.Button btnElmliWood;
     }
 }
 

@@ -125,6 +125,9 @@
     <Compile Include="VesselAnalysisClass.cs" />
     <Compile Include="VesselClass.cs" />
     <Compile Include="vesselDetectorClass.cs" />
+    <EmbeddedResource Include="ElmiWood.resx">
+      <DependentUpon>ElmiWood.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FormOne.resx">
       <DependentUpon>FormOne.cs</DependentUpon>
     </EmbeddedResource>

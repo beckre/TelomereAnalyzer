@@ -18,6 +18,7 @@ namespace TelomereAnalyzer
     public partial class ElmiWood : Form
     {
         public FormOne _formOne = null;
+
         vesselDetectorClass _imgProcessor = null;
         StreamWriter txtStream = null;
 
@@ -49,6 +50,9 @@ namespace TelomereAnalyzer
         VesselAnalysisClass _vesselAnalysis = null;  // Cluster analysis
         VesselAnalysisClass.StochasticalVesselGeometry _normalizedVesselGeometry;
         Double _neighborSearchHor = 0.0;
+        public Emgu.CV.UI.ImageBox ImageBoxElmiTesting;
+        private IContainer components;
+        public Label lblElmiTesting;
         Double _neighborSearchVer = 0.0;
 
         #endregion(stuff for vessel analysis)
@@ -56,14 +60,14 @@ namespace TelomereAnalyzer
         public ElmiWood(FormOne formOne)
         {
             //SetLocalPathDescriptions(Environment.CurrentDirectory);
-            //InitializeComponent();
+            InitializeComponent();
             //InitButtons();
             //ReadConfigurationFile();
             /*
              * Ruft hier die DoAnalyze Methode auf und übergibt das normalisierte Bild
              */
             _formOne = formOne;
-            DoAnalyze(_formOne._NucleiImageNormalized);
+            //DoAnalyze(_formOne._NucleiImageNormalized);
         }
         /*
         protected void SetLocalPathDescriptions(String baseDir)
@@ -229,7 +233,7 @@ namespace TelomereAnalyzer
         */
 
         //protected bool DoAnalyze(ref String bmpToSave)
-        protected bool DoAnalyze(Image<Gray, UInt16> imageToAnalyze)
+        public bool DoAnalyze(Image<Gray, UInt16> imageToAnalyze)
         {
             if (_vesselsFound != null)
             {
@@ -262,7 +266,7 @@ namespace TelomereAnalyzer
             if (_imgProcessor == null)
                 _imgProcessor = new vesselDetectorClass(this); 
 
-            if (_imgProcessor.DoThresholding(ref _vesselsFound) == false) //hier war ich das letzte mal
+            if (_imgProcessor.DoThresholding(ref _vesselsFound) == false) 
             {
                 //this.Text = "ElmiWood";
                 return false;
@@ -270,12 +274,18 @@ namespace TelomereAnalyzer
 
             //labOutPut.Text = "Year ring detection: Cluster analysis running...";
             Console.WriteLine("Year ring detection: Cluster analysis running...");
+            lblElmiTesting.Text = "Year ring detection: Cluster analysis running...";
             Application.DoEvents();
 
             _vesselAnalysis = new VesselAnalysisClass(this, ref _vesselsFound);
             _vesselAnalysis.CalculateStandardValues();
+            /*
+             * Ich setze die Werte erstmal einfach auf 1,70.0 so wie der Default Wert in Elmi Wood
             Double dHorMultiplicator = (Double)numHorDist.Value;
             Double dVerMultiplicator = (Double)numVerDist.Value;
+            */
+            Double dHorMultiplicator = 1.70;
+            Double dVerMultiplicator = 1.70;
             _vesselAnalysis.ClusterVessels(dHorMultiplicator, dVerMultiplicator);
             _vesselAnalysis.GetResult(ref _normalizedVesselGeometry);
 
@@ -302,7 +312,7 @@ namespace TelomereAnalyzer
                     Console.WriteLine(safeClusters.ToString() + " safe clusters found");
                 }
             }
-
+            /*
             if (bmpToSave != null && _singleFileAnalysis != true)  // Batch processing, only.
             {
                 CompileResultImage(bmpToSave);
@@ -310,8 +320,9 @@ namespace TelomereAnalyzer
                 Console.WriteLine("Saving result image...done");
                 Application.DoEvents();
             }
-
-            picBox.Image = _oriImage;
+            */
+            //picBox.Image = _oriImage;
+            ImageBoxElmiTesting.BackgroundImage = _oriImage;
      
 
             if (_imgProcessor != null)
@@ -342,7 +353,7 @@ namespace TelomereAnalyzer
                 // labAreaThreshold.Text="100%";
                 this.Refresh();
             }
-            SaveNumericalResults(bmpToSave);
+            //SaveNumericalResults(bmpToSave);
             return true;
         }
 
@@ -1292,6 +1303,51 @@ namespace TelomereAnalyzer
             else
                 labOutPut.Text = "Selection canceled! " + safeClusters.ToString() + " safe clusters found";
             Application.DoEvents();
+        }
+
+        private void InitializeComponent()
+        {
+            this.components = new System.ComponentModel.Container();
+            this.ImageBoxElmiTesting = new Emgu.CV.UI.ImageBox();
+            this.lblElmiTesting = new System.Windows.Forms.Label();
+            ((System.ComponentModel.ISupportInitialize)(this.ImageBoxElmiTesting)).BeginInit();
+            this.SuspendLayout();
+            // 
+            // ImageBoxElmiTesting
+            // 
+            this.ImageBoxElmiTesting.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.ImageBoxElmiTesting.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.ImageBoxElmiTesting.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.ImageBoxElmiTesting.Location = new System.Drawing.Point(341, 131);
+            this.ImageBoxElmiTesting.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.ImageBoxElmiTesting.MaximumSize = new System.Drawing.Size(1024, 1024);
+            this.ImageBoxElmiTesting.Name = "ImageBoxElmiTesting";
+            this.ImageBoxElmiTesting.Size = new System.Drawing.Size(1024, 1024);
+            this.ImageBoxElmiTesting.TabIndex = 6;
+            this.ImageBoxElmiTesting.TabStop = false;
+            // 
+            // lblElmiTesting
+            // 
+            this.lblElmiTesting.AutoSize = true;
+            this.lblElmiTesting.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblElmiTesting.Location = new System.Drawing.Point(336, 61);
+            this.lblElmiTesting.Name = "lblElmiTesting";
+            this.lblElmiTesting.Size = new System.Drawing.Size(285, 29);
+            this.lblElmiTesting.TabIndex = 12;
+            this.lblElmiTesting.Text = "Analysis in the making . . .";
+            // 
+            // ElmiWood
+            // 
+            this.ClientSize = new System.Drawing.Size(1751, 1279);
+            this.Controls.Add(this.lblElmiTesting);
+            this.Controls.Add(this.ImageBoxElmiTesting);
+            this.Name = "ElmiWood";
+            ((System.ComponentModel.ISupportInitialize)(this.ImageBoxElmiTesting)).EndInit();
+            this.ResumeLayout(false);
+            this.PerformLayout();
+
         }
     }
 }

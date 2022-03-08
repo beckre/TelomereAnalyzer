@@ -85,6 +85,7 @@ namespace TelomereAnalyzer
 
             //_parentControl.labOutPut.Text = "Image equilization...";
             Console.WriteLine("Image equilization...");
+            _parentControl.lblElmiTesting.Text = "Image equilization...";
             Application.DoEvents();
 
             #region--1. Grayscale image erzeugen
@@ -98,6 +99,7 @@ namespace TelomereAnalyzer
             // _parentControl._grayImage.Save("E:\\2.jpg");
             //_parentControl.labOutPut.Text = "Image equilization...done. Adapt image energy for optimized vessels display... done";
             Console.WriteLine("Image equilization...done. Adapt image energy for optimized vessels display... done");
+            _parentControl.lblElmiTesting.Text = "Image equilization...done. Adapt image energy for optimized vessels display... done";
             #endregion
 
             #region--2. Binary image erzeugen
@@ -107,11 +109,12 @@ namespace TelomereAnalyzer
             // shadowImage.Save("E:\\3.jpg");
             //_parentControl.picBox.Image = shadowImage.ToBitmap();
             /*
-             * Hier aufgehangen Bild muss dargestellt werden.
+             * Übergangsweise wird das generierte Bild von einem Extra Fenster von ElmiWood dargestellt
              */
-            //_parentControl._formOne.ShowBitmapOnForm(this.ImageBoxOne, shadowImage.ToBitmap()); //Funktioniert im Moment nicht, irgendwie muss das Bild aber auf der Form dargestellt werden
             //_parentControl.labOutPut.Text = "Calculate threshold...";
+            _parentControl.ImageBoxElmiTesting.BackgroundImage = shadowImage.ToBitmap();
             Console.WriteLine("Calculate threshold...");
+            _parentControl.lblElmiTesting.Text = "Calculate threshold...";
             Application.DoEvents();
 
             CvInvoke.cvThreshold(shadowImage, shadowImage, _settingsVesselDetector.minPixelEnergy, 255, THRESH.CV_THRESH_TOZERO);
@@ -130,10 +133,10 @@ namespace TelomereAnalyzer
             //  shadowImage.Save("E:\\4.jpg");
             Bin.Dispose();
             //_parentControl.labOutPut.Text = "Calculate threshold... done";
+            //Übergangsweise wird das generierte Bild von einem Extra Fenster von ElmiWood dargestellt
+            _parentControl.ImageBoxElmiTesting.BackgroundImage = shadowImage.ToBitmap();
             Console.WriteLine("Calculate threshold... done");
-            /*
-            * Hier aufgehangen Bild muss dargestellt werden.
-            */
+            _parentControl.lblElmiTesting.Text = "Calculate threshold... done";
             //_parentControl.picBox.Image = shadowImage.ToBitmap();
             Application.DoEvents();
             // MessageBox.Show("Stop");
@@ -143,7 +146,9 @@ namespace TelomereAnalyzer
             Int32 radius = 12;
             //_parentControl.labOutPut.Text = "Detecting vessels...";
             Console.WriteLine("Detecting vessels...");
+            _parentControl.lblElmiTesting.Text = "Detecting vessels...";
             Application.DoEvents();
+            //Es wird ein neues Objekt der Klasse circularMorpholgicalOperator erstellt und ihm der Radius übergeben
             circularMorphologicalOperator ellipseObject = new circularMorphologicalOperator(radius);
             Image<Gray, Byte> MaskImage = shadowImage.CopyBlank();
             //--1. Opening
@@ -173,6 +178,7 @@ namespace TelomereAnalyzer
             shadowImage.Dispose();
             //_parentControl.labOutPut.Text = "Detecting vessels...done";
             Console.WriteLine("Detecting vessels...done");
+            _parentControl.lblElmiTesting.Text = "Detecting vessels...done";
             Application.DoEvents();
             if (listOfVessels != null)
             {
@@ -197,6 +203,7 @@ namespace TelomereAnalyzer
 
             //_parentControl.labOutPut.Text = "Sorting vessels...";
             Console.WriteLine("Sorting vessels...");
+            _parentControl.lblElmiTesting.Text = "Sorting vessels...";
             Application.DoEvents();
             if (success == true)
             {

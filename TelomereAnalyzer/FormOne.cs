@@ -158,6 +158,7 @@ namespace TelomereAnalyzer
             */
             lblPleaseSelectPic.Text = "Please click on Threshold to automatically generate a Threshold for the Telomere Image";
             btnGenerateThreshold.Show();
+            btnElmliWood.Show();
             
         }
             /*----------------------------------------------------------------------------------------*\
@@ -210,13 +211,23 @@ namespace TelomereAnalyzer
         {
             //_nucleiEdgeDetection = new NucleiEdgeDetection(this);
             _elmiWood = new ElmiWood(this);
+            _elmiWood.DoAnalyze(_NucleiImageNormalized);
+            /*
             if (IsImageOkay(_NucleiImageNormalized))
             {
                 //_nucleiEdgeDetection.FindingContours();
                 _elmiWood = new ElmiWood(this);
             }
+            
             _btmNucleiImageEdgesDetected = _NucleiImageEdgesDetected.ToBitmap();
             ShowBitmapOnForm(ImageBoxOne, _btmNucleiImageEdgesDetected);
+            */
+        }
+
+        private void OnBtnElmiWood(object sender, EventArgs e)
+        {
+            _elmiWood = new ElmiWood(this);
+            _elmiWood.DoAnalyze(_NucleiImageNormalized);
         }
 
         #endregion
@@ -317,5 +328,7 @@ namespace TelomereAnalyzer
                 return false;
             return true;
         }
+
+
     }
 }

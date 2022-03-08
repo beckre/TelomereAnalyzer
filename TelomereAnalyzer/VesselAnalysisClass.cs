@@ -115,7 +115,7 @@ namespace TelomereAnalyzer
         {
             bool success = true;
             InitClusterAnalysis();
-
+            //Im Moment werden 1.70 übergeben als Default Wert
             _dHorizontalToleranceMultiplicator = horTolerance;
             _dVerticalToleranceMultiplicator = verTolerance;
 
@@ -124,19 +124,22 @@ namespace TelomereAnalyzer
             if (success == false)
                 return false;
 
-            _parentForm.labOutPut.Text = "Cluster analysis: Marking unsafe clusters...";
+            //_parentForm.labOutPut.Text = "Cluster analysis: Marking unsafe clusters...";
+            Console.WriteLine("Cluster analysis: Marking unsafe clusters...");
             System.Windows.Forms.Application.DoEvents();
 
             if (success == true)
                 MarkUnsafeClusters();
 
-            _parentForm.labOutPut.Text = "Super cluster analysis...";
+            //_parentForm.labOutPut.Text = "Super cluster analysis...";
+            Console.WriteLine("Super cluster analysis...");
             System.Windows.Forms.Application.DoEvents();
 
             if (success == true)
                 success = SuperClusterAnalysis();
 
-            _parentForm.labOutPut.Text = "Marking mistrusted clusters...";
+            //_parentForm.labOutPut.Text = "Marking mistrusted clusters...";
+            Console.WriteLine("Marking mistrusted clusters...");
             System.Windows.Forms.Application.DoEvents();
 
             if (success == true)
@@ -384,13 +387,15 @@ namespace TelomereAnalyzer
             bool newVesselAdded = false;
             bool somethingAdded = false;
             Int32 Vc = 0;
-            _parentForm.labOutPut.Text = "Cluster analysis: recoursive structure scan...";
+            //_parentForm.labOutPut.Text = "Cluster analysis: recoursive structure scan...";
+            Console.WriteLine("Cluster analysis: recoursive structure scan...");
             System.Windows.Forms.Application.DoEvents();
             Int32 counter = 1;
 
             do
             {
-                _parentForm.labOutPut.Text = "Cluster analysis: recoursive structure scan... sorting (" + counter.ToString() + ")";
+                //_parentForm.labOutPut.Text = "Cluster analysis: recoursive structure scan... sorting (" + counter.ToString() + ")";
+                Console.WriteLine("Cluster analysis: recoursive structure scan... sorting (" + counter.ToString() + ")");
                 System.Windows.Forms.Application.DoEvents();
                 allVesselsBelongToClusters = AllVesselsSortedToClusters(ref Vc);
                 do
@@ -567,7 +572,8 @@ namespace TelomereAnalyzer
                         vC = 0;
                         c = 1;
                         superClusterGenerated = true;
-                        _parentForm.labOutPut.Text = "Joining clouds to super clusters...recoursive meshing: " + counter.ToString();
+                        //_parentForm.labOutPut.Text = "Joining clouds to super clusters...recoursive meshing: " + counter.ToString();
+                        Console.WriteLine("Joining clouds to super clusters...recoursive meshing: " + counter.ToString());
                         System.Windows.Forms.Application.DoEvents();
                         counter++;
                         //   testCounter++;
