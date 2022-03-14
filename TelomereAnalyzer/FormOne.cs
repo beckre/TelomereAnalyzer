@@ -166,16 +166,72 @@ namespace TelomereAnalyzer
             ShowBitmapOnForm(ImageBoxOne, _btmNucleiImageNormalized);
             ShowBitmapOnForm(ImageBoxTwo, _btmTelomereImageNormalized);
             */
+
+            Image<Gray, byte> destNucleiImage = new Image<Gray, byte>(_uploadedRawNucleiImage.Width, _uploadedRawNucleiImage.Height, new Gray(0));
+            //CvInvoke.cvEqualizeHist(_uploadedRawNucleiImage, destNucleiImage);
+            CvInvoke.cvNormalize(_uploadedRawNucleiImage, destNucleiImage, 0, 255, NORM_TYPE.CV_MINMAX, _uploadedRawNucleiImage.Ptr);
+            _NucleiImageNormalized = destNucleiImage;
+            _btmNucleiImageNormalized = destNucleiImage.ToBitmap();
+
+            Image<Gray, byte> destTelomereImage = new Image<Gray, byte>(_uploadedRawTelomereImage.Width, _uploadedRawTelomereImage.Height, new Gray(0));
+            //CvInvoke.cvEqualizeHist(_uploadedRawTelomereImage, destTelomereImage);
+            CvInvoke.cvNormalize(_uploadedRawTelomereImage, destTelomereImage, 0, 255, NORM_TYPE.CV_MINMAX, _uploadedRawTelomereImage.Ptr);
+            _TelomereImageNormalized = destTelomereImage;
+            _btmTelomereImageNormalized = destTelomereImage.ToBitmap();
+
+            ShowBitmapOnForm(ImageBoxOne, _btmNucleiImageNormalized);
+            ShowBitmapOnForm(ImageBoxTwo, _btmTelomereImageNormalized);
+
             lblPleaseSelectPic.Text = "Please click on Threshold to automatically generate a Threshold for the Telomere Image";
             btnGenerateThreshold.Show();
             
         }
-            /*----------------------------------------------------------------------------------------*\
-             *  Generates the threshold of the uploaded image using the otsu's method.                *|
-             *  Converts the choosen image to grayscale and byte before thresholding                  *|
-             *  otherwise an exception is thrown.
-            \*----------------------------------------------------------------------------------------*/
-            private void OnThreshold(object sender, EventArgs e)
+        /*
+        private void OnGammaCorrection(object sender, EventArgs e)
+        {
+            double gamma = 2.0;
+            double c = 1d;
+            Bitmap img = _imgInput.ToBitmap();
+            int width = img.Width;
+            int height = img.Height;
+            BitmapData srcData = img.LockBits(new Rectangle(0, 0, width, height),
+                ImageLockMode.ReadOnly, PixelFormat.Format32bppArgb);
+            int bytes = srcData.Stride * srcData.Height;
+            byte[] buffer = new byte[bytes];
+            byte[] result = new byte[bytes];
+            Marshal.Copy(srcData.Scan0, buffer, 0, bytes);
+            img.UnlockBits(srcData);
+            int current = 0;
+            int cChannels = 3;
+            for (int y = 0; y < height; y++)
+            {
+                for (int x = 0; x < width; x++)
+                {
+                    current = y * srcData.Stride + x * 4;
+                    for (int i = 0; i < cChannels; i++)
+                    {
+                        double range = (double)buffer[current + i] / 255;
+                        double correction = c * Math.Pow(range, gamma);
+                        result[current + i] = (byte)(correction * 255);
+                    }
+                    result[current + 3] = 255;
+                }
+            }
+            Bitmap resImg = new Bitmap(width, height);
+            BitmapData resData = resImg.LockBits(new Rectangle(0, 0, width, height),
+                ImageLockMode.WriteOnly, PixelFormat.Format32bppArgb);
+            Marshal.Copy(result, 0, resData.Scan0, bytes);
+            resImg.UnlockBits(resData);
+            imageBox1.BackgroundImage = resImg;
+            //return resImg;
+        }
+        */
+        /*----------------------------------------------------------------------------------------*\
+         *  Generates the threshold of the uploaded image using the otsu's method.                *|
+         *  Converts the choosen image to grayscale and byte before thresholding                  *|
+         *  otherwise an exception is thrown.
+        \*----------------------------------------------------------------------------------------*/
+        private void OnThreshold(object sender, EventArgs e)
         {
             if (IsImageUsable(_TelomereImageNormalized))
             {
@@ -213,6 +269,7 @@ namespace TelomereAnalyzer
             graphics.DrawImage(_btmNucleiImageNormalized, 0, 0);
             graphics.DrawImage(_btmTelomereImageHalfTransparent, 0, 0);
             ShowBitmapOnForm(ImageBoxTwo, finalImage);
+            lblPleaseSelectPic.Text = "Please click on Find Nuclei Contours to detect the nuclei";
             btnFindNucleiContours.Show();
         }
 
