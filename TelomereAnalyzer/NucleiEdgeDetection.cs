@@ -21,11 +21,11 @@ namespace TelomereAnalyzer
             this._formOne = formOne;
         }
 
-        public void FindingContours(Image<Gray, byte> image)
+        public void FindingContours(Image<Gray, byte> imageForEdgeDetection, Image<Gray, byte> imageNormalizedToDrawOn)
         {
             //rtfResultBox.Text = "";
-            Image<Gray, byte> grayImage = image;
-            _ProcessedImage = grayImage.Convert<Bgr, byte>();
+            Image<Gray, byte> grayImage = imageForEdgeDetection;
+            _ProcessedImage = imageNormalizedToDrawOn.Convert<Bgr, byte>();
 
             /*
             if (ProcessedImage == null)
@@ -53,29 +53,32 @@ namespace TelomereAnalyzer
 
                 for (var contour = grayImage.FindContours(CHAIN_APPROX_METHOD.CV_CHAIN_APPROX_NONE, RETR_TYPE.CV_RETR_CCOMP, storage); contour != null; contour = contour.HNext)
                 {
+                
                     centerPoint.X = contour.BoundingRectangle.X + contour.BoundingRectangle.Width / 2;
                     centerPoint.Y = contour.BoundingRectangle.Y + contour.BoundingRectangle.Height / 2;
                     momentsOfContour = contour.GetMoments();
                     Double value = Convert.ToDouble(momentsOfContour.GravityCenter.x);
                     if (Double.IsNaN(value) == false)
                     {
-                        if (contour.Area > 50)
+                        if (contour.Area > 50) //hier könnte man testen, was passiert wenn die Zahl höher (niedriger) ist
                         {
                             //if (chbConvexHull.Checked == true)
                             //{
                                 var ch = contour.GetConvexHull(ORIENTATION.CV_CLOCKWISE, storage);
                                 //    var ch1=contour.ApproxPoly(0.001);
                                 contourPoints = Array.ConvertAll(ch.ToArray(), input => new Point(input.X, input.Y));
-                            //}
-                            /*
-                             * else
-                                contourPoints = Array.ConvertAll(contour.ToArray(), input => new Point(input.X, input.Y));
-                            */
-                            huMoments = momentsOfContour.GetHuMoment();
+                        //Jede Kontur könnte hier als eigene einzelne Einheit in ein neues Klassenobjekt (neue Klasse Nucleus) gesteckt werden --> Alle Konturinformationen hätte man somit an einem Ort
+                        //}
+                        /*
+                         * else
+                            contourPoints = Array.ConvertAll(contour.ToArray(), input => new Point(input.X, input.Y));
+                        */
+                        huMoments = momentsOfContour.GetHuMoment();
                             contourFound++;
                             AddContourPoints(ref allContours, contourPoints);
                             AddCenterPoint(ref centerPoints, centerPoint);
-                            resultValues += "relative Area=" + contour.Area.ToString() + "  Xc= " + centerPoint.X.ToString() + "  Yc= " + centerPoint.Y.ToString() + "Gravity Center= ( " + momentsOfContour.GravityCenter.x.ToString() + " | " + momentsOfContour.GravityCenter.y.ToString() + " )\n";
+                        //Jede Kontur könnte hier als eigene einzelne Einheit in ein neues Klassenobjekt (neue Klasse Nucleus) gesteckt werden --> Alle Konturinformationen hätte man somit an einem Ort
+                        resultValues += "relative Area=" + contour.Area.ToString() + "  Xc= " + centerPoint.X.ToString() + "  Yc= " + centerPoint.Y.ToString() + "Gravity Center= ( " + momentsOfContour.GravityCenter.x.ToString() + " | " + momentsOfContour.GravityCenter.y.ToString() + " )\n";
                         }
                     }
                 }

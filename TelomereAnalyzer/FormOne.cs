@@ -212,6 +212,7 @@ namespace TelomereAnalyzer
 
         private void OnFindNucleiContours(object sender, EventArgs e)
         {
+            //wird im Moment eig garnicht ausgeführt
             //_nucleiEdgeDetection = new NucleiEdgeDetection(this);
             _elmiWood = new ElmiWood(this);
             _elmiWood.DoAnalyze(_NucleiImageNormalized);
@@ -236,7 +237,7 @@ namespace TelomereAnalyzer
             if (IsImageOkay(_nucleiBitonalForEdgeDetection))
             {
                 _nucleiEdgeDetection = new NucleiEdgeDetection(this);
-                _nucleiEdgeDetection.FindingContours(_nucleiBitonalForEdgeDetection);
+                _nucleiEdgeDetection.FindingContours(_nucleiBitonalForEdgeDetection, _NucleiImageNormalized);
             }
 
             _btmNucleiImageEdgesDetected = _NucleiImageEdgesDetected.ToBitmap();
