@@ -167,6 +167,7 @@ namespace TelomereAnalyzer
             ShowBitmapOnForm(ImageBoxTwo, _btmTelomereImageNormalized);
             */
 
+            /*
             Image<Gray, byte> destNucleiImage = new Image<Gray, byte>(_uploadedRawNucleiImage.Width, _uploadedRawNucleiImage.Height, new Gray(0));
             //CvInvoke.cvEqualizeHist(_uploadedRawNucleiImage, destNucleiImage);
             CvInvoke.cvNormalize(_uploadedRawNucleiImage, destNucleiImage, 0, 255, NORM_TYPE.CV_MINMAX, _uploadedRawNucleiImage.Ptr);
@@ -181,9 +182,10 @@ namespace TelomereAnalyzer
 
             ShowBitmapOnForm(ImageBoxOne, _btmNucleiImageNormalized);
             ShowBitmapOnForm(ImageBoxTwo, _btmTelomereImageNormalized);
-
+            */
             lblPleaseSelectPic.Text = "Please click on Threshold to automatically generate a Threshold for the Telomere Image";
             btnGenerateThreshold.Show();
+            
             
         }
         /*
