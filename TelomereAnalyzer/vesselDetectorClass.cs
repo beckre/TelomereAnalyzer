@@ -147,7 +147,11 @@ namespace TelomereAnalyzer
             #endregion
 
             #region Operation using the structural element
-            Int32 radius = 12; //Muss das 12 sein???
+            //Int32 radius = 12; //Muss das 12 sein???
+            //Int32 radius = 9;
+            //Int32 radius = 5;
+            //Int32 radius = 2;
+            Int32 radius = 1;
             //_parentControl.labOutPut.Text = "Detecting vessels...";
             Console.WriteLine("Detecting vessels...");
             _parentControl.lblElmiTesting.Text = "Detecting vessels...";

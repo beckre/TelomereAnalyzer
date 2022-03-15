@@ -275,7 +275,7 @@ namespace TelomereAnalyzer
                      * Der weiße Pixel wird in rot umgewandelt und die restlichen Pixel werden schwarz gesetzt.
                      */
                     if (checkedColor.R == 255)
-                        resultBmpToBeColoured.SetPixel(i, j, Color.FromArgb(255,255, 0, 0));
+                        resultBmpToBeColoured.SetPixel(i, j, Color.FromArgb(255,255, 255, 0));
                     else
                         resultBmpToBeColoured.SetPixel(i, j, Color.FromArgb(255, 0, 0, 0));
                 }
