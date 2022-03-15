@@ -19,6 +19,9 @@ namespace TelomereAnalyzer
     {
         public FormOne _formOne = null;
 
+       public Image<Gray, byte> _nucleiBitonalForEdgeDetection = null;
+
+
         vesselDetectorClass _imgProcessor = null;
         StreamWriter txtStream = null;
 
@@ -233,7 +236,7 @@ namespace TelomereAnalyzer
         */
 
         //protected bool DoAnalyze(ref String bmpToSave)
-        public bool DoAnalyze(Image<Gray, UInt16> imageToAnalyze)
+        public bool DoAnalyze(Image<Gray, byte> imageToAnalyze)
         {
             if (_vesselsFound != null)
             {
@@ -272,6 +275,9 @@ namespace TelomereAnalyzer
                 //this.Text = "ElmiWood";
                 return false;
             }
+            //return nur damit hier der Prozess abbricht
+            return true;
+
 
             //labOutPut.Text = "Year ring detection: Cluster analysis running...";
             Console.WriteLine("Year ring detection: Cluster analysis running...");

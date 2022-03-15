@@ -150,8 +150,8 @@ namespace TelomereAnalyzer
             //Int32 radius = 12; //Muss das 12 sein???
             //Int32 radius = 9;
             //Int32 radius = 5;
-            //Int32 radius = 2;
-            Int32 radius = 1;
+            Int32 radius = 2;
+            //Int32 radius = 1;
             //_parentControl.labOutPut.Text = "Detecting vessels...";
             Console.WriteLine("Detecting vessels...");
             _parentControl.lblElmiTesting.Text = "Detecting vessels...";
@@ -170,7 +170,11 @@ namespace TelomereAnalyzer
             shadowImage.Save("D:\\Hochschule Emden Leer - Bachelor Bioinformatik\\Praxisphase Bachelorarbeit Vorbereitungen\\Praktikumsstelle\\MHH Hannover Telomere\\Programm Bilder\\5_VesselDetect.tiff");
             #region Dilation using Watershed
             List<VesselClass> listOfVessels = null;
-            Image<Bgr, Byte> oriColorImage = new Image<Bgr, Byte>(_parentControl._oriImage);
+            Image<Bgr, Byte> oriColorImage = new Image<Bgr, Byte>(_parentControl._oriImage); //hier übergeben
+            _parentControl._nucleiBitonalForEdgeDetection = shadowImage;
+            //return hier nur, damit hier der Prozess abbricht
+            return true;
+
 
             DoWatershedDilation(ref oriColorImage, ref listOfVessels, shadowImage);
             //  shadowImage.Save("E:\\6.jpg");

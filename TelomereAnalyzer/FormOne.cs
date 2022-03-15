@@ -29,18 +29,18 @@ namespace TelomereAnalyzer
          */
 
         //Image und Bitmap vom originalen hochgeladenen Nuclei Bild
-        Image<Gray, UInt16> _uploadedRawNucleiImage = null;       
+        Image<Gray, byte> _uploadedRawNucleiImage = null;       
         Bitmap _btmUploadedRawNucleiImage = null;
         //Image und Bitmap vom originalen hochgeladenen Telomer Bild
-        Image<Gray, UInt16> _uploadedRawTelomereImage = null;
+        Image<Gray, byte> _uploadedRawTelomereImage = null;
         Bitmap _btmUploadedRawTelomereImage = null;
 
         //Image und Bitmap vom normalisierten Nuclei Bild
-        public Image<Gray, UInt16> _NucleiImageNormalized = null;
+        public Image<Gray, byte> _NucleiImageNormalized = null;
         Bitmap _btmNucleiImageNormalized = null;
 
         //Image und Bitmap vom normalisierten Telomer Bild
-        Image<Gray, UInt16> _TelomereImageNormalized = null;
+        Image<Gray, byte> _TelomereImageNormalized = null;
         Bitmap _btmTelomereImageNormalized = null;
 
         //Bitmap vom normalisierten Bild, wo die Threshold Methode angewandt wurde
@@ -49,8 +49,11 @@ namespace TelomereAnalyzer
         //Bitmap vom normalisierten Bild, wo die Threshold Methode angewandt wurde und die Transparenz auf die Hälfte gesetzt wurde
         Bitmap _btmTelomereImageHalfTransparent = null;
 
+        // Image und Bitmap vom Nuclei Bild, welches von Elmi Wood bearbeitet und hieran übergeben wurde
+        Image<Gray, byte> _nucleiBitonalForEdgeDetection = null;
+
         //Image und Bitmap vom Nuclei Bild mit Anwendung von Edge Detection
-        public Image<Bgr, UInt16> _NucleiImageEdgesDetected = null;
+        public Image<Bgr, byte> _NucleiImageEdgesDetected = null;
         Bitmap _btmNucleiImageEdgesDetected = null;
 
         public FormOne()
@@ -77,7 +80,7 @@ namespace TelomereAnalyzer
             {
                 //erstmal mit der 16 Bit Version des Bildes ohne es in 8 Bit zu konvertieren
 
-                _uploadedRawNucleiImage = new Image<Gray, UInt16>(dialog.FileName);
+                _uploadedRawNucleiImage = new Image<Gray, byte>(dialog.FileName);
                 //Main8BitImage = MainImage.Convert<Bgr, byte>();
                 //Bitmap tiffImageConvertedTo8Bit = Main8BitImage.ToBitmap();
                 //ImageBox.BackgroundImage = tiffImageConvertedTo8Bit;
@@ -106,7 +109,7 @@ namespace TelomereAnalyzer
             {
                 //erstmal mit der 16 Bit Version des Bildes ohne es in 8 Bit zu konvertieren
 
-                _uploadedRawTelomereImage = new Image<Gray, UInt16>(dialog.FileName);
+                _uploadedRawTelomereImage = new Image<Gray, byte>(dialog.FileName);
                 //Main8BitImage = MainImage.Convert<Bgr, byte>();
                 //Bitmap tiffImageConvertedTo8Bit = Main8BitImage.ToBitmap();
                 //ImageBox.BackgroundImage = tiffImageConvertedTo8Bit;
@@ -228,6 +231,16 @@ namespace TelomereAnalyzer
         {
             _elmiWood = new ElmiWood(this);
             _elmiWood.DoAnalyze(_NucleiImageNormalized);
+            _nucleiBitonalForEdgeDetection = _elmiWood._nucleiBitonalForEdgeDetection;
+
+            if (IsImageOkay(_nucleiBitonalForEdgeDetection))
+            {
+                _nucleiEdgeDetection = new NucleiEdgeDetection(this);
+                _nucleiEdgeDetection.FindingContours(_nucleiBitonalForEdgeDetection);
+            }
+
+            _btmNucleiImageEdgesDetected = _NucleiImageEdgesDetected.ToBitmap();
+            ShowBitmapOnForm(ImageBoxOne, _btmNucleiImageEdgesDetected);
         }
 
         #endregion
@@ -322,7 +335,7 @@ namespace TelomereAnalyzer
             */
         }
         // checks if image is null --> needs to be extended probably
-        private Boolean IsImageOkay(Image<Gray, UInt16> image)
+        private Boolean IsImageOkay(Image<Gray, byte> image)
         {
             if (image == null)
                 return false;
