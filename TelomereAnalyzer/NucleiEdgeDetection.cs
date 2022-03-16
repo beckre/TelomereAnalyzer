@@ -14,11 +14,12 @@ namespace TelomereAnalyzer
     {
         FormOne _formOne = null;
         Image<Bgr, byte> _ProcessedImage = null;
-
+        Nuclei _allNuclei = null;
 
         public NucleiEdgeDetection(FormOne formOne)
         {
             this._formOne = formOne;
+            _allNuclei = new Nuclei();
         }
 
         public void FindingContours(Image<Gray, byte> imageForEdgeDetection, Image<Gray, byte> imageNormalizedToDrawOn)
@@ -79,11 +80,20 @@ namespace TelomereAnalyzer
                             contourFound++;
                             AddContourPoints(ref allContours, contourPoints);
                             AddCenterPoint(ref centerPoints, centerPoint);
+
+                        Nucleus nucleus = new Nucleus(centerPoint, contourPoints);
+                        _allNuclei.AddNucleusToNucleiList(nucleus);
+
+
                         //Jede Kontur könnte hier als eigene einzelne Einheit in ein neues Klassenobjekt (neue Klasse Nucleus) gesteckt werden --> Alle Konturinformationen hätte man somit an einem Ort
                         resultValues += "relative Area=" + contour.Area.ToString() + "  Xc= " + centerPoint.X.ToString() + "  Yc= " + centerPoint.Y.ToString() + "Gravity Center= ( " + momentsOfContour.GravityCenter.x.ToString() + " | " + momentsOfContour.GravityCenter.y.ToString() + " )\n";
                         }
                     }
+                
                 }
+            _allNuclei.SetAttributes(resultValues, contourFound, centerPoints, allContours);
+            
+           
             if (centerPoints != null)
                 for (Int32 E = 0; E < centerPoints.Length; E++)
                     DrawPoint(centerPoints[E]);
