@@ -60,8 +60,10 @@ namespace TelomereAnalyzer
                     Double value = Convert.ToDouble(momentsOfContour.GravityCenter.x);
                     if (Double.IsNaN(value) == false)
                     {
-                        if (contour.Area > 50) //hier könnte man testen, was passiert wenn die Zahl höher (niedriger) ist
-                        {
+                    //if (contour.Area > 50) //hier könnte man testen, was passiert wenn die Zahl höher (niedriger) ist
+                    //if(contour.Area > 200)
+                    if (contour.Area > 1500)
+                    {
                             //if (chbConvexHull.Checked == true)
                             //{
                                 var ch = contour.GetConvexHull(ORIENTATION.CV_CLOCKWISE, storage);
