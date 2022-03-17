@@ -54,6 +54,8 @@ namespace TelomereAnalyzer
 
         //Image und Bitmap vom Nuclei Bild mit Anwendung von Edge Detection
         public Image<Bgr, byte> _NucleiImageEdgesDetected = null;
+        //Nochmal zum Testen der Nucleus und Nuclei Klasse
+        public Image<Bgr, byte> _TestingNucleiImageEdgesDetected = null;
         Bitmap _btmNucleiImageEdgesDetected = null;
 
         public FormOne()
@@ -242,6 +244,8 @@ namespace TelomereAnalyzer
 
             _btmNucleiImageEdgesDetected = _NucleiImageEdgesDetected.ToBitmap();
             ShowBitmapOnForm(ImageBoxOne, _btmNucleiImageEdgesDetected);
+            //Testing the Nucleus and Nuclei Classes
+            ShowBitmapOnForm(ImageBoxTwo, _TestingNucleiImageEdgesDetected.ToBitmap());
         }
 
         #endregion

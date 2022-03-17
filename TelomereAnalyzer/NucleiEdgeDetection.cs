@@ -27,6 +27,7 @@ namespace TelomereAnalyzer
             //rtfResultBox.Text = "";
             Image<Gray, byte> grayImage = imageForEdgeDetection;
             _ProcessedImage = imageNormalizedToDrawOn.Convert<Bgr, byte>();
+            _allNuclei._imageToDrawOn = imageNormalizedToDrawOn.Convert<Bgr, byte>();
 
             /*
             if (ProcessedImage == null)
@@ -92,20 +93,26 @@ namespace TelomereAnalyzer
                 
                 }
             _allNuclei.SetAttributes(resultValues, contourFound, centerPoints, allContours);
+
             
+             if (centerPoints != null)
+                 for (Int32 E = 0; E < centerPoints.Length; E++)
+                     DrawPoint(centerPoints[E]);
+
+
+
+             if (allContours != null)
+                 for (Int32 E = 0; E < allContours.Length; E++)
+                     DrawContour(allContours[E]);
+            
+             //For Testing Nucleus and Nuclei Classes
+            _allNuclei.PrepareDrawingCenterPoints();
+            _allNuclei.PrepareDrawingContoursByNucleus();
+            _allNuclei.PrintResultValues();
            
-            if (centerPoints != null)
-                for (Int32 E = 0; E < centerPoints.Length; E++)
-                    DrawPoint(centerPoints[E]);
-
-
-
-            if (allContours != null)
-                for (Int32 E = 0; E < allContours.Length; E++)
-                    DrawContour(allContours[E]);
-
 
             _formOne._NucleiImageEdgesDetected = _ProcessedImage;
+            _formOne._TestingNucleiImageEdgesDetected = _allNuclei._imageToDrawOn;
             //rtfResultBox.Text = contourFound.ToString() + " Objekte gefunden\n\n" + resultValues;
             //   MessageBox.Show(contourFound.ToString() + " Objekte gefunden\n\n" + resultValues);
         }

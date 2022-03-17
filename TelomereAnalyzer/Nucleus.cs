@@ -13,8 +13,8 @@ namespace TelomereAnalyzer
     class Nucleus
     {
         
-        Point _centerPoint = new Point();
-        Point[] _contourPoints = null;
+        public Point _centerPoint = new Point();
+        public Point[] _contourPoints = null;
 
         public Nucleus( Point centerPoint, Point[] contourPoints)
         {

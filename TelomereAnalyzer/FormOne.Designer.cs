@@ -56,9 +56,6 @@ namespace TelomereAnalyzer
             // 
             // ImageBoxOne
             // 
-            this.ImageBoxOne.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.ImageBoxOne.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ImageBoxOne.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.ImageBoxOne.Location = new System.Drawing.Point(443, 182);
@@ -126,7 +123,7 @@ namespace TelomereAnalyzer
             this.toolStrpMnuUpload});
             this.mnuMainMenu.Location = new System.Drawing.Point(0, 0);
             this.mnuMainMenu.Name = "mnuMainMenu";
-            this.mnuMainMenu.Size = new System.Drawing.Size(3065, 33);
+            this.mnuMainMenu.Size = new System.Drawing.Size(3065, 36);
             this.mnuMainMenu.TabIndex = 13;
             this.mnuMainMenu.Text = "menuStrip2";
             // 
@@ -136,7 +133,7 @@ namespace TelomereAnalyzer
             this.tIFFToolStripMenuItem,
             this.telomerImageToolStripMenuItem});
             this.toolStrpMnuUpload.Name = "toolStrpMnuUpload";
-            this.toolStrpMnuUpload.Size = new System.Drawing.Size(91, 29);
+            this.toolStrpMnuUpload.Size = new System.Drawing.Size(91, 32);
             this.toolStrpMnuUpload.Text = "Upload ";
             // 
             // tIFFToolStripMenuItem
@@ -157,9 +154,6 @@ namespace TelomereAnalyzer
             // 
             // ImageBoxTwo
             // 
-            this.ImageBoxTwo.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.ImageBoxTwo.BackColor = System.Drawing.SystemColors.Control;
             this.ImageBoxTwo.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ImageBoxTwo.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
