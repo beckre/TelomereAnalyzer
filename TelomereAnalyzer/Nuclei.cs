@@ -12,31 +12,31 @@ namespace TelomereAnalyzer
 {
     class Nuclei
     {
-        List<Nucleus> _allNucleiCoordinates = null;
+        List<Nucleus> _allNuclei = null;
         public Image<Bgr, byte> _imageToDrawOn = null;
 
-        String _resultValues = null;
-        Int32 _contourFound = 0;
-        Point[] _centerPoints = null;
-        Point[][] _allContours = null;
+        String _nucleiResultValues = null;
+        Int32 _nucleiContourFound = 0;
+        Point[] _nucleiCenterPoints = null;
+        Point[][] _nucleiAllContours = null;
 
         public Nuclei( )
         {
-            _allNucleiCoordinates = new List<Nucleus>();
+            _allNuclei = new List<Nucleus>();
         }
 
         public void SetAttributes(String resultValues, Int32 contourFound, Point[] centerPoints, Point[][] allContours)
         {
-            this._resultValues = resultValues;
-            this._contourFound = contourFound;
-            this._centerPoints = centerPoints;
-            this._allContours = allContours;
+            this._nucleiResultValues = resultValues;
+            this._nucleiContourFound = contourFound;
+            this._nucleiCenterPoints = centerPoints;
+            this._nucleiAllContours = allContours;
         }
 
         public void AddNucleusToNucleiList(Nucleus nucleus)
         {
-            if (_allNucleiCoordinates != null)
-                _allNucleiCoordinates.Add(nucleus);
+            if (_allNuclei != null)
+                _allNuclei.Add(nucleus);
         }
 
         /*
@@ -45,11 +45,11 @@ namespace TelomereAnalyzer
 
         public void PrepareDrawingCenterPoints()
         {
-            if (_allNucleiCoordinates != null)
-                for (Int32 E = 0; E < _allNucleiCoordinates.Count; E++)
+            if (_allNuclei != null)
+                for (Int32 E = 0; E < _allNuclei.Count; E++)
                 {
-                    if(_allNucleiCoordinates.ElementAt(E) != null)
-                        DrawPoint(_allNucleiCoordinates.ElementAt(E)._centerPoint);
+                    if(_allNuclei.ElementAt(E) != null)
+                        DrawPoint(_allNuclei.ElementAt(E)._nucleusCenterPoint);
                 }
                     
             
@@ -57,15 +57,15 @@ namespace TelomereAnalyzer
 
         public void PrepareDrawingContoursByNucleus()
         {
-            if(_allNucleiCoordinates != null)
+            if(_allNuclei != null)
             {
-                for(Int32 E = 0; E < _allNucleiCoordinates.Count; E++)
+                for(Int32 E = 0; E < _allNuclei.Count; E++)
                 {
-                    if(_allNucleiCoordinates.ElementAt(E) != null)
+                    if(_allNuclei.ElementAt(E) != null)
                     {
-                        if(_allNucleiCoordinates.ElementAt(E)._contourPoints != null)
+                        if(_allNuclei.ElementAt(E)._nucleusContourPoints != null)
                         {
-                            DrawContour(_allNucleiCoordinates.ElementAt(E)._contourPoints);
+                            DrawContour(_allNuclei.ElementAt(E)._nucleusContourPoints);
                             /*
                             Point[] points = _allNucleiCoordinates.ElementAt(E)._contourPoints;
                             for (Int32 J = 0; J < points.Length; J++)
@@ -111,7 +111,7 @@ namespace TelomereAnalyzer
 
         public void PrintResultValues()
         {
-            Console.WriteLine(_contourFound.ToString() + " Objekte gefunden\n\n" + _resultValues);
+            Console.WriteLine(_nucleiContourFound.ToString() + " Objekte gefunden\n\n" + _nucleiResultValues);
         }
 
         public Boolean IsImageOkay(Image<Bgr, byte> image)

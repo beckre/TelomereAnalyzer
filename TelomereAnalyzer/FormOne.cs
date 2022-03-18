@@ -21,7 +21,7 @@ namespace TelomereAnalyzer
         Boolean _nucleiImageUploaded = false;
         Boolean _telomereImageUploaded = false;
 
-        NucleiEdgeDetection _nucleiEdgeDetection = null;
+        EdgeDetection _EdgeDetection = null;
 
         /*
          * Die Bilder werden alle seperat gespeichert, da es die Option geben soll
@@ -57,6 +57,10 @@ namespace TelomereAnalyzer
         //Nochmal zum Testen der Nucleus und Nuclei Klasse
         public Image<Bgr, byte> _TestingNucleiImageEdgesDetected = null;
         Bitmap _btmNucleiImageEdgesDetected = null;
+
+        //Image von entdeckten Nuclei Bild mit Anwendung von Edge Detection
+        public Image<Bgr, byte> _TelomereImageTelomeresDetected = null;
+
 
         public FormOne()
         {
@@ -238,14 +242,16 @@ namespace TelomereAnalyzer
 
             if (IsImageOkay(_nucleiBitonalForEdgeDetection))
             {
-                _nucleiEdgeDetection = new NucleiEdgeDetection(this);
-                _nucleiEdgeDetection.FindingContours(_nucleiBitonalForEdgeDetection, _NucleiImageNormalized);
+                _EdgeDetection = new EdgeDetection(this);
+                _EdgeDetection.FindingContoursNuclei(_nucleiBitonalForEdgeDetection, _NucleiImageNormalized);
             }
 
             _btmNucleiImageEdgesDetected = _NucleiImageEdgesDetected.ToBitmap();
             ShowBitmapOnForm(ImageBoxOne, _btmNucleiImageEdgesDetected);
             //Testing the Nucleus and Nuclei Classes
             ShowBitmapOnForm(ImageBoxTwo, _TestingNucleiImageEdgesDetected.ToBitmap());
+            Image<Gray, byte> telomereImageToDrawnOn = new Image<Gray, byte>(_btmTelomereImageThreshold);
+            DetectingTelomeres(telomereImageToDrawnOn);
         }
 
         #endregion
@@ -266,7 +272,7 @@ namespace TelomereAnalyzer
             {
                 Console.WriteLine(e.ToString());
             }
-            _btmTelomereImageThreshold = ChangingColourOfBitonalImage(destImage.Convert<Gray, UInt16>());
+            _btmTelomereImageThreshold = ChangingColourOfBitonalImage(destImage);
             ShowBitmapOnForm(ImageBoxTwo, _btmTelomereImageThreshold);
             lblPleaseSelectPic.Text = "Please click on Merge Images to overlay both of the Images on top of each other";
             btnMergeImages.Show();
@@ -274,7 +280,7 @@ namespace TelomereAnalyzer
         }
 
         //funktioniert, ist wahrscheinlich nicht die effizienteste Lösung
-        private Bitmap ChangingColourOfBitonalImage(Image<Gray, UInt16> image)
+        private Bitmap ChangingColourOfBitonalImage(Image<Gray, byte> image)
         {
             Bitmap destImageBitmap = image.ToBitmap();
             //Ziel Bitmap muss diese Art von Bitmap sein, weil sonst die Methode .SetPixel() nicht aufrufbar ist
@@ -302,6 +308,13 @@ namespace TelomereAnalyzer
         }
         #endregion
 
+        public void DetectingTelomeres(Image<Gray, byte> telomereImage)
+        {
+            _EdgeDetection.FindingContoursTelomeres(telomereImage, telomereImage);
+            ShowBitmapOnForm(ImageBoxOne, _TelomereImageTelomeresDetected.ToBitmap());
+        }
+        
+        
         public void ShowBitmapOnForm(ImageBox imageBox, Bitmap bitmap)
         {
             if(imageBox.BackgroundImage == null)

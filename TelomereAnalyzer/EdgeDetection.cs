@@ -10,19 +10,21 @@ using System.Drawing;
 namespace TelomereAnalyzer
 
 {
-    class NucleiEdgeDetection
+    class EdgeDetection
     {
         FormOne _formOne = null;
         Image<Bgr, byte> _ProcessedImage = null;
         Nuclei _allNuclei = null;
+        AllTelomeres _allTelomeres = null;
 
-        public NucleiEdgeDetection(FormOne formOne)
+        public EdgeDetection(FormOne formOne)
         {
             this._formOne = formOne;
             _allNuclei = new Nuclei();
+            _allTelomeres = new AllTelomeres();
         }
 
-        public void FindingContours(Image<Gray, byte> imageForEdgeDetection, Image<Gray, byte> imageNormalizedToDrawOn)
+        public void FindingContoursNuclei(Image<Gray, byte> imageForEdgeDetection, Image<Gray, byte> imageNormalizedToDrawOn)
         {
             //rtfResultBox.Text = "";
             Image<Gray, byte> grayImage = imageForEdgeDetection;
@@ -55,7 +57,6 @@ namespace TelomereAnalyzer
 
                 for (var contour = grayImage.FindContours(CHAIN_APPROX_METHOD.CV_CHAIN_APPROX_NONE, RETR_TYPE.CV_RETR_CCOMP, storage); contour != null; contour = contour.HNext)
                 {
-                
                     centerPoint.X = contour.BoundingRectangle.X + contour.BoundingRectangle.Width / 2;
                     centerPoint.Y = contour.BoundingRectangle.Y + contour.BoundingRectangle.Height / 2;
                     momentsOfContour = contour.GetMoments();
@@ -82,7 +83,7 @@ namespace TelomereAnalyzer
                             AddContourPoints(ref allContours, contourPoints);
                             AddCenterPoint(ref centerPoints, centerPoint);
 
-                        Nucleus nucleus = new Nucleus(centerPoint, contourPoints);
+                        Nucleus nucleus = new Nucleus("N" + contourFound, centerPoint, contourPoints);
                         _allNuclei.AddNucleusToNucleiList(nucleus);
 
 
@@ -113,6 +114,93 @@ namespace TelomereAnalyzer
 
             _formOne._NucleiImageEdgesDetected = _ProcessedImage;
             _formOne._TestingNucleiImageEdgesDetected = _allNuclei._imageToDrawOn;
+            //rtfResultBox.Text = contourFound.ToString() + " Objekte gefunden\n\n" + resultValues;
+            //   MessageBox.Show(contourFound.ToString() + " Objekte gefunden\n\n" + resultValues);
+        }
+
+        public void FindingContoursTelomeres(Image<Gray, byte> imageForEdgeDetection, Image<Gray, byte> imageNormalizedToDrawOn)
+        {
+            //rtfResultBox.Text = "";
+            Image<Gray, byte> grayImage = imageForEdgeDetection;
+            _ProcessedImage = imageNormalizedToDrawOn.Convert<Bgr, byte>();
+            //_allNuclei._imageToDrawOn = imageNormalizedToDrawOn.Convert<Bgr, byte>();
+
+            /*
+            if (ProcessedImage == null)
+            {
+                grayImage = MainImage.Convert<Gray, Byte>();
+                ProcessedImage = MainImage.Copy();
+            }
+            else
+                grayImage = ProcessedImage.Convert<Gray, Byte>();
+            */
+
+            MemStorage storage = new MemStorage();
+            Bgr color = new Bgr(Color.Red);
+
+            Int32 contourFound = 0;
+            String resultValues = null;
+            Point[] centerPoints = null;
+            Point centerPoint = new Point();
+            Point[] contourPoints = null;
+            Point[][] allContours = null;
+
+
+            MCvMoments momentsOfContour;
+            MCvHuMoments huMoments;
+
+            for (var contour = grayImage.FindContours(CHAIN_APPROX_METHOD.CV_CHAIN_APPROX_NONE, RETR_TYPE.CV_RETR_CCOMP, storage); contour != null; contour = contour.HNext)
+            {
+                centerPoint.X = contour.BoundingRectangle.X + contour.BoundingRectangle.Width / 2;
+                centerPoint.Y = contour.BoundingRectangle.Y + contour.BoundingRectangle.Height / 2;
+                momentsOfContour = contour.GetMoments();
+                Double value = Convert.ToDouble(momentsOfContour.GravityCenter.x);
+                if (Double.IsNaN(value) == false)
+                {
+                    //if (contour.Area > 50)
+                    //{
+                        contourPoints = Array.ConvertAll(contour.ToArray(), input => new Point(input.X, input.Y));
+
+                        huMoments = momentsOfContour.GetHuMoment();
+                        contourFound++;
+                        AddContourPoints(ref allContours, contourPoints);
+                        AddCenterPoint(ref centerPoints, centerPoint);
+
+                        Telomere telomere = new Telomere("T" + contourFound, centerPoint, contourPoints);
+                        _allTelomeres.AddTelomereToAllTelomeresList(telomere);
+
+
+                        //Jede Kontur könnte hier als eigene einzelne Einheit in ein neues Klassenobjekt (neue Klasse Nucleus) gesteckt werden --> Alle Konturinformationen hätte man somit an einem Ort
+                        resultValues += "relative Area=" + contour.Area.ToString() + "  Xc= " + centerPoint.X.ToString() + "  Yc= " + centerPoint.Y.ToString() + "Gravity Center= ( " + momentsOfContour.GravityCenter.x.ToString() + " | " + momentsOfContour.GravityCenter.y.ToString() + " )\n";
+                    //}
+                }
+
+            }
+            _allTelomeres.SetAttributes(resultValues, contourFound, centerPoints, allContours);
+
+
+            if (centerPoints != null)
+                for (Int32 E = 0; E < centerPoints.Length; E++)
+                    DrawPoint(centerPoints[E]);
+
+
+
+            if (allContours != null)
+                for (Int32 E = 0; E < allContours.Length; E++)
+                    DrawContour(allContours[E]);
+
+            //For Testing Nucleus and Nuclei Classes
+            /*
+            _allNuclei.PrepareDrawingCenterPoints();
+            _allNuclei.PrepareDrawingContoursByNucleus();
+            _allNuclei.PrintResultValues();
+            */
+
+            _formOne._TelomereImageTelomeresDetected = _ProcessedImage;
+
+            //For Testing Nucleus and Nuclei Classes
+            //_formOne._TestingNucleiImageEdgesDetected = _allNuclei._imageToDrawOn;
+
             //rtfResultBox.Text = contourFound.ToString() + " Objekte gefunden\n\n" + resultValues;
             //   MessageBox.Show(contourFound.ToString() + " Objekte gefunden\n\n" + resultValues);
         }

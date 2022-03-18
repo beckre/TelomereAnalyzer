@@ -12,14 +12,17 @@ namespace TelomereAnalyzer
 {
     class Nucleus
     {
-        
-        public Point _centerPoint = new Point();
-        public Point[] _contourPoints = null;
+        String _nucleusName = "";
+        public Point _nucleusCenterPoint = new Point();
+        public Point[] _nucleusContourPoints = null;
+        public List<Telomere> _nucleusTelomeres = null;
 
-        public Nucleus( Point centerPoint, Point[] contourPoints)
+        public Nucleus(String nucleusName, Point centerPoint, Point[] contourPoints)
         {
-            this._centerPoint = centerPoint;
-            this._contourPoints = contourPoints;
+            this._nucleusName = nucleusName;
+            this._nucleusCenterPoint = centerPoint;
+            this._nucleusContourPoints = contourPoints;
+            _nucleusTelomeres = new List<Telomere>();
         }
 
     }
