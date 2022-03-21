@@ -72,7 +72,6 @@ namespace TelomereAnalyzer
                                 var ch = contour.GetConvexHull(ORIENTATION.CV_CLOCKWISE, storage);
                                 //    var ch1=contour.ApproxPoly(0.001);
                                 contourPoints = Array.ConvertAll(ch.ToArray(), input => new Point(input.X, input.Y));
-                        //Jede Kontur könnte hier als eigene einzelne Einheit in ein neues Klassenobjekt (neue Klasse Nucleus) gesteckt werden --> Alle Konturinformationen hätte man somit an einem Ort
                         //}
                         /*
                          * else
@@ -118,12 +117,12 @@ namespace TelomereAnalyzer
             //   MessageBox.Show(contourFound.ToString() + " Objekte gefunden\n\n" + resultValues);
         }
 
-        public void FindingContoursTelomeres(Image<Gray, byte> imageForEdgeDetection, Image<Gray, byte> imageNormalizedToDrawOn)
+        public void FindingContoursTelomeres(Image<Gray, byte> imageForTelomereDetection, Image<Gray, byte> imageNormalizedToDrawOn)
         {
             //rtfResultBox.Text = "";
-            Image<Gray, byte> grayImage = imageForEdgeDetection;
+            Image<Gray, byte> grayImage = imageForTelomereDetection;
             _ProcessedImage = imageNormalizedToDrawOn.Convert<Bgr, byte>();
-            //_allNuclei._imageToDrawOn = imageNormalizedToDrawOn.Convert<Bgr, byte>();
+            _allTelomeres._imageToDrawOn = imageNormalizedToDrawOn.Convert<Bgr, byte>();
 
             /*
             if (ProcessedImage == null)
@@ -169,8 +168,6 @@ namespace TelomereAnalyzer
                         Telomere telomere = new Telomere("T" + contourFound, centerPoint, contourPoints);
                         _allTelomeres.AddTelomereToAllTelomeresList(telomere);
 
-
-                        //Jede Kontur könnte hier als eigene einzelne Einheit in ein neues Klassenobjekt (neue Klasse Nucleus) gesteckt werden --> Alle Konturinformationen hätte man somit an einem Ort
                         resultValues += "relative Area=" + contour.Area.ToString() + "  Xc= " + centerPoint.X.ToString() + "  Yc= " + centerPoint.Y.ToString() + "Gravity Center= ( " + momentsOfContour.GravityCenter.x.ToString() + " | " + momentsOfContour.GravityCenter.y.ToString() + " )\n";
                     //}
                 }
@@ -195,11 +192,15 @@ namespace TelomereAnalyzer
             _allNuclei.PrepareDrawingContoursByNucleus();
             _allNuclei.PrintResultValues();
             */
+            _allTelomeres.PrepareDrawingCenterPoints();
+            _allTelomeres.PrepareDrawingContoursByTelomere();
+            _allTelomeres.PrintResultValues();
 
             _formOne._TelomereImageTelomeresDetected = _ProcessedImage;
 
             //For Testing Nucleus and Nuclei Classes
             //_formOne._TestingNucleiImageEdgesDetected = _allNuclei._imageToDrawOn;
+            _formOne._TestingTelomereImageTelomeresDetected = _allTelomeres._imageToDrawOn;
 
             //rtfResultBox.Text = contourFound.ToString() + " Objekte gefunden\n\n" + resultValues;
             //   MessageBox.Show(contourFound.ToString() + " Objekte gefunden\n\n" + resultValues);

@@ -1,11 +1,11 @@
 ﻿using Emgu.CV;
+using Emgu.CV.CvEnum;
 using Emgu.CV.Structure;
 using Emgu.CV.UI;
-using Emgu.CV.CvEnum;
 using System;
 using System.Drawing;
-using System.Windows.Forms;
 using System.Drawing.Drawing2D;
+using System.Windows.Forms;
 
 
 
@@ -60,6 +60,8 @@ namespace TelomereAnalyzer
 
         //Image von entdeckten Nuclei Bild mit Anwendung von Edge Detection
         public Image<Bgr, byte> _TelomereImageTelomeresDetected = null;
+        //Nochmal zum Testen der Telomere und AllTelomeres Klasse
+        public Image<Bgr, byte> _TestingTelomereImageTelomeresDetected = null;
 
 
         public FormOne()
@@ -250,8 +252,8 @@ namespace TelomereAnalyzer
             ShowBitmapOnForm(ImageBoxOne, _btmNucleiImageEdgesDetected);
             //Testing the Nucleus and Nuclei Classes
             ShowBitmapOnForm(ImageBoxTwo, _TestingNucleiImageEdgesDetected.ToBitmap());
-            Image<Gray, byte> telomereImageToDrawnOn = new Image<Gray, byte>(_btmTelomereImageThreshold);
-            DetectingTelomeres(telomereImageToDrawnOn);
+            Image<Gray, byte> telomereImageToDrawOn = new Image<Gray, byte>(_btmTelomereImageThreshold);
+            DetectingTelomeres(telomereImageToDrawOn);
         }
 
         #endregion
@@ -312,6 +314,8 @@ namespace TelomereAnalyzer
         {
             _EdgeDetection.FindingContoursTelomeres(telomereImage, telomereImage);
             ShowBitmapOnForm(ImageBoxOne, _TelomereImageTelomeresDetected.ToBitmap());
+            //Testing the Telomere and AllTelomere Classes
+            ShowBitmapOnForm(ImageBoxTwo, _TestingTelomereImageTelomeresDetected.ToBitmap());
         }
         
         
