@@ -8,7 +8,6 @@ using System.Drawing.Drawing2D;
 using System.Windows.Forms;
 
 
-
 namespace TelomereAnalyzer
 {
     public partial class FormOne : Form
@@ -22,6 +21,10 @@ namespace TelomereAnalyzer
         Boolean _telomereImageUploaded = false;
 
         EdgeDetection _EdgeDetection = null;
+        DisplayingFinalResults _DisplayingFinalResults = null;
+
+        Nuclei _allNuclei = null;
+        AllTelomeres _allTelomeres = null;
 
         /*
          * Die Bilder werden alle seperat gespeichert, da es die Option geben soll
@@ -63,6 +66,9 @@ namespace TelomereAnalyzer
         //Nochmal zum Testen der Telomere und AllTelomeres Klasse
         public Image<Bgr, byte> _TestingTelomereImageTelomeresDetected = null;
 
+        //zum testen, ob telomere dem zugehörigem Nucleus zugeórdnet wurden
+        public Image<Bgr, byte> _TestingAllocatingTelomeresToNucleus = null;
+
 
         public FormOne()
         {
@@ -96,7 +102,7 @@ namespace TelomereAnalyzer
                 ShowBitmapOnForm(ImageBoxOne, _btmUploadedRawNucleiImage);
                 btnGenerateThreshold.Hide();
                 btnMergeImages.Hide();
-                btnFindNucleiContours.Hide();
+                btnDetectingNuclei.Hide();
                 _nucleiImageUploaded = true;
                 if (_nucleiImageUploaded && _telomereImageUploaded)
                 {
@@ -169,7 +175,6 @@ namespace TelomereAnalyzer
             */
             lblPleaseSelectPic.Text = "Please click on Threshold to automatically generate a Threshold for the Telomere Image";
             btnGenerateThreshold.Show();
-            btnElmliWood.Show();
             
         }
             /*----------------------------------------------------------------------------------------*\
@@ -215,25 +220,7 @@ namespace TelomereAnalyzer
             graphics.DrawImage(_btmNucleiImageNormalized, 0, 0);
             graphics.DrawImage(_btmTelomereImageHalfTransparent, 0, 0);
             ShowBitmapOnForm(ImageBoxTwo, finalImage);
-            btnFindNucleiContours.Show();
-        }
-
-        private void OnFindNucleiContours(object sender, EventArgs e)
-        {
-            //wird im Moment eig garnicht ausgeführt
-            //_nucleiEdgeDetection = new NucleiEdgeDetection(this);
-            _elmiWood = new ElmiWood(this);
-            _elmiWood.DoAnalyze(_NucleiImageNormalized);
-            /*
-            if (IsImageOkay(_NucleiImageNormalized))
-            {
-                //_nucleiEdgeDetection.FindingContours();
-                _elmiWood = new ElmiWood(this);
-            }
-            
-            _btmNucleiImageEdgesDetected = _NucleiImageEdgesDetected.ToBitmap();
-            ShowBitmapOnForm(ImageBoxOne, _btmNucleiImageEdgesDetected);
-            */
+            btnDetectingNuclei.Show();
         }
 
         private void OnBtnElmiWood(object sender, EventArgs e)
@@ -253,7 +240,7 @@ namespace TelomereAnalyzer
             //Testing the Nucleus and Nuclei Classes
             ShowBitmapOnForm(ImageBoxTwo, _TestingNucleiImageEdgesDetected.ToBitmap());
             Image<Gray, byte> telomereImageToDrawOn = new Image<Gray, byte>(_btmTelomereImageThreshold);
-            DetectingTelomeres(telomereImageToDrawOn);
+            //DetectingTelomeres(telomereImageToDrawOn);
         }
 
         #endregion
@@ -316,9 +303,61 @@ namespace TelomereAnalyzer
             ShowBitmapOnForm(ImageBoxOne, _TelomereImageTelomeresDetected.ToBitmap());
             //Testing the Telomere and AllTelomere Classes
             ShowBitmapOnForm(ImageBoxTwo, _TestingTelomereImageTelomeresDetected.ToBitmap());
+            AllocateTelomeresToNucleus();
         }
-        
-        
+
+        public void AllocateTelomeresToNucleus()
+        {
+            _allNuclei = _EdgeDetection._allNuclei;
+            _allTelomeres = _EdgeDetection._allTelomeres;
+            Boolean telomereIsInNucleus = false;
+            //Geht alle Nuclei durch und geht dann alle Telomere pro Nucleus durch und überprüft ob diese in der Nucleus Kontur enthalten sind
+            for(Int32 n = 0; n < _allNuclei._allNuclei.Count; n++)
+            {
+                //Geht alle Telomere pro Nucleus durch --> es wird überprüft, ob der center point des Telomers in der Nucleus-Kontur enthalten ist
+                //Theoretisch müssen nicht nochmal absolut alle Telomere überprüft werden, da ja manche schon Nuclei zugeordnet sind --> kann effizienter sein!
+                for (Int32 t = 0; t < _allTelomeres._allTelomeres.Count; t++)
+                {
+                    telomereIsInNucleus = _allNuclei.IsCenterPointOfTelomereInNucleus(_allNuclei._allNuclei[n]._nucleusContourPoints, _allTelomeres._allTelomeres[t]._telomereCenterPoint);
+                    if (telomereIsInNucleus)
+                    {
+                        _allNuclei._allNuclei[n].AddTelomereToTelomereList(_allTelomeres._allTelomeres[t]);
+                    }
+                }
+            }
+            //Alles zum Testen
+            
+            _TestingAllocatingTelomeresToNucleus = new Image<Bgr, byte>(_btmTelomereImageThreshold);
+            //malt Kontur von 1 Nuclei
+            Point[] contour = _allNuclei._allNuclei[1]._nucleusContourPoints;
+            Bgr color = new Bgr(Color.HotPink);
+
+            _TestingAllocatingTelomeresToNucleus.DrawPolyline(contour, true, color, 1);
+
+
+            //List<Telomere> telomeres = _allNuclei._allNuclei[0]._nucleusTelomeres;
+            //malt Konturen zu zugehörigen Telomeren
+            for (Int32 i = 0; i < _allNuclei._allNuclei[1]._nucleusTelomeres.Count; i++)
+            {
+                Point[] contourTelomeres = _allNuclei._allNuclei[1]._nucleusTelomeres[i]._telomereContourPoints;
+                Bgr colorTelomeres = new Bgr(Color.Red);
+
+                _TestingAllocatingTelomeresToNucleus.DrawPolyline(contourTelomeres, true, colorTelomeres, 1);
+            }
+            ShowBitmapOnForm(ImageBoxOne, _TestingAllocatingTelomeresToNucleus.ToBitmap());
+            
+            // Ende Testen
+            DisplayEndResults();
+        }
+
+        public void DisplayEndResults()
+        {
+            _DisplayingFinalResults = new DisplayingFinalResults(_allNuclei, _allTelomeres);
+            _DisplayingFinalResults.PrintResultsOnConsole();
+        }
+
+
+
         public void ShowBitmapOnForm(ImageBox imageBox, Bitmap bitmap)
         {
             if(imageBox.BackgroundImage == null)
@@ -363,7 +402,5 @@ namespace TelomereAnalyzer
                 return false;
             return true;
         }
-
-
     }
 }

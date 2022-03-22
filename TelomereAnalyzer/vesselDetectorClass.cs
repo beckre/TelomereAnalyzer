@@ -136,6 +136,12 @@ namespace TelomereAnalyzer
             //  shadowImage.Save("E:\\4.jpg");
             shadowImage.Save("D:\\Hochschule Emden Leer - Bachelor Bioinformatik\\Praxisphase Bachelorarbeit Vorbereitungen\\Praktikumsstelle\\MHH Hannover Telomere\\Programm Bilder\\4_Threshold_Done.tiff");
             Bin.Dispose();
+            //Versuch
+            Image<Bgr, Byte> oriColorImage = new Image<Bgr, Byte>(_parentControl._oriImage); //hier übergeben
+            _parentControl._nucleiBitonalForEdgeDetection = shadowImage;
+            //return hier nur, damit hier der Prozess abbricht
+            return true;
+
             //_parentControl.labOutPut.Text = "Calculate threshold... done";
             //Übergangsweise wird das generierte Bild von einem Extra Fenster von ElmiWood dargestellt
             _parentControl.ImageBoxElmiTesting.BackgroundImage = shadowImage.ToBitmap();
@@ -168,12 +174,14 @@ namespace TelomereAnalyzer
 
             //  shadowImage.Save("E:\\5.jpg");
             shadowImage.Save("D:\\Hochschule Emden Leer - Bachelor Bioinformatik\\Praxisphase Bachelorarbeit Vorbereitungen\\Praktikumsstelle\\MHH Hannover Telomere\\Programm Bilder\\5_VesselDetect.tiff");
+            
             #region Dilation using Watershed
             List<VesselClass> listOfVessels = null;
-            Image<Bgr, Byte> oriColorImage = new Image<Bgr, Byte>(_parentControl._oriImage); //hier übergeben
+            //ist eig nicht 2
+            Image<Bgr, Byte> oriColorImage2 = new Image<Bgr, Byte>(_parentControl._oriImage); //hier übergeben
             _parentControl._nucleiBitonalForEdgeDetection = shadowImage;
             //return hier nur, damit hier der Prozess abbricht
-            return true;
+            //return true;
 
 
             DoWatershedDilation(ref oriColorImage, ref listOfVessels, shadowImage);

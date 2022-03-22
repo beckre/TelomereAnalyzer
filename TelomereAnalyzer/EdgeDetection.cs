@@ -14,8 +14,8 @@ namespace TelomereAnalyzer
     {
         FormOne _formOne = null;
         Image<Bgr, byte> _ProcessedImage = null;
-        Nuclei _allNuclei = null;
-        AllTelomeres _allTelomeres = null;
+       public Nuclei _allNuclei = null;
+        public AllTelomeres _allTelomeres = null;
 
         public EdgeDetection(FormOne formOne)
         {

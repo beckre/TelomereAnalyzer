@@ -12,7 +12,7 @@ namespace TelomereAnalyzer
 {
     class Nucleus
     {
-        String _nucleusName = "";
+        public String _nucleusName = "";
         public Point _nucleusCenterPoint = new Point();
         public Point[] _nucleusContourPoints = null;
         public List<Telomere> _nucleusTelomeres = null;
@@ -23,6 +23,11 @@ namespace TelomereAnalyzer
             this._nucleusCenterPoint = centerPoint;
             this._nucleusContourPoints = contourPoints;
             _nucleusTelomeres = new List<Telomere>();
+        }
+
+        public void AddTelomereToTelomereList(Telomere telomere)
+        {
+            _nucleusTelomeres.Add(telomere);
         }
 
     }

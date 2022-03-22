@@ -12,7 +12,7 @@ namespace TelomereAnalyzer
 {
     class AllTelomeres
     {
-        List<Telomere> _allTelomeres = null;
+        public List<Telomere> _allTelomeres = null;
         public Image<Bgr, byte> _imageToDrawOn = null;
 
         String _allTelomeresResultValues = null;
@@ -101,7 +101,7 @@ namespace TelomereAnalyzer
 
         private void DrawContour(Point[] contour)
         {
-            Bgr color = new Bgr(Color.DarkViolet);
+            Bgr color = new Bgr(Color.Yellow);
 
             _imageToDrawOn.DrawPolyline(contour, true, color, 1);
         }

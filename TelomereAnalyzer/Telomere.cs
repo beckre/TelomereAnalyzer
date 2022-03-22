@@ -12,7 +12,7 @@ namespace TelomereAnalyzer
 {
     class Telomere
     {
-        String _telomereName = "";
+        public String _telomereName = "";
         //Nucleus _nucleusOfTelomere = null;
         public Point _telomereCenterPoint = new Point();
         public Point[] _telomereContourPoints = null;

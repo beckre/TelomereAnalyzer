@@ -12,7 +12,7 @@ namespace TelomereAnalyzer
 {
     class Nuclei
     {
-        List<Nucleus> _allNuclei = null;
+        public List<Nucleus> _allNuclei = null;
         public Image<Bgr, byte> _imageToDrawOn = null;
 
         String _nucleiResultValues = null;
@@ -119,6 +119,24 @@ namespace TelomereAnalyzer
             if (image == null)
                 return false;
             return true;
+        }
+
+        public Boolean IsCenterPointOfTelomereInNucleus(Point[] contour, Point centerPointOfTelomere)
+        {
+            bool result = false;
+            int j = contour.Count() - 1;
+            for (int i = 0; i < contour.Count(); i++)
+            {
+                if (contour[i].Y < centerPointOfTelomere.Y && contour[j].Y >= centerPointOfTelomere.Y || contour[j].Y < centerPointOfTelomere.Y && contour[i].Y >= centerPointOfTelomere.Y)
+                {
+                    if (contour[i].X + (centerPointOfTelomere.Y - contour[i].Y) / (contour[j].Y - contour[i].Y) * (contour[j].X - contour[i].X) < centerPointOfTelomere.X)
+                    {
+                        result = !result;
+                    }
+                }
+                j = i;
+            }
+            return result;
         }
     }
 }
