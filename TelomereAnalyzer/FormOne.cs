@@ -237,10 +237,12 @@ namespace TelomereAnalyzer
 
             _btmNucleiImageEdgesDetected = _NucleiImageEdgesDetected.ToBitmap();
             ShowBitmapOnForm(ImageBoxOne, _btmNucleiImageEdgesDetected);
+            _btmNucleiImageEdgesDetected.Save("D:\\Hochschule Emden Leer - Bachelor Bioinformatik\\Praxisphase Bachelorarbeit Vorbereitungen\\Praktikumsstelle\\MHH Hannover Telomere\\Programm Bilder\\5_NucleiDetected.tiff");
             //Testing the Nucleus and Nuclei Classes
-            ShowBitmapOnForm(ImageBoxTwo, _TestingNucleiImageEdgesDetected.ToBitmap());
+            //ShowBitmapOnForm(ImageBoxTwo, _TestingNucleiImageEdgesDetected.ToBitmap());
+
             Image<Gray, byte> telomereImageToDrawOn = new Image<Gray, byte>(_btmTelomereImageThreshold);
-            //DetectingTelomeres(telomereImageToDrawOn);
+            DetectingTelomeres(telomereImageToDrawOn);
         }
 
         #endregion
@@ -248,7 +250,6 @@ namespace TelomereAnalyzer
         #region Thresholding---------------------------------------------------------------------------------
         private void Thresholding()
         {
-            //hat vorher mit 16 Bit Bildern funktioniert! aber auch nur mit der Emgu.Cv.World.dll
             Image<Gray, byte> image = _TelomereImageNormalized.Convert<Gray, byte>();
             Image<Gray, byte> destImage = new Image<Gray, byte>(image.Width, image.Height, new Gray(0));
             try
@@ -263,6 +264,7 @@ namespace TelomereAnalyzer
             }
             _btmTelomereImageThreshold = ChangingColourOfBitonalImage(destImage);
             ShowBitmapOnForm(ImageBoxTwo, _btmTelomereImageThreshold);
+            _btmTelomereImageThreshold.Save("D:\\Hochschule Emden Leer - Bachelor Bioinformatik\\Praxisphase Bachelorarbeit Vorbereitungen\\Praktikumsstelle\\MHH Hannover Telomere\\Programm Bilder\\0_Threshold_Done_OnTelomeres.tiff");
             lblPleaseSelectPic.Text = "Please click on Merge Images to overlay both of the Images on top of each other";
             btnMergeImages.Show();
 
@@ -301,8 +303,10 @@ namespace TelomereAnalyzer
         {
             _EdgeDetection.FindingContoursTelomeres(telomereImage, telomereImage);
             ShowBitmapOnForm(ImageBoxOne, _TelomereImageTelomeresDetected.ToBitmap());
+            _TelomereImageTelomeresDetected.Save("D:\\Hochschule Emden Leer - Bachelor Bioinformatik\\Praxisphase Bachelorarbeit Vorbereitungen\\Praktikumsstelle\\MHH Hannover Telomere\\Programm Bilder\\6_TelomeresDetected.tiff");
             //Testing the Telomere and AllTelomere Classes
-            ShowBitmapOnForm(ImageBoxTwo, _TestingTelomereImageTelomeresDetected.ToBitmap());
+            //ShowBitmapOnForm(ImageBoxTwo, _TestingTelomereImageTelomeresDetected.ToBitmap());
+
             AllocateTelomeresToNucleus();
         }
 
@@ -344,8 +348,8 @@ namespace TelomereAnalyzer
 
                 _TestingAllocatingTelomeresToNucleus.DrawPolyline(contourTelomeres, true, colorTelomeres, 1);
             }
-            ShowBitmapOnForm(ImageBoxOne, _TestingAllocatingTelomeresToNucleus.ToBitmap());
-            
+            //ShowBitmapOnForm(ImageBoxOne, _TestingAllocatingTelomeresToNucleus.ToBitmap());
+            _TestingAllocatingTelomeresToNucleus.Save("D:\\Hochschule Emden Leer - Bachelor Bioinformatik\\Praxisphase Bachelorarbeit Vorbereitungen\\Praktikumsstelle\\MHH Hannover Telomere\\Programm Bilder\\6_TestingTelomeresDetected.tiff");
             // Ende Testen
             DisplayEndResults();
         }
