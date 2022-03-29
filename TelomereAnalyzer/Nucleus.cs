@@ -10,7 +10,7 @@ using System.Drawing;
 
 namespace TelomereAnalyzer
 {
-    class Nucleus
+    public class Nucleus
     {
         public String _nucleusName = "";
         public Point _nucleusCenterPoint = new Point();

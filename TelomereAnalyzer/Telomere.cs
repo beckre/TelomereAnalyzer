@@ -10,7 +10,7 @@ using System.Drawing;
 
 namespace TelomereAnalyzer
 {
-    class Telomere
+    public class Telomere
     {
         public String _telomereName = "";
         //Nucleus _nucleusOfTelomere = null;

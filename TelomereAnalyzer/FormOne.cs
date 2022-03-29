@@ -223,7 +223,7 @@ namespace TelomereAnalyzer
             btnDetectingNuclei.Show();
         }
 
-        private void OnBtnElmiWood(object sender, EventArgs e)
+        private void OnBtnDetectNuclei(object sender, EventArgs e)
         {
             _elmiWood = new ElmiWood(this);
             _elmiWood.DoAnalyze(_NucleiImageNormalized);
@@ -238,8 +238,20 @@ namespace TelomereAnalyzer
             _btmNucleiImageEdgesDetected = _NucleiImageEdgesDetected.ToBitmap();
             ShowBitmapOnForm(ImageBoxOne, _btmNucleiImageEdgesDetected);
             _btmNucleiImageEdgesDetected.Save("D:\\Hochschule Emden Leer - Bachelor Bioinformatik\\Praxisphase Bachelorarbeit Vorbereitungen\\Praktikumsstelle\\MHH Hannover Telomere\\Programm Bilder\\5_NucleiDetected.tiff");
+            //Nuclei selber umranden können
+
+
             //Testing the Nucleus and Nuclei Classes
             //ShowBitmapOnForm(ImageBoxTwo, _TestingNucleiImageEdgesDetected.ToBitmap());
+
+            /* Nun wurden die Nuclei automatisch umrandet.
+             * Der User soll daraufhin die Nuclei selber einzeichnen können. 
+             * Hierfür soll sich eine neue Form öffnen, in der dies komplett gehandelt wird.
+             * Übergeben wird die Nuclei-Liste und diese kann modifiziert werden.
+             */
+            _allNuclei = _EdgeDetection._allNuclei;
+            FormTwo formTwo = new FormTwo(_allNuclei._allNuclei, _NucleiImageEdgesDetected);
+            formTwo.ShowDialog(); //.ShowDialog anstatt .Show, da es so nicht möglich ist auf das 1. Fenster zuzugreifen, bis das 2. Fenster geschlossen wurde
 
             Image<Gray, byte> telomereImageToDrawOn = new Image<Gray, byte>(_btmTelomereImageThreshold);
             DetectingTelomeres(telomereImageToDrawOn);
@@ -298,7 +310,6 @@ namespace TelomereAnalyzer
             return resultBmpToBeColoured;
         }
         #endregion
-
         public void DetectingTelomeres(Image<Gray, byte> telomereImage)
         {
             _EdgeDetection.FindingContoursTelomeres(telomereImage, telomereImage);
@@ -312,7 +323,7 @@ namespace TelomereAnalyzer
 
         public void AllocateTelomeresToNucleus()
         {
-            _allNuclei = _EdgeDetection._allNuclei;
+            
             _allTelomeres = _EdgeDetection._allTelomeres;
             Boolean telomereIsInNucleus = false;
             //Geht alle Nuclei durch und geht dann alle Telomere pro Nucleus durch und überprüft ob diese in der Nucleus Kontur enthalten sind
@@ -405,6 +416,11 @@ namespace TelomereAnalyzer
             if (image == null)
                 return false;
             return true;
+        }
+
+        private void FormOne_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

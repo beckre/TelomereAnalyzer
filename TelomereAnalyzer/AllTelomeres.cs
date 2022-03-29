@@ -10,7 +10,7 @@ using System.Drawing;
 
 namespace TelomereAnalyzer
 {
-    class AllTelomeres
+    public class AllTelomeres
     {
         public List<Telomere> _allTelomeres = null;
         public Image<Bgr, byte> _imageToDrawOn = null;

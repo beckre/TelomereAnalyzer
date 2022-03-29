@@ -44,8 +44,8 @@ namespace TelomereAnalyzer
             this.btnNormalize = new System.Windows.Forms.Button();
             this.btnGenerateThreshold = new System.Windows.Forms.Button();
             this.grpBoxSelectOptions = new System.Windows.Forms.GroupBox();
-            this.btnMergeImages = new System.Windows.Forms.Button();
             this.btnDetectingNuclei = new System.Windows.Forms.Button();
+            this.btnMergeImages = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.ImageBoxOne)).BeginInit();
             this.grpBoxSelectDialog.SuspendLayout();
             this.mnuMainMenu.SuspendLayout();
@@ -211,6 +211,18 @@ namespace TelomereAnalyzer
             this.grpBoxSelectOptions.TabIndex = 18;
             this.grpBoxSelectOptions.TabStop = false;
             // 
+            // btnDetectingNuclei
+            // 
+            this.btnDetectingNuclei.BackColor = System.Drawing.SystemColors.MenuHighlight;
+            this.btnDetectingNuclei.Location = new System.Drawing.Point(50, 393);
+            this.btnDetectingNuclei.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.btnDetectingNuclei.Name = "btnDetectingNuclei";
+            this.btnDetectingNuclei.Size = new System.Drawing.Size(130, 76);
+            this.btnDetectingNuclei.TabIndex = 20;
+            this.btnDetectingNuclei.Text = "Detecting Nuclei";
+            this.btnDetectingNuclei.UseVisualStyleBackColor = false;
+            this.btnDetectingNuclei.Click += new System.EventHandler(this.OnBtnDetectNuclei);
+            // 
             // btnMergeImages
             // 
             this.btnMergeImages.BackColor = System.Drawing.SystemColors.MenuHighlight;
@@ -222,18 +234,6 @@ namespace TelomereAnalyzer
             this.btnMergeImages.Text = "Merge Images";
             this.btnMergeImages.UseVisualStyleBackColor = false;
             this.btnMergeImages.Click += new System.EventHandler(this.OnMergeImages);
-            // 
-            // btnDetectingNuclei
-            // 
-            this.btnDetectingNuclei.BackColor = System.Drawing.SystemColors.MenuHighlight;
-            this.btnDetectingNuclei.Location = new System.Drawing.Point(50, 393);
-            this.btnDetectingNuclei.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.btnDetectingNuclei.Name = "btnDetectingNuclei";
-            this.btnDetectingNuclei.Size = new System.Drawing.Size(130, 76);
-            this.btnDetectingNuclei.TabIndex = 20;
-            this.btnDetectingNuclei.Text = "Detecting Nuclei";
-            this.btnDetectingNuclei.UseVisualStyleBackColor = false;
-            this.btnDetectingNuclei.Click += new System.EventHandler(this.OnBtnElmiWood);
             // 
             // FormOne
             // 
@@ -248,7 +248,8 @@ namespace TelomereAnalyzer
             this.Controls.Add(this.ImageBoxOne);
             this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Name = "FormOne";
-            this.Text = "Form1";
+            this.Text = "FormOne";
+            this.Load += new System.EventHandler(this.FormOne_Load);
             ((System.ComponentModel.ISupportInitialize)(this.ImageBoxOne)).EndInit();
             this.grpBoxSelectDialog.ResumeLayout(false);
             this.grpBoxSelectDialog.PerformLayout();

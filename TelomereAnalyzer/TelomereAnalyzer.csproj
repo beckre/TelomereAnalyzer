@@ -120,6 +120,12 @@
     <Compile Include="FormOne.Designer.cs">
       <DependentUpon>FormOne.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormTwo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormTwo.Designer.cs">
+      <DependentUpon>FormTwo.cs</DependentUpon>
+    </Compile>
     <Compile Include="Nuclei.cs" />
     <Compile Include="EdgeDetection.cs" />
     <Compile Include="Nucleus.cs" />
@@ -135,6 +141,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FormOne.resx">
       <DependentUpon>FormOne.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormTwo.resx">
+      <DependentUpon>FormTwo.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
