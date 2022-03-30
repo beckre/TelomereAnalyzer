@@ -15,7 +15,7 @@ namespace TelomereAnalyzer
         public DisplayingFinalResults(Nuclei nuclei, AllTelomeres allTelomeres)
         {
             this._allNuclei = nuclei;
-            _nuclei = _allNuclei._LstallNuclei;
+            _nuclei = _allNuclei._LstAllNuclei;
             this._allTelomeres = allTelomeres;
         }
 

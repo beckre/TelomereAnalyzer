@@ -328,16 +328,16 @@ namespace TelomereAnalyzer
             _allTelomeres = _EdgeDetection._allTelomeres;
             Boolean telomereIsInNucleus = false;
             //Geht alle Nuclei durch und geht dann alle Telomere pro Nucleus durch und überprüft ob diese in der Nucleus Kontur enthalten sind
-            for (Int32 n = 0; n < _allNuclei._LstallNuclei.Count; n++)
+            for (Int32 n = 0; n < _allNuclei._LstAllNuclei.Count; n++)
             {
                 //Geht alle Telomere pro Nucleus durch --> es wird überprüft, ob der center point des Telomers in der Nucleus-Kontur enthalten ist
                 //Theoretisch müssen nicht nochmal absolut alle Telomere überprüft werden, da ja manche schon Nuclei zugeordnet sind --> kann effizienter sein!
-                for (Int32 t = 0; t < _allTelomeres._LstallTelomeres.Count; t++)
+                for (Int32 t = 0; t < _allTelomeres._LstAllTelomeres.Count; t++)
                 {
-                    telomereIsInNucleus = _allNuclei.IsCenterPointOfTelomereInNucleus(_allNuclei._LstallNuclei[n]._nucleusContourPoints, _allTelomeres._LstallTelomeres[t]._telomereCenterPoint);
+                    telomereIsInNucleus = _allNuclei.IsCenterPointOfTelomereInNucleus(_allNuclei._LstAllNuclei[n]._nucleusContourPoints, _allTelomeres._LstAllTelomeres[t]._telomereCenterPoint);
                     if (telomereIsInNucleus)
                     {
-                        _allNuclei._LstallNuclei[n].AddTelomereToTelomereList(_allTelomeres._LstallTelomeres[t]);
+                        _allNuclei._LstAllNuclei[n].AddTelomereToTelomereList(_allTelomeres._LstAllTelomeres[t]);
                     }
                 }
             }
@@ -345,20 +345,20 @@ namespace TelomereAnalyzer
 
             _TestingAllocatingTelomeresToNucleus = new Image<Bgr, byte>(_btmTelomereImageThreshold);
             //malt Kontur von 1 Nuclei
-            Point[] contour = _allNuclei._LstallNuclei[1]._nucleusContourPoints;
+            PointF[] contour = _allNuclei._LstAllNuclei[1]._nucleusContourPoints;
             Bgr color = new Bgr(Color.HotPink);
 
-            _TestingAllocatingTelomeresToNucleus.DrawPolyline(contour, true, color, 1);
+            //_TestingAllocatingTelomeresToNucleus.DrawPolyline(contour, true, color, 1);
 
 
             //List<Telomere> telomeres = _allNuclei._allNuclei[0]._nucleusTelomeres;
             //malt Konturen zu zugehörigen Telomeren
-            for (Int32 i = 0; i < _allNuclei._LstallNuclei[1]._LstnucleusTelomeres.Count; i++)
+            for (Int32 i = 0; i < _allNuclei._LstAllNuclei[1]._LstnucleusTelomeres.Count; i++)
             {
-                Point[] contourTelomeres = _allNuclei._LstallNuclei[1]._LstnucleusTelomeres[i]._telomereContourPoints;
+                PointF[] contourTelomeres = _allNuclei._LstAllNuclei[1]._LstnucleusTelomeres[i]._telomereContourPoints;
                 Bgr colorTelomeres = new Bgr(Color.Red);
 
-                _TestingAllocatingTelomeresToNucleus.DrawPolyline(contourTelomeres, true, colorTelomeres, 1);
+                //_TestingAllocatingTelomeresToNucleus.DrawPolyline(contourTelomeres, true, colorTelomeres, 1);
             }
             //ShowBitmapOnForm(ImageBoxOne, _TestingAllocatingTelomeresToNucleus.ToBitmap());
             _TestingAllocatingTelomeresToNucleus.Save("D:\\Hochschule Emden Leer - Bachelor Bioinformatik\\Praxisphase Bachelorarbeit Vorbereitungen\\Praktikumsstelle\\MHH Hannover Telomere\\Programm Bilder\\6_TestingTelomeresDetected.tiff");

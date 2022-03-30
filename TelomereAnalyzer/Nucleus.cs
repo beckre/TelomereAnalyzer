@@ -13,14 +13,24 @@ namespace TelomereAnalyzer
     public class Nucleus
     {
         public String _nucleusName = "";
-        public Point _nucleusCenterPoint = new Point();
-        public Point[] _nucleusContourPoints = null;
+        //public Point _nucleusCenterPoint = new Point();
+        public PointF _nucleusCenterPoint = new Point();
+        //public Point[] _nucleusContourPoints = null;
+        public PointF[] _nucleusContourPoints = null;
         public List<Telomere> _LstnucleusTelomeres = null;
 
-        public Nucleus(String nucleusName, Point centerPoint, Point[] contourPoints)
+        public Nucleus(String nucleusName, PointF centerPoint, PointF[] contourPoints)
         {
             this._nucleusName = nucleusName;
             this._nucleusCenterPoint = centerPoint;
+            this._nucleusContourPoints = contourPoints;
+            _LstnucleusTelomeres = new List<Telomere>();
+        }
+
+        //Selbst gemalte und hinzugefügte Nuclei haben noch keinen Center Point!!
+        public Nucleus(String nucleusName, PointF[] contourPoints)
+        {
+            this._nucleusName = nucleusName;
             this._nucleusContourPoints = contourPoints;
             _LstnucleusTelomeres = new List<Telomere>();
         }

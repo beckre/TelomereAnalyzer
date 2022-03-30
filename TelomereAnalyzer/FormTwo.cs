@@ -16,18 +16,17 @@ using System.Drawing.Drawing2D;
 
 namespace TelomereAnalyzer
 {
-    //Hanlding Drawing Nuclei by User
+    //Handling Drawing Nuclei by User
     public partial class FormTwo : Form
     {
         public Nuclei _allNuclei = null;
-        public List<Nucleus> _LstAllNuclei = null;
         public Image<Bgr, byte> _NucleiImageEdited = null;
         public Bitmap _btmNucleiImageEdited = null;
+        public Boolean _finishedDrawingOfOneNucleus = false;
 
         public FormTwo(Nuclei allNuclei, Image<Bgr, byte> nucleiImageEdgesDetected)
         {
             this._allNuclei = allNuclei;
-            this._LstAllNuclei = allNuclei._LstallNuclei;
             this._NucleiImageEdited = nucleiImageEdgesDetected;
             this._btmNucleiImageEdited = nucleiImageEdgesDetected.ToBitmap();
             InitializeComponent();
@@ -41,11 +40,13 @@ namespace TelomereAnalyzer
 
         private void DisplayAllNucleiOnPanel()
         {
-            for(Int32 i = 0; i < _LstAllNuclei.Count; i++)
+            pnlSelectNuclei.Controls.Clear();
+
+            for(Int32 i = 0; i < _allNuclei._LstAllNuclei.Count; i++)
             {
                 CheckBox checkBox = new CheckBox();
-                checkBox.Name = "chkBx" + _LstAllNuclei[i]._nucleusName;
-                checkBox.Text = _LstAllNuclei[i]._nucleusName;
+                checkBox.Name = "chkBx" + _allNuclei._LstAllNuclei[i]._nucleusName;
+                checkBox.Text = _allNuclei._LstAllNuclei[i]._nucleusName;
                 checkBox.Width = (TextRenderer.MeasureText(checkBox.Text, checkBox.Font)).Width + 50;
                 checkBox.Location = new Point(5, pnlSelectNuclei.Controls.Count * 20);
                 checkBox.Checked = true;
@@ -133,11 +134,10 @@ namespace TelomereAnalyzer
             AddMouseCoordinate(e.X, e.Y);
             //if (chbCloseContour.Checked == true)
             AddMouseCoordinate(_mouseStatus.firstX, _mouseStatus.firstY);
-            //Draw();
-            //this.Invalidate();
             //Invalidate();
             //Update(); //Invalidate alleine called nicht unbedingt OnPaint, Update forciert den Call von OnPaint --> funktioniert nicht
-            this.Refresh(); //Forciert Invalidate und ein redraw und called OnPaint
+            _finishedDrawingOfOneNucleus = true;
+            this.Refresh(); //Forciert Invalidate und ein redraw und called OnPaint         
         }
 
         private void OnMouseMove(object sender, MouseEventArgs e)
@@ -161,11 +161,8 @@ namespace TelomereAnalyzer
             tmpMouseCoordinates = new MouseCoordinate[savedCoordinates + 1];
             for (Int32 C = 0; C < savedCoordinates; C++)
                 tmpMouseCoordinates[C] = _mouseCoordinates[C];
-
-
             tmpMouseCoordinates[savedCoordinates].X = (float)X;
             tmpMouseCoordinates[savedCoordinates].Y = (float)Y;
-
             _mouseCoordinates = tmpMouseCoordinates;
         }
 
@@ -179,17 +176,46 @@ namespace TelomereAnalyzer
 
             //Graphics g = Graphics.FromImage(_btmNucleiImageEdgesDetected);
             //hier wird ein PointF-Array erstellt nach den Koordinaten des _mouseCoordinates-Array --> brauch ich noch später für die Speicherung der selbst gezeichneten Nuclei-Umrandungen
+            /*
             PointF[] malKurve = new PointF[_mouseCoordinates.Length];
             for (Int32 P = 0; P < _mouseCoordinates.Length; P++)
                 malKurve[P] = new PointF(_mouseCoordinates[P].X, _mouseCoordinates[P].Y);
+            */
+
+            Point[] malKurve = new Point[_mouseCoordinates.Length];
+            for (Int32 P = 0; P < _mouseCoordinates.Length; P++)
+                malKurve[P] = new Point((int)_mouseCoordinates[P].X, (int)_mouseCoordinates[P].Y);
 
             e.Graphics.DrawLines(Pens.Blue, malKurve);
+
             //g.DrawLines(Pens.Blue, malKurve); //Wird zwar gemalt aber verschoben vom Klick-Point
             ShowBitmapOnForm(ImageBoxOneFormTwo, _btmNucleiImageEdited);
             //_mouseCoordinates = null;
         }
         #endregion
 
+        private void OnAddNucleus(object sender, EventArgs e)
+        {
+            if (!_finishedDrawingOfOneNucleus)
+                return;
+
+            Graphics graphics = Graphics.FromImage(_btmNucleiImageEdited);
+            PointF[] contour = new PointF[_mouseCoordinates.Length];
+            for (Int32 P = 0; P < _mouseCoordinates.Length; P++)
+                contour[P] = new PointF(_mouseCoordinates[P].X, _mouseCoordinates[P].Y);
+
+            //graphics.DrawLines(Pens.Blue, contour);
+            graphics.DrawPolygon(Pens.Blue, contour);
+            ShowBitmapOnForm(ImageBoxOneFormTwo, _btmNucleiImageEdited);
+            _NucleiImageEdited = new Image<Bgr, byte>(_btmNucleiImageEdited);
+
+            //hier erstellte Nuclei haben noch keinen Center Point!! Der Center Point ist hier also null!!
+            Int32 nucleiNumber = _allNuclei._LstAllNuclei.Count + 1;
+            Nucleus nucleus = new Nucleus("Nucleus " + nucleiNumber, contour);
+            _allNuclei.AddNucleusToNucleiList(nucleus);
+            _finishedDrawingOfOneNucleus = false;
+            DisplayAllNucleiOnPanel();
+        }
 
         public void ShowBitmapOnForm(ImageBox imageBox, Bitmap bitmap)
         {
@@ -204,5 +230,7 @@ namespace TelomereAnalyzer
             else
                 imageBox.BackgroundImage = bitmap;
         }
+
+
     }
 }

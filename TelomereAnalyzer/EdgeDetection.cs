@@ -48,10 +48,10 @@ namespace TelomereAnalyzer
 
                 Int32 contourFound = 0;
                 String resultValues = null;
-                Point[] centerPoints = null;
-                Point centerPoint = new Point();
-                Point[] contourPoints = null;
-                Point[][] allContours = null;
+                PointF[] centerPoints = null;
+                PointF centerPoint = new PointF();
+                PointF[] contourPoints = null;
+                PointF[][] allContours = null;
 
 
                 MCvMoments momentsOfContour;
@@ -73,7 +73,7 @@ namespace TelomereAnalyzer
                             //{
                                 var ch = contour.GetConvexHull(ORIENTATION.CV_CLOCKWISE, storage);
                                 //    var ch1=contour.ApproxPoly(0.001);
-                                contourPoints = Array.ConvertAll(ch.ToArray(), input => new Point(input.X, input.Y));
+                                contourPoints = Array.ConvertAll(ch.ToArray(), input => new PointF(input.X, input.Y));
                         //}
                         /*
                          * else
@@ -84,7 +84,7 @@ namespace TelomereAnalyzer
                             AddContourPoints(ref allContours, contourPoints);
                             AddCenterPoint(ref centerPoints, centerPoint);
 
-                        Nucleus nucleus = new Nucleus("N" + contourFound, centerPoint, contourPoints);
+                        Nucleus nucleus = new Nucleus("Nucleus " + contourFound, centerPoint, contourPoints);
                         _allNuclei.AddNucleusToNucleiList(nucleus);
 
 
@@ -141,10 +141,10 @@ namespace TelomereAnalyzer
 
             Int32 contourFound = 0;
             String resultValues = null;
-            Point[] centerPoints = null;
-            Point centerPoint = new Point();
-            Point[] contourPoints = null;
-            Point[][] allContours = null;
+            PointF[] centerPoints = null;
+            PointF centerPoint = new Point();
+            PointF[] contourPoints = null;
+            PointF[][] allContours = null;
 
 
             MCvMoments momentsOfContour;
@@ -160,14 +160,14 @@ namespace TelomereAnalyzer
                 {
                     //if (contour.Area > 50)
                     //{
-                        contourPoints = Array.ConvertAll(contour.ToArray(), input => new Point(input.X, input.Y));
+                        contourPoints = Array.ConvertAll(contour.ToArray(), input => new PointF(input.X, input.Y));
 
                         huMoments = momentsOfContour.GetHuMoment();
                         contourFound++;
                         AddContourPoints(ref allContours, contourPoints);
                         AddCenterPoint(ref centerPoints, centerPoint);
 
-                        Telomere telomere = new Telomere("T" + contourFound, centerPoint, contourPoints);
+                        Telomere telomere = new Telomere("Telomere " + contourFound, centerPoint, contourPoints);
                         _allTelomeres.AddTelomereToAllTelomeresList(telomere);
 
                         resultValues += "relative Area=" + contour.Area.ToString() + "  Xc= " + centerPoint.X.ToString() + "  Yc= " + centerPoint.Y.ToString() + "Gravity Center= ( " + momentsOfContour.GravityCenter.x.ToString() + " | " + momentsOfContour.GravityCenter.y.ToString() + " )\n";
@@ -208,14 +208,14 @@ namespace TelomereAnalyzer
             //   MessageBox.Show(contourFound.ToString() + " Objekte gefunden\n\n" + resultValues);
         }
 
-        protected void AddContourPoints(ref Point[][] allContours, Point[] points)
+        protected void AddContourPoints(ref PointF[][] allContours, PointF[] points)
         {
-            Point[][] tmp = null;
+            PointF[][] tmp = null;
             Int32 elements = 0;
 
             if (allContours != null)
                 elements = allContours.Length;
-            tmp = new Point[elements + 1][];
+            tmp = new PointF[elements + 1][];
 
             for (Int32 E = 0; E < elements; E++)
                 tmp[E] = allContours[E];
@@ -224,14 +224,14 @@ namespace TelomereAnalyzer
             allContours = tmp;
         }
 
-        protected void AddCenterPoint(ref Point[] centerPoints, Point centerPoint)
+        protected void AddCenterPoint(ref PointF[] centerPoints, PointF centerPoint)
         {
-            Point[] tmp = null;
+            PointF[] tmp = null;
             Int32 elements = 0;
             if (centerPoints != null)
                 elements = centerPoints.Length;
 
-            tmp = new Point[elements + 1];
+            tmp = new PointF[elements + 1];
             for (Int32 E = 0; E < elements; E++)
                 tmp[E] = centerPoints[E];
 
@@ -243,24 +243,25 @@ namespace TelomereAnalyzer
 
         //Malen ist hier eventuell nicht notwendig. Die Methoden befinden sich auch in der Nuclei bzw. AllTelomeres Klasse
         //Kann hier später weggenommen werden.
-        protected void DrawPoint(Point cP)
+        protected void DrawPoint(PointF cP)
         {
             Int32 sizeCross = 5;
-            Point[] halfLRCross = new Point[2];
-            Point[] halfTBCross = new Point[2];
+            PointF[] halfLRCross = new PointF[2];
+            PointF[] halfTBCross = new PointF[2];
 
-            halfLRCross[0] = new Point(cP.X - sizeCross, cP.Y);
-            halfLRCross[1] = new Point(cP.X + sizeCross, cP.Y);
+            halfLRCross[0] = new PointF(cP.X - sizeCross, cP.Y);
+            halfLRCross[1] = new PointF(cP.X + sizeCross, cP.Y);
 
-            halfTBCross[0] = new Point(cP.X, cP.Y - sizeCross);
-            halfTBCross[1] = new Point(cP.X, cP.Y + sizeCross);
+            halfTBCross[0] = new PointF(cP.X, cP.Y - sizeCross);
+            halfTBCross[1] = new PointF(cP.X, cP.Y + sizeCross);
 
             Bgr colorBlue = new Bgr(Color.Blue);
-
+            /* Hier Center Point malen
             _ProcessedImage.DrawPolyline(halfLRCross, false, colorBlue, 1);
             _ProcessedImage.DrawPolyline(halfTBCross, false, colorBlue, 1);
+            */
         }
-        protected void DrawContour(Point[] contour)
+        protected void DrawContour(PointF[] contour)
         {
             /*
             Bgr colorYellow = new Bgr(Color.Red);

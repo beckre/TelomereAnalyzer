@@ -12,21 +12,21 @@ namespace TelomereAnalyzer
 {
     public class AllTelomeres
     {
-        public List<Telomere> _LstallTelomeres = null;
+        public List<Telomere> _LstAllTelomeres = null;
         public Image<Bgr, byte> _imageToDrawOn = null;
         public Bitmap _btmImageToDrawOn = null;
 
         String _allTelomeresResultValues = null;
         Int32 _allTelomeresContourFound = 0;
-        Point[] _allTelomeresCenterPoints = null;
-        Point[][] _allTelomeresAllContours = null;
+        PointF[] _allTelomeresCenterPoints = null;
+        PointF[][] _allTelomeresAllContours = null;
 
         public AllTelomeres()
         {
-            _LstallTelomeres = new List<Telomere>();
+            _LstAllTelomeres = new List<Telomere>();
         }
 
-        public void SetAttributes(String resultValues, Int32 contourFound, Point[] centerPoints, Point[][] allContours)
+        public void SetAttributes(String resultValues, Int32 contourFound, PointF[] centerPoints, PointF[][] allContours)
         {
             this._allTelomeresResultValues = resultValues;
             this._allTelomeresContourFound = contourFound;
@@ -37,17 +37,17 @@ namespace TelomereAnalyzer
         //Im Moment werden absolut alle validen Telomere hier eingespeichert, auch die, die außerhabl von Nuclei-Bereichen sind
         public void AddTelomereToAllTelomeresList(Telomere telomere)
         {
-            if (_LstallTelomeres != null)
-                _LstallTelomeres.Add(telomere);
+            if (_LstAllTelomeres != null)
+                _LstAllTelomeres.Add(telomere);
         }
 
         public void PrepareDrawingCenterPoints()
         {
-            if (_LstallTelomeres != null)
-                for (Int32 E = 0; E < _LstallTelomeres.Count; E++)
+            if (_LstAllTelomeres != null)
+                for (Int32 E = 0; E < _LstAllTelomeres.Count; E++)
                 {
-                    if (_LstallTelomeres.ElementAt(E) != null)
-                        DrawPoint(_LstallTelomeres.ElementAt(E)._telomereCenterPoint);
+                    if (_LstAllTelomeres.ElementAt(E) != null)
+                        DrawPoint(_LstAllTelomeres.ElementAt(E)._telomereCenterPoint);
                 }
 
 
@@ -55,15 +55,15 @@ namespace TelomereAnalyzer
 
         public void PrepareDrawingContoursByTelomere()
         {
-            if (_LstallTelomeres != null)
+            if (_LstAllTelomeres != null)
             {
-                for (Int32 E = 0; E < _LstallTelomeres.Count; E++)
+                for (Int32 E = 0; E < _LstAllTelomeres.Count; E++)
                 {
-                    if (_LstallTelomeres.ElementAt(E) != null)
+                    if (_LstAllTelomeres.ElementAt(E) != null)
                     {
-                        if (_LstallTelomeres.ElementAt(E)._telomereContourPoints != null)
+                        if (_LstAllTelomeres.ElementAt(E)._telomereContourPoints != null)
                         {
-                            DrawContour(_LstallTelomeres.ElementAt(E)._telomereContourPoints);
+                            DrawContour(_LstAllTelomeres.ElementAt(E)._telomereContourPoints);
                             /*
                             Point[] points = _allNucleiCoordinates.ElementAt(E)._contourPoints;
                             for (Int32 J = 0; J < points.Length; J++)
@@ -78,29 +78,31 @@ namespace TelomereAnalyzer
             }
         }
 
-        private void DrawPoint(Point point)
+        private void DrawPoint(PointF point)
         {
             Int32 sizeCross = 5;
-            Point[] halfLRCross = new Point[2];
-            Point[] halfTBCross = new Point[2];
+            PointF[] halfLRCross = new PointF[2];
+            PointF[] halfTBCross = new PointF[2];
 
-            halfLRCross[0] = new Point(point.X - sizeCross, point.Y);
-            halfLRCross[1] = new Point(point.X + sizeCross, point.Y);
+            halfLRCross[0] = new PointF(point.X - sizeCross, point.Y);
+            halfLRCross[1] = new PointF(point.X + sizeCross, point.Y);
 
-            halfTBCross[0] = new Point(point.X, point.Y - sizeCross);
-            halfTBCross[1] = new Point(point.X, point.Y + sizeCross);
+            halfTBCross[0] = new PointF(point.X, point.Y - sizeCross);
+            halfTBCross[1] = new PointF(point.X, point.Y + sizeCross);
 
             Bgr colorBlue = new Bgr(Color.Blue);
 
             if (IsImageOkay(_imageToDrawOn))
             {
+                /*Hier Center Points malen
                 _imageToDrawOn.DrawPolyline(halfLRCross, false, colorBlue, 1);
                 _imageToDrawOn.DrawPolyline(halfTBCross, false, colorBlue, 1);
+                */
             }
 
         }
 
-        private void DrawContour(Point[] contour)
+        private void DrawContour(PointF[] contour)
         {
             /*
             Bgr color = new Bgr(Color.Yellow);

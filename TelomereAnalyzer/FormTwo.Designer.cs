@@ -128,6 +128,7 @@ namespace TelomereAnalyzer
             this.btnAddNucleus.TabIndex = 0;
             this.btnAddNucleus.Text = "Add Nucleus";
             this.btnAddNucleus.UseVisualStyleBackColor = false;
+            this.btnAddNucleus.Click += new System.EventHandler(this.OnAddNucleus);
             // 
             // FormTwo
             // 

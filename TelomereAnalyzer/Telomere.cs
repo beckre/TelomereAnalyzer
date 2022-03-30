@@ -14,10 +14,10 @@ namespace TelomereAnalyzer
     {
         public String _telomereName = "";
         //Nucleus _nucleusOfTelomere = null;
-        public Point _telomereCenterPoint = new Point();
-        public Point[] _telomereContourPoints = null;
+        public PointF _telomereCenterPoint = new Point();
+        public PointF[] _telomereContourPoints = null;
 
-        public Telomere(String telomereName, Point centerPoint, Point[] contourPoints)
+        public Telomere(String telomereName, PointF centerPoint, PointF[] contourPoints)
         {
             this._telomereName = telomereName;
             this._telomereCenterPoint = centerPoint;
