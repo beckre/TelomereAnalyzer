@@ -23,10 +23,11 @@ namespace TelomereAnalyzer
         public List<Nucleus> _LstAllNuclei = null;
         public Image<Bgr, byte> _NucleiImageEdited = null;
         public Bitmap _btmNucleiImageEdited = null;
+
         public FormTwo(Nuclei allNuclei, Image<Bgr, byte> nucleiImageEdgesDetected)
         {
             this._allNuclei = allNuclei;
-            this._LstAllNuclei = allNuclei._allNuclei;
+            this._LstAllNuclei = allNuclei._LstallNuclei;
             this._NucleiImageEdited = nucleiImageEdgesDetected;
             this._btmNucleiImageEdited = nucleiImageEdgesDetected.ToBitmap();
             InitializeComponent();
@@ -35,6 +36,22 @@ namespace TelomereAnalyzer
             this._NucleiImageEdited = _allNuclei._imageToDrawOn;
             this._btmNucleiImageEdited = _NucleiImageEdited.ToBitmap();
             ShowBitmapOnForm(ImageBoxOneFormTwo, _btmNucleiImageEdited);
+            DisplayAllNucleiOnPanel();
+        }
+
+        private void DisplayAllNucleiOnPanel()
+        {
+            for(Int32 i = 0; i < _LstAllNuclei.Count; i++)
+            {
+                CheckBox checkBox = new CheckBox();
+                checkBox.Name = "chkBx" + _LstAllNuclei[i]._nucleusName;
+                checkBox.Text = _LstAllNuclei[i]._nucleusName;
+                checkBox.Width = (TextRenderer.MeasureText(checkBox.Text, checkBox.Font)).Width + 50;
+                checkBox.Location = new Point(5, pnlSelectNuclei.Controls.Count * 20);
+                checkBox.Checked = true;
+                pnlSelectNuclei.Controls.Add(checkBox);
+            }
+
         }
 
         #region Nuclei Borders drawn by User--------------------------------------------------------

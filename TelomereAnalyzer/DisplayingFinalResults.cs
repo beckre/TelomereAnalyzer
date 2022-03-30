@@ -15,7 +15,7 @@ namespace TelomereAnalyzer
         public DisplayingFinalResults(Nuclei nuclei, AllTelomeres allTelomeres)
         {
             this._allNuclei = nuclei;
-            _nuclei = _allNuclei._allNuclei;
+            _nuclei = _allNuclei._LstallNuclei;
             this._allTelomeres = allTelomeres;
         }
 
@@ -24,7 +24,7 @@ namespace TelomereAnalyzer
             
             for(Int32 n = 0; n < _nuclei.Count; n++)
             {
-                List<Telomere> telomeres = _nuclei[n]._nucleusTelomeres;
+                List<Telomere> telomeres = _nuclei[n]._LstnucleusTelomeres;
                 Console.WriteLine("Nucleus " + _nuclei[n]._nucleusName + " beinhaltet " + telomeres.Count + " Telomere.\n");
                 for (Int32 t = 0; t < telomeres.Count; t++)
                 {

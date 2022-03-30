@@ -12,7 +12,7 @@ namespace TelomereAnalyzer
 {
     public class Nuclei
     {
-        public List<Nucleus> _allNuclei = null;
+        public List<Nucleus> _LstallNuclei = null;
         public Image<Bgr, byte> _imageToDrawOn = null;
         public Bitmap _btmImageToDrawnOn = null;
 
@@ -23,7 +23,7 @@ namespace TelomereAnalyzer
 
         public Nuclei( )
         {
-            _allNuclei = new List<Nucleus>();
+            _LstallNuclei = new List<Nucleus>();
         }
 
         public void SetAttributes(String resultValues, Int32 contourFound, Point[] centerPoints, Point[][] allContours)
@@ -36,8 +36,8 @@ namespace TelomereAnalyzer
 
         public void AddNucleusToNucleiList(Nucleus nucleus)
         {
-            if (_allNuclei != null)
-                _allNuclei.Add(nucleus);
+            if (_LstallNuclei != null)
+                _LstallNuclei.Add(nucleus);
         }
 
         /*
@@ -46,11 +46,11 @@ namespace TelomereAnalyzer
 
         public void PrepareDrawingCenterPoints()
         {
-            if (_allNuclei != null)
-                for (Int32 E = 0; E < _allNuclei.Count; E++)
+            if (_LstallNuclei != null)
+                for (Int32 E = 0; E < _LstallNuclei.Count; E++)
                 {
-                    if(_allNuclei.ElementAt(E) != null)
-                        DrawPoint(_allNuclei.ElementAt(E)._nucleusCenterPoint);
+                    if(_LstallNuclei.ElementAt(E) != null)
+                        DrawPoint(_LstallNuclei.ElementAt(E)._nucleusCenterPoint);
                 }
                     
             
@@ -58,15 +58,15 @@ namespace TelomereAnalyzer
 
         public void PrepareDrawingContoursByNucleus()
         {
-            if(_allNuclei != null)
+            if(_LstallNuclei != null)
             {
-                for(Int32 E = 0; E < _allNuclei.Count; E++)
+                for(Int32 E = 0; E < _LstallNuclei.Count; E++)
                 {
-                    if(_allNuclei.ElementAt(E) != null)
+                    if(_LstallNuclei.ElementAt(E) != null)
                     {
-                        if(_allNuclei.ElementAt(E)._nucleusContourPoints != null)
+                        if(_LstallNuclei.ElementAt(E)._nucleusContourPoints != null)
                         {
-                            DrawContour(_allNuclei.ElementAt(E)._nucleusContourPoints);
+                            DrawContour(_LstallNuclei.ElementAt(E)._nucleusContourPoints);
                             /*
                             Point[] points = _allNucleiCoordinates.ElementAt(E)._contourPoints;
                             for (Int32 J = 0; J < points.Length; J++)

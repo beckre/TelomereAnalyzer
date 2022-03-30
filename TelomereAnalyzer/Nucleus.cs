@@ -15,19 +15,19 @@ namespace TelomereAnalyzer
         public String _nucleusName = "";
         public Point _nucleusCenterPoint = new Point();
         public Point[] _nucleusContourPoints = null;
-        public List<Telomere> _nucleusTelomeres = null;
+        public List<Telomere> _LstnucleusTelomeres = null;
 
         public Nucleus(String nucleusName, Point centerPoint, Point[] contourPoints)
         {
             this._nucleusName = nucleusName;
             this._nucleusCenterPoint = centerPoint;
             this._nucleusContourPoints = contourPoints;
-            _nucleusTelomeres = new List<Telomere>();
+            _LstnucleusTelomeres = new List<Telomere>();
         }
 
         public void AddTelomereToTelomereList(Telomere telomere)
         {
-            _nucleusTelomeres.Add(telomere);
+            _LstnucleusTelomeres.Add(telomere);
         }
 
     }
