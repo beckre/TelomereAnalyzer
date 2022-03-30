@@ -16,7 +16,7 @@ namespace TelomereAnalyzer
 
 
         //Image<Bgr, byte> Main8BitImage = null;       // Das Hauptbild
-        
+
         Boolean _nucleiImageUploaded = false;
         Boolean _telomereImageUploaded = false;
 
@@ -32,7 +32,7 @@ namespace TelomereAnalyzer
          */
 
         //Image und Bitmap vom originalen hochgeladenen Nuclei Bild
-        Image<Gray, byte> _uploadedRawNucleiImage = null;       
+        Image<Gray, byte> _uploadedRawNucleiImage = null;
         Bitmap _btmUploadedRawNucleiImage = null;
         //Image und Bitmap vom originalen hochgeladenen Telomer Bild
         Image<Gray, byte> _uploadedRawTelomereImage = null;
@@ -118,7 +118,7 @@ namespace TelomereAnalyzer
         {
             System.Windows.Forms.OpenFileDialog dialog = new
             System.Windows.Forms.OpenFileDialog();
-            //dialog.Filter = "Image Files|*.tif;*.tiff";
+            dialog.Filter = "Image Files|*.tif;*.tiff";
             if (dialog.ShowDialog(this) == System.Windows.Forms.DialogResult.OK)
             {
                 //erstmal mit der 16 Bit Version des Bildes ohne es in 8 Bit zu konvertieren
@@ -146,7 +146,7 @@ namespace TelomereAnalyzer
          */
         private void OnNormalize(object sender, EventArgs e)
         {
-            if (IsImageUsable(_uploadedRawNucleiImage) && IsImageUsable(_uploadedRawTelomereImage))
+            if (IsImageOkay(_uploadedRawNucleiImage) && IsImageOkay(_uploadedRawTelomereImage))
                 Normalize();
         }
 
@@ -173,68 +173,10 @@ namespace TelomereAnalyzer
             ShowBitmapOnForm(ImageBoxOne, _btmNucleiImageNormalized);
             ShowBitmapOnForm(ImageBoxTwo, _btmTelomereImageNormalized);
             */
-
-            /*
-            Image<Gray, byte> destNucleiImage = new Image<Gray, byte>(_uploadedRawNucleiImage.Width, _uploadedRawNucleiImage.Height, new Gray(0));
-            //CvInvoke.cvEqualizeHist(_uploadedRawNucleiImage, destNucleiImage);
-            CvInvoke.cvNormalize(_uploadedRawNucleiImage, destNucleiImage, 0, 255, NORM_TYPE.CV_MINMAX, _uploadedRawNucleiImage.Ptr);
-            _NucleiImageNormalized = destNucleiImage;
-            _btmNucleiImageNormalized = destNucleiImage.ToBitmap();
-
-            Image<Gray, byte> destTelomereImage = new Image<Gray, byte>(_uploadedRawTelomereImage.Width, _uploadedRawTelomereImage.Height, new Gray(0));
-            //CvInvoke.cvEqualizeHist(_uploadedRawTelomereImage, destTelomereImage);
-            CvInvoke.cvNormalize(_uploadedRawTelomereImage, destTelomereImage, 0, 255, NORM_TYPE.CV_MINMAX, _uploadedRawTelomereImage.Ptr);
-            _TelomereImageNormalized = destTelomereImage;
-            _btmTelomereImageNormalized = destTelomereImage.ToBitmap();
-
-            ShowBitmapOnForm(ImageBoxOne, _btmNucleiImageNormalized);
-            ShowBitmapOnForm(ImageBoxTwo, _btmTelomereImageNormalized);
-            */
             lblPleaseSelectPic.Text = "Please click on Threshold to automatically generate a Threshold for the Telomere Image";
             btnGenerateThreshold.Show();
-            
-            
+
         }
-        /*
-        private void OnGammaCorrection(object sender, EventArgs e)
-        {
-            double gamma = 2.0;
-            double c = 1d;
-            Bitmap img = _imgInput.ToBitmap();
-            int width = img.Width;
-            int height = img.Height;
-            BitmapData srcData = img.LockBits(new Rectangle(0, 0, width, height),
-                ImageLockMode.ReadOnly, PixelFormat.Format32bppArgb);
-            int bytes = srcData.Stride * srcData.Height;
-            byte[] buffer = new byte[bytes];
-            byte[] result = new byte[bytes];
-            Marshal.Copy(srcData.Scan0, buffer, 0, bytes);
-            img.UnlockBits(srcData);
-            int current = 0;
-            int cChannels = 3;
-            for (int y = 0; y < height; y++)
-            {
-                for (int x = 0; x < width; x++)
-                {
-                    current = y * srcData.Stride + x * 4;
-                    for (int i = 0; i < cChannels; i++)
-                    {
-                        double range = (double)buffer[current + i] / 255;
-                        double correction = c * Math.Pow(range, gamma);
-                        result[current + i] = (byte)(correction * 255);
-                    }
-                    result[current + 3] = 255;
-                }
-            }
-            Bitmap resImg = new Bitmap(width, height);
-            BitmapData resData = resImg.LockBits(new Rectangle(0, 0, width, height),
-                ImageLockMode.WriteOnly, PixelFormat.Format32bppArgb);
-            Marshal.Copy(result, 0, resData.Scan0, bytes);
-            resImg.UnlockBits(resData);
-            imageBox1.BackgroundImage = resImg;
-            //return resImg;
-        }
-        */
         /*----------------------------------------------------------------------------------------*\
          *  Generates the threshold of the uploaded image using the otsu's method.                *|
          *  Converts the choosen image to grayscale and byte before thresholding                  *|
@@ -242,7 +184,7 @@ namespace TelomereAnalyzer
         \*----------------------------------------------------------------------------------------*/
         private void OnThreshold(object sender, EventArgs e)
         {
-            if (IsImageUsable(_TelomereImageNormalized))
+            if (IsImageOkay(_TelomereImageNormalized))
             {
                 Thresholding();
             }
@@ -254,7 +196,7 @@ namespace TelomereAnalyzer
                 _btmNucleiImageNormalized = _uploadedRawNucleiImage.ToBitmap();
                 Thresholding();
             }
-                
+
         }
 
         private void OnMergeImages(object sender, EventArgs e)
@@ -325,8 +267,8 @@ namespace TelomereAnalyzer
             try
             {
                 //double threshold = CvInvoke.Threshold(image.Convert<Gray, byte>(), destImage, 50, 255, Emgu.CV.CvEnum.ThresholdType.Otsu);
-                double threshold = CvInvoke.cvThreshold(image, destImage, 0.0, 255.0, THRESH.CV_THRESH_OTSU);
-                lblThreshold.Text = "Calculated Threshold: "+threshold;
+                double threshold = CvInvoke.cvThreshold(image.Convert<Gray, byte>(), destImage, 0.0, 255.0, THRESH.CV_THRESH_OTSU);
+                lblThreshold.Text = "Calculated Threshold: " + threshold;
             }
             catch (Exception e)
             {
@@ -350,9 +292,9 @@ namespace TelomereAnalyzer
             int width = destImageBitmap.Width;
             int height = destImageBitmap.Height;
 
-            for(int i = 0; i< width; i++)
+            for (int i = 0; i < width; i++)
             {
-                for(int j = 0; j< height; j++)
+                for (int j = 0; j < height; j++)
                 {
                     Color checkedColor = destImageBitmap.GetPixel(i, j);
                     /*
@@ -360,7 +302,7 @@ namespace TelomereAnalyzer
                      * Der weiße Pixel wird in rot umgewandelt und die restlichen Pixel werden schwarz gesetzt.
                      */
                     if (checkedColor.R == 255)
-                        resultBmpToBeColoured.SetPixel(i, j, Color.FromArgb(255,255, 255, 0));
+                        resultBmpToBeColoured.SetPixel(i, j, Color.FromArgb(255, 255, 255, 0));
                     else
                         resultBmpToBeColoured.SetPixel(i, j, Color.FromArgb(255, 0, 0, 0));
                 }
@@ -386,7 +328,7 @@ namespace TelomereAnalyzer
             _allTelomeres = _EdgeDetection._allTelomeres;
             Boolean telomereIsInNucleus = false;
             //Geht alle Nuclei durch und geht dann alle Telomere pro Nucleus durch und überprüft ob diese in der Nucleus Kontur enthalten sind
-            for(Int32 n = 0; n < _allNuclei._allNuclei.Count; n++)
+            for (Int32 n = 0; n < _allNuclei._allNuclei.Count; n++)
             {
                 //Geht alle Telomere pro Nucleus durch --> es wird überprüft, ob der center point des Telomers in der Nucleus-Kontur enthalten ist
                 //Theoretisch müssen nicht nochmal absolut alle Telomere überprüft werden, da ja manche schon Nuclei zugeordnet sind --> kann effizienter sein!
@@ -400,7 +342,7 @@ namespace TelomereAnalyzer
                 }
             }
             //Alles zum Testen
-            
+
             _TestingAllocatingTelomeresToNucleus = new Image<Bgr, byte>(_btmTelomereImageThreshold);
             //malt Kontur von 1 Nuclei
             Point[] contour = _allNuclei._allNuclei[1]._nucleusContourPoints;
@@ -434,7 +376,7 @@ namespace TelomereAnalyzer
 
         public void ShowBitmapOnForm(ImageBox imageBox, Bitmap bitmap)
         {
-            if(imageBox.BackgroundImage == null)
+            if (imageBox.BackgroundImage == null)
             {
                 imageBox.BackgroundImage = bitmap;
                 imageBox.Width = bitmap.Width;
@@ -469,22 +411,6 @@ namespace TelomereAnalyzer
             }
             */
         }
-
-        private Boolean IsUploadedImageUsable(String fileName)
-        {
-            try
-            {
-                Bitmap image = new Bitmap(fileName);
-                return true;
-            }
-            catch(Exception e)
-            {
-                Console.WriteLine(e.ToString());
-                return false;
-            }
-
-        }
-
         // checks if image is null --> needs to be extended probably
         private Boolean IsImageOkay(Image<Gray, byte> image)
         {
@@ -499,3 +425,4 @@ namespace TelomereAnalyzer
         }
     }
 }
+
