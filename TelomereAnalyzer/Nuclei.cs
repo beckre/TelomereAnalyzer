@@ -14,6 +14,7 @@ namespace TelomereAnalyzer
     {
         public List<Nucleus> _allNuclei = null;
         public Image<Bgr, byte> _imageToDrawOn = null;
+        public Bitmap _btmImageToDrawnOn = null;
 
         String _nucleiResultValues = null;
         Int32 _nucleiContourFound = 0;
@@ -105,8 +106,12 @@ namespace TelomereAnalyzer
         private void DrawContour(Point[] contour)
         {
             Bgr color = new Bgr(Color.DarkViolet);
+            _btmImageToDrawnOn = _imageToDrawOn.ToBitmap();
 
-            _imageToDrawOn.DrawPolyline(contour, true, color, 1);
+            //_imageToDrawOn.DrawPolyline(contour, true, color, 1);
+            Graphics graphics = Graphics.FromImage(_btmImageToDrawnOn);
+            graphics.DrawPolygon(Pens.Blue, contour);
+            _imageToDrawOn = new Image<Bgr, byte>(_btmImageToDrawnOn);
         }
 
         public void PrintResultValues()

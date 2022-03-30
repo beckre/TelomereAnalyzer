@@ -19,16 +19,22 @@ namespace TelomereAnalyzer
     //Hanlding Drawing Nuclei by User
     public partial class FormTwo : Form
     {
-        public List<Nucleus> _allNuclei = null;
-        public Image<Bgr, byte> _NucleiImageEdgesDetected = null;
-        public Bitmap _btmNucleiImageEdgesDetected = null;
-        public FormTwo(List<Nucleus> allNuclei, Image<Bgr, byte> nucleiImageEdgesDetected)
+        public Nuclei _allNuclei = null;
+        public List<Nucleus> _LstAllNuclei = null;
+        public Image<Bgr, byte> _NucleiImageEdited = null;
+        public Bitmap _btmNucleiImageEdited = null;
+        public FormTwo(Nuclei allNuclei, Image<Bgr, byte> nucleiImageEdgesDetected)
         {
             this._allNuclei = allNuclei;
-            this._NucleiImageEdgesDetected = nucleiImageEdgesDetected;
-            this._btmNucleiImageEdgesDetected = nucleiImageEdgesDetected.ToBitmap();
+            this._LstAllNuclei = allNuclei._allNuclei;
+            this._NucleiImageEdited = nucleiImageEdgesDetected;
+            this._btmNucleiImageEdited = nucleiImageEdgesDetected.ToBitmap();
             InitializeComponent();
-            ShowBitmapOnForm(ImageBoxOneFormTwo, _NucleiImageEdgesDetected.ToBitmap());
+            _allNuclei.PrepareDrawingCenterPoints();
+            _allNuclei.PrepareDrawingContoursByNucleus();
+            this._NucleiImageEdited = _allNuclei._imageToDrawOn;
+            this._btmNucleiImageEdited = _NucleiImageEdited.ToBitmap();
+            ShowBitmapOnForm(ImageBoxOneFormTwo, _btmNucleiImageEdited);
         }
 
         #region Nuclei Borders drawn by User--------------------------------------------------------
@@ -95,7 +101,8 @@ namespace TelomereAnalyzer
              _mouseStatus.lastY= e.Y; */
 
             AddMouseCoordinate(e.X, e.Y);
-            Invalidate();
+            //Invalidate();
+            Refresh();
         }
 
         private void OnMouseUp(object sender, MouseEventArgs e)
@@ -122,7 +129,8 @@ namespace TelomereAnalyzer
                 return;
 
             AddMouseCoordinate(e.X, e.Y);
-            Invalidate();
+            //Invalidate();
+            Refresh();
         }
 
         protected void AddMouseCoordinate(Int32 X, Int32 Y)
@@ -160,8 +168,8 @@ namespace TelomereAnalyzer
 
             e.Graphics.DrawLines(Pens.Blue, malKurve);
             //g.DrawLines(Pens.Blue, malKurve); //Wird zwar gemalt aber verschoben vom Klick-Point
-            ShowBitmapOnForm(ImageBoxOneFormTwo, _btmNucleiImageEdgesDetected);
-            _mouseCoordinates = null;
+            ShowBitmapOnForm(ImageBoxOneFormTwo, _btmNucleiImageEdited);
+            //_mouseCoordinates = null;
         }
         #endregion
 

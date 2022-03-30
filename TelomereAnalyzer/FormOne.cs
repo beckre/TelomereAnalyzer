@@ -250,7 +250,7 @@ namespace TelomereAnalyzer
              * Übergeben wird die Nuclei-Liste und diese kann modifiziert werden.
              */
             _allNuclei = _EdgeDetection._allNuclei;
-            FormTwo formTwo = new FormTwo(_allNuclei._allNuclei, _NucleiImageEdgesDetected);
+            FormTwo formTwo = new FormTwo(_allNuclei, _NucleiImageNormalized.Convert<Bgr, byte>());
             formTwo.ShowDialog(); //.ShowDialog anstatt .Show, da es so nicht möglich ist auf das 1. Fenster zuzugreifen, bis das 2. Fenster geschlossen wurde
 
             Image<Gray, byte> telomereImageToDrawOn = new Image<Gray, byte>(_btmTelomereImageThreshold);

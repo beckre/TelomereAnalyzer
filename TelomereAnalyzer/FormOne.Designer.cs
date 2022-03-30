@@ -190,7 +190,7 @@ namespace TelomereAnalyzer
             this.btnGenerateThreshold.Location = new System.Drawing.Point(50, 169);
             this.btnGenerateThreshold.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnGenerateThreshold.Name = "btnGenerateThreshold";
-            this.btnGenerateThreshold.Size = new System.Drawing.Size(130, 76);
+            this.btnGenerateThreshold.Size = new System.Drawing.Size(130, 86);
             this.btnGenerateThreshold.TabIndex = 17;
             this.btnGenerateThreshold.Text = "Threshold";
             this.btnGenerateThreshold.UseVisualStyleBackColor = false;

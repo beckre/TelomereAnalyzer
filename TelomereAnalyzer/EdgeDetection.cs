@@ -14,6 +14,7 @@ namespace TelomereAnalyzer
     {
         FormOne _formOne = null;
         Image<Bgr, byte> _ProcessedImage = null;
+        Bitmap _btmProcessedImage = null;
        public Nuclei _allNuclei = null;
         public AllTelomeres _allTelomeres = null;
 
@@ -29,6 +30,7 @@ namespace TelomereAnalyzer
             //rtfResultBox.Text = "";
             Image<Gray, byte> grayImage = imageForEdgeDetection;
             _ProcessedImage = imageNormalizedToDrawOn.Convert<Bgr, byte>();
+            _btmProcessedImage = _ProcessedImage.ToBitmap();
             _allNuclei._imageToDrawOn = imageNormalizedToDrawOn.Convert<Bgr, byte>();
 
             /*
@@ -239,6 +241,8 @@ namespace TelomereAnalyzer
             centerPoints = tmp;
         }
 
+        //Malen ist hier eventuell nicht notwendig. Die Methoden befinden sich auch in der Nuclei bzw. AllTelomeres Klasse
+        //Kann hier später weggenommen werden.
         protected void DrawPoint(Point cP)
         {
             Int32 sizeCross = 5;
@@ -258,9 +262,19 @@ namespace TelomereAnalyzer
         }
         protected void DrawContour(Point[] contour)
         {
+            /*
             Bgr colorYellow = new Bgr(Color.Red);
 
             _ProcessedImage.DrawPolyline(contour, true, colorYellow, 1);
+            */
+
+            Bgr color = new Bgr(Color.DarkViolet);
+            _btmProcessedImage = _ProcessedImage.ToBitmap();
+
+            //_imageToDrawOn.DrawPolyline(contour, true, color, 1);
+            Graphics graphics = Graphics.FromImage(_btmProcessedImage);
+            graphics.DrawPolygon(Pens.DarkViolet, contour);
+            _ProcessedImage = new Image<Bgr, byte>(_btmProcessedImage);
         }
 
 

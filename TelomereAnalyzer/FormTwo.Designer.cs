@@ -34,8 +34,14 @@ namespace TelomereAnalyzer
             this.grpBxFormTwo = new System.Windows.Forms.GroupBox();
             this.lblInstructionsFormTwo = new System.Windows.Forms.Label();
             this.grpBxToolsSelectNucleiFormTwo = new System.Windows.Forms.GroupBox();
+            this.grpBxAddNucleus = new System.Windows.Forms.GroupBox();
+            this.pnlSelectNuclei = new System.Windows.Forms.Panel();
+            this.btnAddNucleus = new System.Windows.Forms.Button();
+            this.button2 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.ImageBoxOneFormTwo)).BeginInit();
             this.grpBxFormTwo.SuspendLayout();
+            this.grpBxToolsSelectNucleiFormTwo.SuspendLayout();
+            this.grpBxAddNucleus.SuspendLayout();
             this.SuspendLayout();
             // 
             // ImageBoxOneFormTwo
@@ -69,18 +75,59 @@ namespace TelomereAnalyzer
             this.lblInstructionsFormTwo.AutoSize = true;
             this.lblInstructionsFormTwo.Location = new System.Drawing.Point(22, 40);
             this.lblInstructionsFormTwo.Name = "lblInstructionsFormTwo";
-            this.lblInstructionsFormTwo.Size = new System.Drawing.Size(726, 29);
+            this.lblInstructionsFormTwo.Size = new System.Drawing.Size(768, 29);
             this.lblInstructionsFormTwo.TabIndex = 0;
-            this.lblInstructionsFormTwo.Text = "Please select/deselect and/or draw the Nuclei that will be analyzed";
+            this.lblInstructionsFormTwo.Text = "Please select/deselect and/or draw the Nuclei that you want to analyze.";
             // 
             // grpBxToolsSelectNucleiFormTwo
             // 
+            this.grpBxToolsSelectNucleiFormTwo.Controls.Add(this.button2);
+            this.grpBxToolsSelectNucleiFormTwo.Controls.Add(this.pnlSelectNuclei);
+            this.grpBxToolsSelectNucleiFormTwo.Controls.Add(this.grpBxAddNucleus);
+            this.grpBxToolsSelectNucleiFormTwo.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.grpBxToolsSelectNucleiFormTwo.Location = new System.Drawing.Point(1072, 174);
             this.grpBxToolsSelectNucleiFormTwo.Name = "grpBxToolsSelectNucleiFormTwo";
             this.grpBxToolsSelectNucleiFormTwo.Size = new System.Drawing.Size(468, 1025);
             this.grpBxToolsSelectNucleiFormTwo.TabIndex = 8;
             this.grpBxToolsSelectNucleiFormTwo.TabStop = false;
             this.grpBxToolsSelectNucleiFormTwo.Text = "Tools";
+            // 
+            // grpBxAddNucleus
+            // 
+            this.grpBxAddNucleus.Controls.Add(this.btnAddNucleus);
+            this.grpBxAddNucleus.Location = new System.Drawing.Point(6, 25);
+            this.grpBxAddNucleus.Name = "grpBxAddNucleus";
+            this.grpBxAddNucleus.Size = new System.Drawing.Size(462, 241);
+            this.grpBxAddNucleus.TabIndex = 0;
+            this.grpBxAddNucleus.TabStop = false;
+            // 
+            // pnlSelectNuclei
+            // 
+            this.pnlSelectNuclei.AutoScroll = true;
+            this.pnlSelectNuclei.Location = new System.Drawing.Point(6, 272);
+            this.pnlSelectNuclei.Name = "pnlSelectNuclei";
+            this.pnlSelectNuclei.Size = new System.Drawing.Size(456, 586);
+            this.pnlSelectNuclei.TabIndex = 1;
+            // 
+            // btnAddNucleus
+            // 
+            this.btnAddNucleus.BackColor = System.Drawing.SystemColors.MenuHighlight;
+            this.btnAddNucleus.Location = new System.Drawing.Point(162, 89);
+            this.btnAddNucleus.Name = "btnAddNucleus";
+            this.btnAddNucleus.Size = new System.Drawing.Size(130, 86);
+            this.btnAddNucleus.TabIndex = 0;
+            this.btnAddNucleus.Text = "Add Nucleus";
+            this.btnAddNucleus.UseVisualStyleBackColor = false;
+            // 
+            // button2
+            // 
+            this.button2.BackColor = System.Drawing.SystemColors.MenuHighlight;
+            this.button2.Location = new System.Drawing.Point(168, 901);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(130, 86);
+            this.button2.TabIndex = 2;
+            this.button2.Text = "Apply";
+            this.button2.UseVisualStyleBackColor = false;
             // 
             // FormTwo
             // 
@@ -95,6 +142,8 @@ namespace TelomereAnalyzer
             ((System.ComponentModel.ISupportInitialize)(this.ImageBoxOneFormTwo)).EndInit();
             this.grpBxFormTwo.ResumeLayout(false);
             this.grpBxFormTwo.PerformLayout();
+            this.grpBxToolsSelectNucleiFormTwo.ResumeLayout(false);
+            this.grpBxAddNucleus.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -105,5 +154,9 @@ namespace TelomereAnalyzer
         private System.Windows.Forms.GroupBox grpBxFormTwo;
         private System.Windows.Forms.Label lblInstructionsFormTwo;
         private System.Windows.Forms.GroupBox grpBxToolsSelectNucleiFormTwo;
+        private System.Windows.Forms.GroupBox grpBxAddNucleus;
+        private System.Windows.Forms.Panel pnlSelectNuclei;
+        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button btnAddNucleus;
     }
 }
