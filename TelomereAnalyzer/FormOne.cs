@@ -323,7 +323,8 @@ namespace TelomereAnalyzer
 
         public void AllocateTelomeresToNucleus()
         {
-            
+            //hier muss ungebdingt nochmal überprüft werden, ob dies hier so richtig abläuft!
+            //es wird immer noch geprüft, ob die Center-Points des Telomers innerhalb des Punkte-Arrays der Nucleus-Kontur vorhanden ist und NICHT, ob der Center-Point innerhalb dieses Nucleus-Kontur-Polygons enthalten ist!
             _allTelomeres = _EdgeDetection._allTelomeres;
             Boolean telomereIsInNucleus = false;
             //Geht alle Nuclei durch und geht dann alle Telomere pro Nucleus durch und überprüft ob diese in der Nucleus Kontur enthalten sind
