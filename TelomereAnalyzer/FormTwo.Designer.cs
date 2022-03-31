@@ -101,6 +101,7 @@ namespace TelomereAnalyzer
             this.button2.TabIndex = 2;
             this.button2.Text = "Apply";
             this.button2.UseVisualStyleBackColor = false;
+            this.button2.Click += new System.EventHandler(this.OnApply);
             // 
             // pnlSelectNuclei
             // 

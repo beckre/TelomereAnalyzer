@@ -52,6 +52,7 @@ namespace TelomereAnalyzer
                 checkBox.Checked = true;
                 pnlSelectNuclei.Controls.Add(checkBox);
             }
+            Refresh();
 
         }
 
@@ -77,6 +78,7 @@ namespace TelomereAnalyzer
         }
 
         MouseCoordinate[] _mouseCoordinates = null;
+        PointF[] _malKurve = null;
 
         public struct MouseStatus
         {
@@ -182,11 +184,11 @@ namespace TelomereAnalyzer
                 malKurve[P] = new PointF(_mouseCoordinates[P].X, _mouseCoordinates[P].Y);
             */
 
-            Point[] malKurve = new Point[_mouseCoordinates.Length];
+            _malKurve = new PointF[_mouseCoordinates.Length];
             for (Int32 P = 0; P < _mouseCoordinates.Length; P++)
-                malKurve[P] = new Point((int)_mouseCoordinates[P].X, (int)_mouseCoordinates[P].Y);
+                _malKurve[P] = new PointF(_mouseCoordinates[P].X, _mouseCoordinates[P].Y);
 
-            e.Graphics.DrawLines(Pens.Blue, malKurve);
+            e.Graphics.DrawLines(Pens.Blue, _malKurve);
 
             //g.DrawLines(Pens.Blue, malKurve); //Wird zwar gemalt aber verschoben vom Klick-Point
             ShowBitmapOnForm(ImageBoxOneFormTwo, _btmNucleiImageEdited);
@@ -200,21 +202,48 @@ namespace TelomereAnalyzer
                 return;
 
             Graphics graphics = Graphics.FromImage(_btmNucleiImageEdited);
+            /*
             PointF[] contour = new PointF[_mouseCoordinates.Length];
             for (Int32 P = 0; P < _mouseCoordinates.Length; P++)
                 contour[P] = new PointF(_mouseCoordinates[P].X, _mouseCoordinates[P].Y);
+            */
 
             //graphics.DrawLines(Pens.Blue, contour);
-            graphics.DrawPolygon(Pens.Blue, contour);
+            graphics.DrawPolygon(Pens.Blue, _malKurve);
             ShowBitmapOnForm(ImageBoxOneFormTwo, _btmNucleiImageEdited);
             _NucleiImageEdited = new Image<Bgr, byte>(_btmNucleiImageEdited);
 
             //hier erstellte Nuclei haben noch keinen Center Point!! Der Center Point ist hier also null!!
             Int32 nucleiNumber = _allNuclei._LstAllNuclei.Count + 1;
-            Nucleus nucleus = new Nucleus("Nucleus " + nucleiNumber, contour);
+            Nucleus nucleus = new Nucleus("Nucleus " + nucleiNumber, _malKurve);
             _allNuclei.AddNucleusToNucleiList(nucleus);
             _finishedDrawingOfOneNucleus = false;
+            _mouseCoordinates = null;
+            _malKurve = null;
             DisplayAllNucleiOnPanel();
+        }
+        /*
+         * Hier werden alle Checkboxen im Panel durchgegangen.
+         * Wenn die Checkbox nicht ausgewählt wurde, wird das Nucleus-Objekt in der Nucleus Liste, des Nuclei-Objekts
+         * gelöscht. Dies muss dann noch an das Nuclei-Objekt in FormOne übergeben werden, damit dann dort die Telomer-Spots
+         * zu den einzelnen Nuclei zugeordnet werden.
+         */
+        private void OnApply(object sender, EventArgs e)
+        {
+            btnAddNucleus.Hide();
+            foreach(CheckBox checkBox in pnlSelectNuclei.Controls)
+            {
+                if (!checkBox.Checked)
+                {
+                    foreach(Nucleus nucleus in _allNuclei._LstAllNuclei)
+                    {
+                        if (checkBox.Name.Equals("chkBx" + nucleus._nucleusName))
+                        {
+                            _allNuclei._LstAllNuclei.Remove(nucleus);
+                        }
+                    }
+                }
+            }
         }
 
         public void ShowBitmapOnForm(ImageBox imageBox, Bitmap bitmap)
@@ -230,7 +259,5 @@ namespace TelomereAnalyzer
             else
                 imageBox.BackgroundImage = bitmap;
         }
-
-
     }
 }
