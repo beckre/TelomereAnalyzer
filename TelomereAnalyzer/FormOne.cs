@@ -382,6 +382,8 @@ namespace TelomereAnalyzer
                 imageBox.Width = bitmap.Width;
                 imageBox.Height = bitmap.Height;
                 imageBox.MaximumSize = bitmap.Size;
+                //imageBox.BackgroundImageLayout
+                imageBox.BackgroundImageLayout = ImageLayout.Stretch;
                 imageBox.Refresh();
             }
             else

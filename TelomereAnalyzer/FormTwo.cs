@@ -31,10 +31,14 @@ namespace TelomereAnalyzer
             this._btmNucleiImageEdited = nucleiImageEdgesDetected.ToBitmap();
             InitializeComponent();
             _allNuclei.PrepareDrawingCenterPoints();
-            _allNuclei.PrepareDrawingContoursByNucleus();
+            _allNuclei.PrepareDrawingContoursByNucleus(new Bgr(Color.Green));
             this._NucleiImageEdited = _allNuclei._imageToDrawOn;
             this._btmNucleiImageEdited = _NucleiImageEdited.ToBitmap();
-            ShowBitmapOnForm(ImageBoxOneFormTwo, _btmNucleiImageEdited);
+            //ShowBitmapOnForm(ImageBoxOneFormTwo, _btmNucleiImageEdited);
+            panel1.BackgroundImageLayout = ImageLayout.Stretch;
+            panel1.BackgroundImage = _btmNucleiImageEdited;
+            
+            //pictureBox1.BackgroundImage = _btmNucleiImageEdited;
             DisplayAllNucleiOnPanel();
         }
 
@@ -188,7 +192,7 @@ namespace TelomereAnalyzer
             for (Int32 P = 0; P < _mouseCoordinates.Length; P++)
                 _malKurve[P] = new PointF(_mouseCoordinates[P].X, _mouseCoordinates[P].Y);
 
-            e.Graphics.DrawLines(Pens.Blue, _malKurve);
+            e.Graphics.DrawLines(Pens.Green, _malKurve);
 
             //g.DrawLines(Pens.Blue, malKurve); //Wird zwar gemalt aber verschoben vom Klick-Point
             ShowBitmapOnForm(ImageBoxOneFormTwo, _btmNucleiImageEdited);
@@ -209,7 +213,8 @@ namespace TelomereAnalyzer
             */
 
             //graphics.DrawLines(Pens.Blue, contour);
-            graphics.DrawPolygon(Pens.Blue, _malKurve);
+            //graphics.DrawPolygon(Pens.Blue, _malKurve);
+            graphics.DrawLines(Pens.Green, _malKurve);
             ShowBitmapOnForm(ImageBoxOneFormTwo, _btmNucleiImageEdited);
             _NucleiImageEdited = new Image<Bgr, byte>(_btmNucleiImageEdited);
 
@@ -231,25 +236,44 @@ namespace TelomereAnalyzer
         private void OnApply(object sender, EventArgs e)
         {
             btnAddNucleus.Hide();
-            foreach(CheckBox checkBox in pnlSelectNuclei.Controls)
-            {
-                if (!checkBox.Checked)
+            Graphics graphics = Graphics.FromImage(_btmNucleiImageEdited);
+            //try
+            //{
+                foreach (CheckBox checkBox in pnlSelectNuclei.Controls)
                 {
-                    foreach(Nucleus nucleus in _allNuclei._LstAllNuclei)
+                    if (!checkBox.Checked)
                     {
-                        if (checkBox.Name.Equals("chkBx" + nucleus._nucleusName))
+                        for(Int32 n = 0; n < _allNuclei._LstAllNuclei.Count; n++)
                         {
-                            _allNuclei._LstAllNuclei.Remove(nucleus);
+                                if(_allNuclei._LstAllNuclei[n] == null)
+                                continue;
+                            if (checkBox.Name.Equals("chkBx" + _allNuclei._LstAllNuclei[n]._nucleusName))
+                            {
+                                _allNuclei.DrawContour(_NucleiImageEdited, _allNuclei._LstAllNuclei[n]._nucleusContourPoints, new Bgr(Color.Red));
+                                //_NucleiImageEdited.Draw(new Rectangle(150, 80, 300, 95), new Bgr(Color.Blue), 90);
+                               //graphics.FillPolygon( new Brush())
+                                _btmNucleiImageEdited = _NucleiImageEdited.ToBitmap();
+                                ShowBitmapOnForm(ImageBoxOneFormTwo, _btmNucleiImageEdited);
+                                Refresh();
+                                _allNuclei._LstAllNuclei.Remove(_allNuclei._LstAllNuclei[n]);
+                            }
                         }
                     }
                 }
-            }
+            /*}
+
+           catch(Exception ex)
+           {
+               Console.WriteLine(ex.ToString());
+           }
+       */
         }
 
         public void ShowBitmapOnForm(ImageBox imageBox, Bitmap bitmap)
         {
             if (imageBox.BackgroundImage == null)
             {
+                //imageBox.
                 imageBox.BackgroundImage = bitmap;
                 imageBox.Width = bitmap.Width;
                 imageBox.Height = bitmap.Height;

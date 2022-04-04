@@ -59,5 +59,15 @@ namespace TelomereAnalyzer.Properties {
                 resourceCulture = value;
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap MAX_C1_dummy_slide_old_day3_01 {
+            get {
+                object obj = ResourceManager.GetObject("MAX_C1-dummy slide_old_day3-01", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
     }
 }

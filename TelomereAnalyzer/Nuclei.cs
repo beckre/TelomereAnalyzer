@@ -49,13 +49,11 @@ namespace TelomereAnalyzer
                 for (Int32 E = 0; E < _LstAllNuclei.Count; E++)
                 {
                     if(_LstAllNuclei.ElementAt(E) != null)
-                        DrawPoint(_LstAllNuclei.ElementAt(E)._nucleusCenterPoint);
+                        DrawPoint(_imageToDrawOn, _LstAllNuclei.ElementAt(E)._nucleusCenterPoint);
                 }
-                    
-            
         }
 
-        public void PrepareDrawingContoursByNucleus()
+        public void PrepareDrawingContoursByNucleus(Bgr color)
         {
             if(_LstAllNuclei != null)
             {
@@ -65,7 +63,7 @@ namespace TelomereAnalyzer
                     {
                         if(_LstAllNuclei.ElementAt(E)._nucleusContourPoints != null)
                         {
-                            DrawContour(_LstAllNuclei.ElementAt(E)._nucleusContourPoints);
+                            DrawContour(_imageToDrawOn, _LstAllNuclei.ElementAt(E)._nucleusContourPoints, color);
                             /*
                             Point[] points = _allNucleiCoordinates.ElementAt(E)._contourPoints;
                             for (Int32 J = 0; J < points.Length; J++)
@@ -80,7 +78,7 @@ namespace TelomereAnalyzer
             }
         }
 
-        private void DrawPoint(PointF point)
+        private void DrawPoint(Image<Bgr, byte> imageToDrawOn, PointF point)
         {
             Int32 sizeCross = 5;
             PointF[] halfLRCross = new PointF[2];
@@ -104,15 +102,17 @@ namespace TelomereAnalyzer
 
         }
 
-        private void DrawContour(PointF[] contour)
+        public void DrawContour(Image<Bgr, byte> imageToDrawOn, PointF[] contour, Bgr color)
         {
-            Bgr color = new Bgr(Color.DarkViolet);
-            _btmImageToDrawOn = _imageToDrawOn.ToBitmap();
+            //Bgr color = new Bgr(Color.Green);
+            _btmImageToDrawOn = imageToDrawOn.ToBitmap();
 
             //_imageToDrawOn.DrawPolyline(contour, true, color, 1);
             Graphics graphics = Graphics.FromImage(_btmImageToDrawOn);
-            graphics.DrawPolygon(Pens.Blue, contour);
-            _imageToDrawOn = new Image<Bgr, byte>(_btmImageToDrawOn);
+            graphics.DrawPolygon(Pens.Green, contour);
+            imageToDrawOn = new Image<Bgr, byte>(_btmImageToDrawOn);
+            _imageToDrawOn = imageToDrawOn;
+            _btmImageToDrawOn = _imageToDrawOn.ToBitmap();
         }
 
         public void PrintResultValues()

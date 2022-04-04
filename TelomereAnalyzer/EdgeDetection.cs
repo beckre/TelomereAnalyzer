@@ -109,7 +109,7 @@ namespace TelomereAnalyzer
             
              //For Testing Nucleus and Nuclei Classes
             _allNuclei.PrepareDrawingCenterPoints();
-            _allNuclei.PrepareDrawingContoursByNucleus();
+            _allNuclei.PrepareDrawingContoursByNucleus(new Bgr(Color.DarkViolet));
             _allNuclei.PrintResultValues();
            
 

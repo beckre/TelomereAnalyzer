@@ -30,7 +30,6 @@ namespace TelomereAnalyzer
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.ImageBoxOneFormTwo = new Emgu.CV.UI.ImageBox();
             this.grpBxFormTwo = new System.Windows.Forms.GroupBox();
             this.lblInstructionsFormTwo = new System.Windows.Forms.Label();
             this.grpBxToolsSelectNucleiFormTwo = new System.Windows.Forms.GroupBox();
@@ -38,27 +37,13 @@ namespace TelomereAnalyzer
             this.pnlSelectNuclei = new System.Windows.Forms.Panel();
             this.grpBxAddNucleus = new System.Windows.Forms.GroupBox();
             this.btnAddNucleus = new System.Windows.Forms.Button();
-            ((System.ComponentModel.ISupportInitialize)(this.ImageBoxOneFormTwo)).BeginInit();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.ImageBoxOneFormTwo = new Emgu.CV.UI.ImageBox();
             this.grpBxFormTwo.SuspendLayout();
             this.grpBxToolsSelectNucleiFormTwo.SuspendLayout();
             this.grpBxAddNucleus.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.ImageBoxOneFormTwo)).BeginInit();
             this.SuspendLayout();
-            // 
-            // ImageBoxOneFormTwo
-            // 
-            this.ImageBoxOneFormTwo.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.ImageBoxOneFormTwo.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.ImageBoxOneFormTwo.Location = new System.Drawing.Point(40, 175);
-            this.ImageBoxOneFormTwo.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.ImageBoxOneFormTwo.MaximumSize = new System.Drawing.Size(1024, 1024);
-            this.ImageBoxOneFormTwo.Name = "ImageBoxOneFormTwo";
-            this.ImageBoxOneFormTwo.Size = new System.Drawing.Size(1024, 1024);
-            this.ImageBoxOneFormTwo.TabIndex = 6;
-            this.ImageBoxOneFormTwo.TabStop = false;
-            this.ImageBoxOneFormTwo.Paint += new System.Windows.Forms.PaintEventHandler(this.OnPaint);
-            this.ImageBoxOneFormTwo.MouseDown += new System.Windows.Forms.MouseEventHandler(this.OnMouseDown);
-            this.ImageBoxOneFormTwo.MouseMove += new System.Windows.Forms.MouseEventHandler(this.OnMouseMove);
-            this.ImageBoxOneFormTwo.MouseUp += new System.Windows.Forms.MouseEventHandler(this.OnMouseUp);
             // 
             // grpBxFormTwo
             // 
@@ -131,28 +116,52 @@ namespace TelomereAnalyzer
             this.btnAddNucleus.UseVisualStyleBackColor = false;
             this.btnAddNucleus.Click += new System.EventHandler(this.OnAddNucleus);
             // 
+            // panel1
+            // 
+            this.panel1.AutoScroll = true;
+            this.panel1.AutoSize = true;
+            this.panel1.Location = new System.Drawing.Point(40, 175);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(1024, 1024);
+            this.panel1.TabIndex = 9;
+            // 
+            // ImageBoxOneFormTwo
+            // 
+            this.ImageBoxOneFormTwo.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.ImageBoxOneFormTwo.Location = new System.Drawing.Point(40, 175);
+            this.ImageBoxOneFormTwo.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.ImageBoxOneFormTwo.MaximumSize = new System.Drawing.Size(1024, 1024);
+            this.ImageBoxOneFormTwo.Name = "ImageBoxOneFormTwo";
+            this.ImageBoxOneFormTwo.Size = new System.Drawing.Size(1024, 1024);
+            this.ImageBoxOneFormTwo.TabIndex = 6;
+            this.ImageBoxOneFormTwo.TabStop = false;
+            this.ImageBoxOneFormTwo.Paint += new System.Windows.Forms.PaintEventHandler(this.OnPaint);
+            this.ImageBoxOneFormTwo.MouseDown += new System.Windows.Forms.MouseEventHandler(this.OnMouseDown);
+            this.ImageBoxOneFormTwo.MouseMove += new System.Windows.Forms.MouseEventHandler(this.OnMouseMove);
+            this.ImageBoxOneFormTwo.MouseUp += new System.Windows.Forms.MouseEventHandler(this.OnMouseUp);
+            // 
             // FormTwo
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1552, 1351);
+            this.Controls.Add(this.ImageBoxOneFormTwo);
+            this.Controls.Add(this.panel1);
             this.Controls.Add(this.grpBxToolsSelectNucleiFormTwo);
             this.Controls.Add(this.grpBxFormTwo);
-            this.Controls.Add(this.ImageBoxOneFormTwo);
             this.Name = "FormTwo";
             this.Text = "FormTwo";
-            ((System.ComponentModel.ISupportInitialize)(this.ImageBoxOneFormTwo)).EndInit();
             this.grpBxFormTwo.ResumeLayout(false);
             this.grpBxFormTwo.PerformLayout();
             this.grpBxToolsSelectNucleiFormTwo.ResumeLayout(false);
             this.grpBxAddNucleus.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.ImageBoxOneFormTwo)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
         #endregion
-
-        public Emgu.CV.UI.ImageBox ImageBoxOneFormTwo;
         private System.Windows.Forms.GroupBox grpBxFormTwo;
         private System.Windows.Forms.Label lblInstructionsFormTwo;
         private System.Windows.Forms.GroupBox grpBxToolsSelectNucleiFormTwo;
@@ -160,5 +169,7 @@ namespace TelomereAnalyzer
         private System.Windows.Forms.Panel pnlSelectNuclei;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button btnAddNucleus;
+        private System.Windows.Forms.Panel panel1;
+        public Emgu.CV.UI.ImageBox ImageBoxOneFormTwo;
     }
 }

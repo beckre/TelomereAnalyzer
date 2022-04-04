@@ -55,7 +55,6 @@ namespace TelomereAnalyzer
             // 
             // ImageBoxOne
             // 
-            this.ImageBoxOne.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ImageBoxOne.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.ImageBoxOne.Location = new System.Drawing.Point(443, 182);
             this.ImageBoxOne.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
@@ -122,7 +121,7 @@ namespace TelomereAnalyzer
             this.toolStrpMnuUpload});
             this.mnuMainMenu.Location = new System.Drawing.Point(0, 0);
             this.mnuMainMenu.Name = "mnuMainMenu";
-            this.mnuMainMenu.Size = new System.Drawing.Size(3065, 36);
+            this.mnuMainMenu.Size = new System.Drawing.Size(3065, 33);
             this.mnuMainMenu.TabIndex = 13;
             this.mnuMainMenu.Text = "menuStrip2";
             // 
