@@ -35,7 +35,7 @@ namespace TelomereAnalyzer
             this._NucleiImageEdited = _allNuclei._imageToDrawOn;
             this._btmNucleiImageEdited = _NucleiImageEdited.ToBitmap();
             //ShowBitmapOnForm(ImageBoxOneFormTwo, _btmNucleiImageEdited);
-            panel1.BackgroundImageLayout = ImageLayout.Stretch;
+            //panel1.BackgroundImageLayout = ImageLayout.Stretch;
             panel1.BackgroundImage = _btmNucleiImageEdited;
             
             //pictureBox1.BackgroundImage = _btmNucleiImageEdited;
@@ -251,9 +251,11 @@ namespace TelomereAnalyzer
                             {
                                 _allNuclei.DrawContour(_NucleiImageEdited, _allNuclei._LstAllNuclei[n]._nucleusContourPoints, new Bgr(Color.Red));
                                 //_NucleiImageEdited.Draw(new Rectangle(150, 80, 300, 95), new Bgr(Color.Blue), 90);
-                               //graphics.FillPolygon( new Brush())
-                                _btmNucleiImageEdited = _NucleiImageEdited.ToBitmap();
+                                SolidBrush redBrush = new SolidBrush(Color.Red);
+                                graphics.FillPolygon(redBrush, _allNuclei._LstAllNuclei[n]._nucleusContourPoints);
+                                _NucleiImageEdited = new Image<Bgr, byte>(_btmNucleiImageEdited);
                                 ShowBitmapOnForm(ImageBoxOneFormTwo, _btmNucleiImageEdited);
+                                //ShowBitmapOnForm(ImageBoxOneFormTwo, _NucleiImageEdited.ToBitmap());
                                 Refresh();
                                 _allNuclei._LstAllNuclei.Remove(_allNuclei._LstAllNuclei[n]);
                             }
