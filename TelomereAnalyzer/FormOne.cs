@@ -237,7 +237,7 @@ namespace TelomereAnalyzer
 
             _btmNucleiImageEdgesDetected = _NucleiImageEdgesDetected.ToBitmap();
             ShowBitmapOnForm(ImageBoxOne, _btmNucleiImageEdgesDetected);
-            _btmNucleiImageEdgesDetected.Save("D:\\Hochschule Emden Leer - Bachelor Bioinformatik\\Praxisphase Bachelorarbeit Vorbereitungen\\Praktikumsstelle\\MHH Hannover Telomere\\Programm Bilder\\5_NucleiDetected.tiff");
+            //_btmNucleiImageEdgesDetected.Save("D:\\Hochschule Emden Leer - Bachelor Bioinformatik\\Praxisphase Bachelorarbeit Vorbereitungen\\Praktikumsstelle\\MHH Hannover Telomere\\Programm Bilder\\5_NucleiDetected.tiff");
             //Nuclei selber umranden können
 
 
@@ -276,7 +276,7 @@ namespace TelomereAnalyzer
             }
             _btmTelomereImageThreshold = ChangingColourOfBitonalImage(destImage);
             ShowBitmapOnForm(ImageBoxTwo, _btmTelomereImageThreshold);
-            _btmTelomereImageThreshold.Save("D:\\Hochschule Emden Leer - Bachelor Bioinformatik\\Praxisphase Bachelorarbeit Vorbereitungen\\Praktikumsstelle\\MHH Hannover Telomere\\Programm Bilder\\0_Threshold_Done_OnTelomeres.tiff");
+            //_btmTelomereImageThreshold.Save("D:\\Hochschule Emden Leer - Bachelor Bioinformatik\\Praxisphase Bachelorarbeit Vorbereitungen\\Praktikumsstelle\\MHH Hannover Telomere\\Programm Bilder\\0_Threshold_Done_OnTelomeres.tiff");
             lblPleaseSelectPic.Text = "Please click on Merge Images to overlay both of the Images on top of each other";
             btnMergeImages.Show();
 
@@ -314,7 +314,7 @@ namespace TelomereAnalyzer
         {
             _EdgeDetection.FindingContoursTelomeres(telomereImage, telomereImage);
             ShowBitmapOnForm(ImageBoxOne, _TelomereImageTelomeresDetected.ToBitmap());
-            _TelomereImageTelomeresDetected.Save("D:\\Hochschule Emden Leer - Bachelor Bioinformatik\\Praxisphase Bachelorarbeit Vorbereitungen\\Praktikumsstelle\\MHH Hannover Telomere\\Programm Bilder\\6_TelomeresDetected.tiff");
+            //_TelomereImageTelomeresDetected.Save("D:\\Hochschule Emden Leer - Bachelor Bioinformatik\\Praxisphase Bachelorarbeit Vorbereitungen\\Praktikumsstelle\\MHH Hannover Telomere\\Programm Bilder\\6_TelomeresDetected.tiff");
             //Testing the Telomere and AllTelomere Classes
             //ShowBitmapOnForm(ImageBoxTwo, _TestingTelomereImageTelomeresDetected.ToBitmap());
 
@@ -361,7 +361,7 @@ namespace TelomereAnalyzer
                 //_TestingAllocatingTelomeresToNucleus.DrawPolyline(contourTelomeres, true, colorTelomeres, 1);
             }
             //ShowBitmapOnForm(ImageBoxOne, _TestingAllocatingTelomeresToNucleus.ToBitmap());
-            _TestingAllocatingTelomeresToNucleus.Save("D:\\Hochschule Emden Leer - Bachelor Bioinformatik\\Praxisphase Bachelorarbeit Vorbereitungen\\Praktikumsstelle\\MHH Hannover Telomere\\Programm Bilder\\6_TestingTelomeresDetected.tiff");
+            //_TestingAllocatingTelomeresToNucleus.Save("D:\\Hochschule Emden Leer - Bachelor Bioinformatik\\Praxisphase Bachelorarbeit Vorbereitungen\\Praktikumsstelle\\MHH Hannover Telomere\\Programm Bilder\\6_TestingTelomeresDetected.tiff");
             // Ende Testen
             DisplayEndResults();
         }
