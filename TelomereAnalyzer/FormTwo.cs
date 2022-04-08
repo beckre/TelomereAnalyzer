@@ -23,9 +23,11 @@ namespace TelomereAnalyzer
         public Image<Bgr, byte> _NucleiImageEdited = null;
         public Bitmap _btmNucleiImageEdited = null;
         public Boolean _finishedDrawingOfOneNucleus = false;
+        public Boolean _pressedBtnApply = false;
 
         public FormTwo(Nuclei allNuclei, Image<Bgr, byte> nucleiImageEdgesDetected)
         {
+            this.FormClosing += FormTwo_OnClosing;
             this._allNuclei = allNuclei;
             this._NucleiImageEdited = nucleiImageEdgesDetected;
             this._btmNucleiImageEdited = nucleiImageEdgesDetected.ToBitmap();
@@ -273,6 +275,7 @@ namespace TelomereAnalyzer
          */
         private void OnApply(object sender, EventArgs e)
         {
+            _pressedBtnApply = true;
             btnAddNucleus.Hide();
             Graphics graphics = Graphics.FromImage(_btmNucleiImageEdited);
                 foreach (CheckBox checkBox in pnlSelectNuclei.Controls.OfType<CheckBox>())
@@ -314,6 +317,23 @@ namespace TelomereAnalyzer
             }
             else
                 imageBox.BackgroundImage = bitmap;
+        }
+
+        private void FormTwo_OnClosing(object sender, FormClosingEventArgs e)
+        {
+            if (!_pressedBtnApply)
+            {
+                DialogResult result = MessageBox.Show("You should press on Apply first to save your Changes. Do you really want to close this Window?", string.Empty, MessageBoxButtons.YesNo);
+                if (result == DialogResult.No)
+                    e.Cancel = true;
+            }
+            else
+            {
+                Invalidate();
+                //Environment.Exit(0);
+                System.Windows.Forms.Application.Exit();
+                //this.Close();
+            }
         }
     }
 }
