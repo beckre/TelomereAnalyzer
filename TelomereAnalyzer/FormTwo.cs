@@ -82,13 +82,19 @@ namespace TelomereAnalyzer
         private void CheckBoxChanged(object sender, EventArgs e)
         {
             CheckBox checkBox = (sender as CheckBox);
-            if (!checkBox.Checked)
+            foreach(Label label in ImageBoxOneFormTwo.Controls.OfType<Label>())
             {
-                MessageBox.Show("You deselected this Nuclei");
-            }
-            else if (checkBox.Checked)
-            {
-                MessageBox.Show("You selected this Nuclei again");
+                    if (label.Text.Equals(checkBox.Text))
+                    {
+                        if (!checkBox.Checked)
+                        {
+                            label.Hide();
+                        }
+                        else if (checkBox.Checked)
+                        {
+                            label.Show();
+                        }
+                    }
             }
         }
 
@@ -269,7 +275,7 @@ namespace TelomereAnalyzer
         {
             btnAddNucleus.Hide();
             Graphics graphics = Graphics.FromImage(_btmNucleiImageEdited);
-                foreach (CheckBox checkBox in pnlSelectNuclei.Controls)
+                foreach (CheckBox checkBox in pnlSelectNuclei.Controls.OfType<CheckBox>())
                 {
                     if (!checkBox.Checked)
                     {

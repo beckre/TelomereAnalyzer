@@ -39,7 +39,6 @@ namespace TelomereAnalyzer
             this.btnAddNucleus = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
             this.ImageBoxOneFormTwo = new Emgu.CV.UI.ImageBox();
-            this.label1 = new System.Windows.Forms.Label();
             this.grpBxFormTwo.SuspendLayout();
             this.grpBxToolsSelectNucleiFormTwo.SuspendLayout();
             this.grpBxAddNucleus.SuspendLayout();
@@ -48,7 +47,6 @@ namespace TelomereAnalyzer
             // 
             // grpBxFormTwo
             // 
-            this.grpBxFormTwo.Controls.Add(this.label1);
             this.grpBxFormTwo.Controls.Add(this.lblInstructionsFormTwo);
             this.grpBxFormTwo.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.grpBxFormTwo.Location = new System.Drawing.Point(12, 10);
@@ -154,15 +152,6 @@ namespace TelomereAnalyzer
             this.ImageBoxOneFormTwo.MouseMove += new System.Windows.Forms.MouseEventHandler(this.OnMouseMove);
             this.ImageBoxOneFormTwo.MouseUp += new System.Windows.Forms.MouseEventHandler(this.OnMouseUp);
             // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(803, 47);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(64, 25);
-            this.label1.TabIndex = 1;
-            this.label1.Text = "label1";
-            // 
             // FormTwo
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -195,6 +184,5 @@ namespace TelomereAnalyzer
         private System.Windows.Forms.Button btnAddNucleus;
         private System.Windows.Forms.Panel panel1;
         public Emgu.CV.UI.ImageBox ImageBoxOneFormTwo;
-        private System.Windows.Forms.Label label1;
     }
 }
