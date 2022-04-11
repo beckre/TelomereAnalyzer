@@ -27,7 +27,7 @@ namespace TelomereAnalyzer
 
         public FormTwo(Nuclei allNuclei, Image<Bgr, byte> nucleiImageEdgesDetected)
         {
-            this.FormClosing += FormTwo_OnClosing;
+            //this.FormClosing += FormTwo_OnClosing;
             this._allNuclei = allNuclei;
             this._NucleiImageEdited = nucleiImageEdgesDetected;
             this._btmNucleiImageEdited = nucleiImageEdgesDetected.ToBitmap();
@@ -319,6 +319,7 @@ namespace TelomereAnalyzer
                 imageBox.BackgroundImage = bitmap;
         }
 
+        /*
         private void FormTwo_OnClosing(object sender, FormClosingEventArgs e)
         {
             if (!_pressedBtnApply)
@@ -335,5 +336,6 @@ namespace TelomereAnalyzer
                 //this.Close();
             }
         }
+        */
     }
 }
