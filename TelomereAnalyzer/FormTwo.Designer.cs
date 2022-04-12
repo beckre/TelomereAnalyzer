@@ -49,20 +49,20 @@ namespace TelomereAnalyzer
             // 
             this.grpBxFormTwo.Controls.Add(this.lblInstructionsFormTwo);
             this.grpBxFormTwo.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.grpBxFormTwo.Location = new System.Drawing.Point(12, 10);
+            this.grpBxFormTwo.Location = new System.Drawing.Point(14, 12);
             this.grpBxFormTwo.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.grpBxFormTwo.Name = "grpBxFormTwo";
             this.grpBxFormTwo.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.grpBxFormTwo.Size = new System.Drawing.Size(1371, 123);
+            this.grpBxFormTwo.Size = new System.Drawing.Size(1542, 154);
             this.grpBxFormTwo.TabIndex = 7;
             this.grpBxFormTwo.TabStop = false;
             // 
             // lblInstructionsFormTwo
             // 
             this.lblInstructionsFormTwo.AutoSize = true;
-            this.lblInstructionsFormTwo.Location = new System.Drawing.Point(20, 32);
+            this.lblInstructionsFormTwo.Location = new System.Drawing.Point(22, 40);
             this.lblInstructionsFormTwo.Name = "lblInstructionsFormTwo";
-            this.lblInstructionsFormTwo.Size = new System.Drawing.Size(625, 25);
+            this.lblInstructionsFormTwo.Size = new System.Drawing.Size(768, 29);
             this.lblInstructionsFormTwo.TabIndex = 0;
             this.lblInstructionsFormTwo.Text = "Please select/deselect and/or draw the Nuclei that you want to analyze.";
             // 
@@ -72,11 +72,11 @@ namespace TelomereAnalyzer
             this.grpBxToolsSelectNucleiFormTwo.Controls.Add(this.pnlSelectNuclei);
             this.grpBxToolsSelectNucleiFormTwo.Controls.Add(this.grpBxAddNucleus);
             this.grpBxToolsSelectNucleiFormTwo.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.grpBxToolsSelectNucleiFormTwo.Location = new System.Drawing.Point(953, 139);
+            this.grpBxToolsSelectNucleiFormTwo.Location = new System.Drawing.Point(1072, 174);
             this.grpBxToolsSelectNucleiFormTwo.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.grpBxToolsSelectNucleiFormTwo.Name = "grpBxToolsSelectNucleiFormTwo";
             this.grpBxToolsSelectNucleiFormTwo.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.grpBxToolsSelectNucleiFormTwo.Size = new System.Drawing.Size(416, 820);
+            this.grpBxToolsSelectNucleiFormTwo.Size = new System.Drawing.Size(468, 1025);
             this.grpBxToolsSelectNucleiFormTwo.TabIndex = 8;
             this.grpBxToolsSelectNucleiFormTwo.TabStop = false;
             this.grpBxToolsSelectNucleiFormTwo.Text = "Tools";
@@ -84,10 +84,10 @@ namespace TelomereAnalyzer
             // button2
             // 
             this.button2.BackColor = System.Drawing.SystemColors.MenuHighlight;
-            this.button2.Location = new System.Drawing.Point(149, 721);
+            this.button2.Location = new System.Drawing.Point(168, 901);
             this.button2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(116, 69);
+            this.button2.Size = new System.Drawing.Size(130, 86);
             this.button2.TabIndex = 2;
             this.button2.Text = "Apply";
             this.button2.UseVisualStyleBackColor = false;
@@ -96,30 +96,30 @@ namespace TelomereAnalyzer
             // pnlSelectNuclei
             // 
             this.pnlSelectNuclei.AutoScroll = true;
-            this.pnlSelectNuclei.Location = new System.Drawing.Point(5, 218);
+            this.pnlSelectNuclei.Location = new System.Drawing.Point(6, 272);
             this.pnlSelectNuclei.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.pnlSelectNuclei.Name = "pnlSelectNuclei";
-            this.pnlSelectNuclei.Size = new System.Drawing.Size(405, 469);
+            this.pnlSelectNuclei.Size = new System.Drawing.Size(456, 586);
             this.pnlSelectNuclei.TabIndex = 1;
             // 
             // grpBxAddNucleus
             // 
             this.grpBxAddNucleus.Controls.Add(this.btnAddNucleus);
-            this.grpBxAddNucleus.Location = new System.Drawing.Point(5, 20);
+            this.grpBxAddNucleus.Location = new System.Drawing.Point(6, 25);
             this.grpBxAddNucleus.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.grpBxAddNucleus.Name = "grpBxAddNucleus";
             this.grpBxAddNucleus.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.grpBxAddNucleus.Size = new System.Drawing.Size(411, 193);
+            this.grpBxAddNucleus.Size = new System.Drawing.Size(462, 241);
             this.grpBxAddNucleus.TabIndex = 0;
             this.grpBxAddNucleus.TabStop = false;
             // 
             // btnAddNucleus
             // 
             this.btnAddNucleus.BackColor = System.Drawing.SystemColors.MenuHighlight;
-            this.btnAddNucleus.Location = new System.Drawing.Point(144, 71);
+            this.btnAddNucleus.Location = new System.Drawing.Point(162, 89);
             this.btnAddNucleus.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnAddNucleus.Name = "btnAddNucleus";
-            this.btnAddNucleus.Size = new System.Drawing.Size(116, 69);
+            this.btnAddNucleus.Size = new System.Drawing.Size(130, 86);
             this.btnAddNucleus.TabIndex = 0;
             this.btnAddNucleus.Text = "Add Nucleus";
             this.btnAddNucleus.UseVisualStyleBackColor = false;
@@ -130,21 +130,21 @@ namespace TelomereAnalyzer
             this.panel1.AutoScroll = true;
             this.panel1.AutoSize = true;
             this.panel1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.panel1.Location = new System.Drawing.Point(36, 140);
+            this.panel1.Location = new System.Drawing.Point(40, 175);
             this.panel1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(910, 819);
+            this.panel1.Size = new System.Drawing.Size(1024, 1024);
             this.panel1.TabIndex = 9;
             // 
             // ImageBoxOneFormTwo
             // 
             this.ImageBoxOneFormTwo.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ImageBoxOneFormTwo.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.ImageBoxOneFormTwo.Location = new System.Drawing.Point(36, 140);
-            this.ImageBoxOneFormTwo.Margin = new System.Windows.Forms.Padding(4);
-            this.ImageBoxOneFormTwo.MaximumSize = new System.Drawing.Size(910, 820);
+            this.ImageBoxOneFormTwo.Location = new System.Drawing.Point(40, 175);
+            this.ImageBoxOneFormTwo.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.ImageBoxOneFormTwo.MaximumSize = new System.Drawing.Size(1024, 1024);
             this.ImageBoxOneFormTwo.Name = "ImageBoxOneFormTwo";
-            this.ImageBoxOneFormTwo.Size = new System.Drawing.Size(910, 820);
+            this.ImageBoxOneFormTwo.Size = new System.Drawing.Size(1024, 1024);
             this.ImageBoxOneFormTwo.TabIndex = 6;
             this.ImageBoxOneFormTwo.TabStop = false;
             this.ImageBoxOneFormTwo.Paint += new System.Windows.Forms.PaintEventHandler(this.OnPaint);
@@ -154,9 +154,9 @@ namespace TelomereAnalyzer
             // 
             // FormTwo
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1380, 844);
+            this.ClientSize = new System.Drawing.Size(1552, 1351);
             this.Controls.Add(this.ImageBoxOneFormTwo);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.grpBxToolsSelectNucleiFormTwo);

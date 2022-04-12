@@ -8,6 +8,7 @@ namespace TelomereAnalyzer
 {
     class DisplayingFinalResults
     {
+        /*Für die Ausgabe der Ergebnisse auf der Konsole */
         Nuclei _allNuclei = null;
         List<Nucleus> _nuclei = null;
         AllTelomeres _allTelomeres = null;

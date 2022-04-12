@@ -70,14 +70,26 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>bin\Debug\Emgu.Util.dll</HintPath>
     </Reference>
+    <Reference Include="EPPlus, Version=5.8.9.0, Culture=neutral, PublicKeyToken=ea159fdaa78159a1, processorArchitecture=MSIL">
+      <HintPath>..\packages\EPPlus.5.8.9\lib\net45\EPPlus.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.IO.RecyclableMemoryStream, Version=1.4.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.IO.RecyclableMemoryStream.1.4.1\lib\net46\Microsoft.IO.RecyclableMemoryStream.dll</HintPath>
+    </Reference>
     <Reference Include="OpenTK, Version=1.1.0.0, Culture=neutral, PublicKeyToken=bad199fe84eb3df4, processorArchitecture=MSIL">
       <HintPath>..\packages\OpenTK.1.1.2225.0\lib\net20\OpenTK.dll</HintPath>
     </Reference>
     <Reference Include="OpenTK.GLControl, Version=1.1.0.0, Culture=neutral, PublicKeyToken=bad199fe84eb3df4, processorArchitecture=MSIL">
       <HintPath>..\packages\OpenTK.GLControl.1.1.2225.0\lib\net20\OpenTK.GLControl.dll</HintPath>
     </Reference>
+    <Reference Include="PresentationCore" />
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Annotations, Version=4.2.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ComponentModel.Annotations.4.7.0\lib\net461\System.ComponentModel.Annotations.dll</HintPath>
+    </Reference>
     <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing.Primitives, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Drawing.Primitives.4.3.0\lib\net45\System.Drawing.Primitives.dll</HintPath>
@@ -94,6 +106,8 @@
       <Private>True</Private>
       <Private>True</Private>
     </Reference>
+    <Reference Include="System.Security" />
+    <Reference Include="System.Threading.Tasks" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -120,6 +134,12 @@
     <Compile Include="FormOne.Designer.cs">
       <DependentUpon>FormOne.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormThree.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormThree.Designer.cs">
+      <DependentUpon>FormThree.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormTwo.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -141,6 +161,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FormOne.resx">
       <DependentUpon>FormOne.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormThree.resx">
+      <DependentUpon>FormThree.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormTwo.resx">
       <DependentUpon>FormTwo.cs</DependentUpon>

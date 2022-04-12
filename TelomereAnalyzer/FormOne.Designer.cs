@@ -41,11 +41,8 @@ namespace TelomereAnalyzer
             this.telomerImageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ImageBoxTwo = new Emgu.CV.UI.ImageBox();
             this.lblThreshold = new System.Windows.Forms.Label();
-            this.btnNormalize = new System.Windows.Forms.Button();
-            this.btnGenerateThreshold = new System.Windows.Forms.Button();
+            this.btnStart = new System.Windows.Forms.Button();
             this.grpBoxSelectOptions = new System.Windows.Forms.GroupBox();
-            this.btnDetectingNuclei = new System.Windows.Forms.Button();
-            this.btnMergeImages = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.ImageBoxOne)).BeginInit();
             this.grpBoxSelectDialog.SuspendLayout();
             this.mnuMainMenu.SuspendLayout();
@@ -121,7 +118,7 @@ namespace TelomereAnalyzer
             this.toolStrpMnuUpload});
             this.mnuMainMenu.Location = new System.Drawing.Point(0, 0);
             this.mnuMainMenu.Name = "mnuMainMenu";
-            this.mnuMainMenu.Size = new System.Drawing.Size(3065, 33);
+            this.mnuMainMenu.Size = new System.Drawing.Size(3065, 36);
             this.mnuMainMenu.TabIndex = 13;
             this.mnuMainMenu.Text = "menuStrip2";
             // 
@@ -131,14 +128,14 @@ namespace TelomereAnalyzer
             this.tIFFToolStripMenuItem,
             this.telomerImageToolStripMenuItem});
             this.toolStrpMnuUpload.Name = "toolStrpMnuUpload";
-            this.toolStrpMnuUpload.Size = new System.Drawing.Size(91, 29);
-            this.toolStrpMnuUpload.Text = "Upload ";
+            this.toolStrpMnuUpload.Size = new System.Drawing.Size(94, 29);
+            this.toolStrpMnuUpload.Text = "Load . . .";
             // 
             // tIFFToolStripMenuItem
             // 
             this.tIFFToolStripMenuItem.BackColor = System.Drawing.SystemColors.MenuHighlight;
             this.tIFFToolStripMenuItem.Name = "tIFFToolStripMenuItem";
-            this.tIFFToolStripMenuItem.Size = new System.Drawing.Size(231, 34);
+            this.tIFFToolStripMenuItem.Size = new System.Drawing.Size(270, 34);
             this.tIFFToolStripMenuItem.Text = "Nuclei Image";
             this.tIFFToolStripMenuItem.Click += new System.EventHandler(this.OnUploadNucleiImage);
             // 
@@ -146,7 +143,7 @@ namespace TelomereAnalyzer
             // 
             this.telomerImageToolStripMenuItem.BackColor = System.Drawing.SystemColors.MenuHighlight;
             this.telomerImageToolStripMenuItem.Name = "telomerImageToolStripMenuItem";
-            this.telomerImageToolStripMenuItem.Size = new System.Drawing.Size(231, 34);
+            this.telomerImageToolStripMenuItem.Size = new System.Drawing.Size(270, 34);
             this.telomerImageToolStripMenuItem.Text = "Telomer Image";
             this.telomerImageToolStripMenuItem.Click += new System.EventHandler(this.OnUploadTelomereImage);
             // 
@@ -171,36 +168,21 @@ namespace TelomereAnalyzer
             this.lblThreshold.Size = new System.Drawing.Size(0, 20);
             this.lblThreshold.TabIndex = 15;
             // 
-            // btnNormalize
+            // btnStart
             // 
-            this.btnNormalize.BackColor = System.Drawing.SystemColors.MenuHighlight;
-            this.btnNormalize.Location = new System.Drawing.Point(50, 45);
-            this.btnNormalize.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.btnNormalize.Name = "btnNormalize";
-            this.btnNormalize.Size = new System.Drawing.Size(130, 86);
-            this.btnNormalize.TabIndex = 16;
-            this.btnNormalize.Text = "Normalize";
-            this.btnNormalize.UseVisualStyleBackColor = false;
-            this.btnNormalize.Click += new System.EventHandler(this.OnNormalize);
-            // 
-            // btnGenerateThreshold
-            // 
-            this.btnGenerateThreshold.BackColor = System.Drawing.SystemColors.MenuHighlight;
-            this.btnGenerateThreshold.Location = new System.Drawing.Point(50, 169);
-            this.btnGenerateThreshold.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.btnGenerateThreshold.Name = "btnGenerateThreshold";
-            this.btnGenerateThreshold.Size = new System.Drawing.Size(130, 86);
-            this.btnGenerateThreshold.TabIndex = 17;
-            this.btnGenerateThreshold.Text = "Threshold";
-            this.btnGenerateThreshold.UseVisualStyleBackColor = false;
-            this.btnGenerateThreshold.Click += new System.EventHandler(this.OnThreshold);
+            this.btnStart.BackColor = System.Drawing.SystemColors.MenuHighlight;
+            this.btnStart.Location = new System.Drawing.Point(50, 45);
+            this.btnStart.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.btnStart.Name = "btnStart";
+            this.btnStart.Size = new System.Drawing.Size(130, 86);
+            this.btnStart.TabIndex = 16;
+            this.btnStart.Text = "Start";
+            this.btnStart.UseVisualStyleBackColor = false;
+            this.btnStart.Click += new System.EventHandler(this.OnStart);
             // 
             // grpBoxSelectOptions
             // 
-            this.grpBoxSelectOptions.Controls.Add(this.btnDetectingNuclei);
-            this.grpBoxSelectOptions.Controls.Add(this.btnMergeImages);
-            this.grpBoxSelectOptions.Controls.Add(this.btnNormalize);
-            this.grpBoxSelectOptions.Controls.Add(this.btnGenerateThreshold);
+            this.grpBoxSelectOptions.Controls.Add(this.btnStart);
             this.grpBoxSelectOptions.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.grpBoxSelectOptions.Location = new System.Drawing.Point(74, 138);
             this.grpBoxSelectOptions.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
@@ -209,30 +191,6 @@ namespace TelomereAnalyzer
             this.grpBoxSelectOptions.Size = new System.Drawing.Size(244, 1026);
             this.grpBoxSelectOptions.TabIndex = 18;
             this.grpBoxSelectOptions.TabStop = false;
-            // 
-            // btnDetectingNuclei
-            // 
-            this.btnDetectingNuclei.BackColor = System.Drawing.SystemColors.MenuHighlight;
-            this.btnDetectingNuclei.Location = new System.Drawing.Point(50, 393);
-            this.btnDetectingNuclei.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.btnDetectingNuclei.Name = "btnDetectingNuclei";
-            this.btnDetectingNuclei.Size = new System.Drawing.Size(130, 76);
-            this.btnDetectingNuclei.TabIndex = 20;
-            this.btnDetectingNuclei.Text = "Detecting Nuclei";
-            this.btnDetectingNuclei.UseVisualStyleBackColor = false;
-            this.btnDetectingNuclei.Click += new System.EventHandler(this.OnBtnDetectNuclei);
-            // 
-            // btnMergeImages
-            // 
-            this.btnMergeImages.BackColor = System.Drawing.SystemColors.MenuHighlight;
-            this.btnMergeImages.Location = new System.Drawing.Point(50, 284);
-            this.btnMergeImages.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.btnMergeImages.Name = "btnMergeImages";
-            this.btnMergeImages.Size = new System.Drawing.Size(130, 76);
-            this.btnMergeImages.TabIndex = 18;
-            this.btnMergeImages.Text = "Merge Images";
-            this.btnMergeImages.UseVisualStyleBackColor = false;
-            this.btnMergeImages.Click += new System.EventHandler(this.OnMergeImages);
             // 
             // FormOne
             // 
@@ -271,13 +229,10 @@ namespace TelomereAnalyzer
         private System.Windows.Forms.ToolStripMenuItem tIFFToolStripMenuItem;
         private Emgu.CV.UI.ImageBox ImageBoxTwo;
         private System.Windows.Forms.Label lblThreshold;
-        private System.Windows.Forms.Button btnNormalize;
-        private System.Windows.Forms.Button btnGenerateThreshold;
+        private System.Windows.Forms.Button btnStart;
         private System.Windows.Forms.GroupBox grpBoxSelectOptions;
         private System.Windows.Forms.ToolStripMenuItem telomerImageToolStripMenuItem;
-        private System.Windows.Forms.Button btnMergeImages;
         public Emgu.CV.UI.ImageBox ImageBoxOne;
-        private System.Windows.Forms.Button btnDetectingNuclei;
     }
 }
 

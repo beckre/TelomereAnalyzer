@@ -100,9 +100,9 @@ namespace TelomereAnalyzer
                 //ImageBox.BackgroundImage = tiffImageConvertedTo8Bit;
                 _btmUploadedRawNucleiImage = _uploadedRawNucleiImage.ToBitmap();
                 ShowBitmapOnForm(ImageBoxOne, _btmUploadedRawNucleiImage);
-                btnGenerateThreshold.Hide();
-                btnMergeImages.Hide();
-                btnDetectingNuclei.Hide();
+                //btnGenerateThreshold.Hide();
+                //btnMergeImages.Hide();
+                //btnDetectingNuclei.Hide();
                 _nucleiImageUploaded = true;
                 if (_nucleiImageUploaded && _telomereImageUploaded)
                 {
@@ -129,7 +129,7 @@ namespace TelomereAnalyzer
                 //ImageBox.BackgroundImage = tiffImageConvertedTo8Bit;
                 _btmUploadedRawTelomereImage = _uploadedRawTelomereImage.ToBitmap();
                 ShowBitmapOnForm(ImageBoxTwo, _btmUploadedRawTelomereImage);
-                btnGenerateThreshold.Hide();
+                //btnGenerateThreshold.Hide();
                 _telomereImageUploaded = true;
                 if (_nucleiImageUploaded && _telomereImageUploaded)
                 {
@@ -144,7 +144,7 @@ namespace TelomereAnalyzer
         /*
          * Normalizes the nuclei and telomer Image at once
          */
-        private void OnNormalize(object sender, EventArgs e)
+        private void OnStart(object sender, EventArgs e)
         {
             if (IsImageOkay(_uploadedRawNucleiImage) && IsImageOkay(_uploadedRawTelomereImage))
                 Normalize();
@@ -174,19 +174,20 @@ namespace TelomereAnalyzer
             ShowBitmapOnForm(ImageBoxTwo, _btmTelomereImageNormalized);
             */
             lblPleaseSelectPic.Text = "Please click on Threshold to automatically generate a Threshold for the Telomere Image";
-            btnGenerateThreshold.Show();
-
+            //btnGenerateThreshold.Show();
+            Threshold();
         }
         /*----------------------------------------------------------------------------------------*\
          *  Generates the threshold of the uploaded image using the otsu's method.                *|
          *  Converts the choosen image to grayscale and byte before thresholding                  *|
          *  otherwise an exception is thrown.
         \*----------------------------------------------------------------------------------------*/
-        private void OnThreshold(object sender, EventArgs e)
+        private void Threshold()
         {
             if (IsImageOkay(_TelomereImageNormalized))
             {
                 Thresholding();
+                MergeImages();
             }
             else
             {
@@ -195,11 +196,12 @@ namespace TelomereAnalyzer
                 _NucleiImageNormalized = _uploadedRawNucleiImage;
                 _btmNucleiImageNormalized = _uploadedRawNucleiImage.ToBitmap();
                 Thresholding();
+                MergeImages();
             }
 
         }
 
-        private void OnMergeImages(object sender, EventArgs e)
+        private void MergeImages()
         {
             var finalImage = new Bitmap(_btmTelomereImageThreshold.Width, _btmTelomereImageThreshold.Height);
             var graphics = Graphics.FromImage(finalImage);
@@ -220,10 +222,11 @@ namespace TelomereAnalyzer
             graphics.DrawImage(_btmNucleiImageNormalized, 0, 0);
             graphics.DrawImage(_btmTelomereImageHalfTransparent, 0, 0);
             ShowBitmapOnForm(ImageBoxTwo, finalImage);
-            btnDetectingNuclei.Show();
+            //btnDetectingNuclei.Show();
+            BtnDetectNuclei();
         }
 
-        private void OnBtnDetectNuclei(object sender, EventArgs e)
+        private void BtnDetectNuclei()
         {
             _elmiWood = new ElmiWood(this);
             _elmiWood.DoAnalyze(_NucleiImageNormalized);
@@ -278,7 +281,7 @@ namespace TelomereAnalyzer
             ShowBitmapOnForm(ImageBoxTwo, _btmTelomereImageThreshold);
             //_btmTelomereImageThreshold.Save("D:\\Hochschule Emden Leer - Bachelor Bioinformatik\\Praxisphase Bachelorarbeit Vorbereitungen\\Praktikumsstelle\\MHH Hannover Telomere\\Programm Bilder\\0_Threshold_Done_OnTelomeres.tiff");
             lblPleaseSelectPic.Text = "Please click on Merge Images to overlay both of the Images on top of each other";
-            btnMergeImages.Show();
+            //btnMergeImages.Show();
 
         }
 
@@ -368,6 +371,8 @@ namespace TelomereAnalyzer
 
         public void DisplayEndResults()
         {
+            FormThree formThree = new FormThree(_allNuclei, _allTelomeres);
+            formThree.Show();
             _DisplayingFinalResults = new DisplayingFinalResults(_allNuclei, _allTelomeres);
             _DisplayingFinalResults.PrintResultsOnConsole();
         }
