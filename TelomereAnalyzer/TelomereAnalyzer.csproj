@@ -120,6 +120,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AllTelomeres.cs" />
+    <Compile Include="Calculation.cs" />
     <Compile Include="circularMorphologicalOperator.cs" />
     <Compile Include="DisplayingFinalResults.cs" />
     <Compile Include="ElmiWood.cs">

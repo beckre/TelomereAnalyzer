@@ -53,6 +53,7 @@ namespace TelomereAnalyzer
             ws.Cells[1, 4] = "Telomere Name";
             ws.Cells[1, 5] = "X";
             ws.Cells[1, 6] = "Y";
+            ws.Cells[1, 7] = "Area";
             //
             //
             FillExcelFile();
@@ -81,7 +82,14 @@ namespace TelomereAnalyzer
 
                     //here the Telomere Names are written in the 4. column of the Excel file
                     ws.Cells[counter, 4] = lsTelomeres[t]._telomereName;
-                    
+
+                    //here the lowest X- and Y-Values of the Telomere-Contour is found and written in the 5. and 6. column of the Excel file
+                    lsTelomeres[t].getLowestXY();
+                    ws.Cells[counter, 5] = lsTelomeres[t]._lowestX;
+                    ws.Cells[counter, 6] = lsTelomeres[t]._lowestY;
+
+                    //here the area of the telomere is calculated and written in the 7. column of the Excel file
+                    //the area is the amount of pixels inside the telomere
 
 
                     counter++;

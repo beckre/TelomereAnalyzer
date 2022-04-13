@@ -30,13 +30,20 @@ namespace TelomereAnalyzer
          * Die Bilder werden alle seperat gespeichert, da es die Option geben soll
          * die unterschiedlichen Stadien der Bilder später zu speichern.
          */
+        //Image und Bitmap vom originalen hochgeladenen Nuclei Bild in 16 Bit
+        Image<Gray, UInt16> _uploadedRawNucleiImage16Bit = null;
+        Bitmap _btmUploadedRawNucleiImage16Bit = null;
+        //Image und Bitmap vom originalen hochgeladenen Telomere Bild in 16 Bit
+        Image<Gray, UInt16> _uploadedRawTelomereImage16Bit = null;
+        Bitmap _btmUploadedRawTelomereImage16Bit = null;
 
         //Image und Bitmap vom originalen hochgeladenen Nuclei Bild
-        Image<Gray, byte> _uploadedRawNucleiImage = null;
-        Bitmap _btmUploadedRawNucleiImage = null;
+        Image<Gray, byte> _uploadedRawNucleiImage8Bit = null;
+        Bitmap _btmUploadedRawNucleiImage8Bit = null;
+
         //Image und Bitmap vom originalen hochgeladenen Telomer Bild
-        Image<Gray, byte> _uploadedRawTelomereImage = null;
-        Bitmap _btmUploadedRawTelomereImage = null;
+        Image<Gray, byte> _uploadedRawTelomereImage8Bit = null;
+        Bitmap _btmUploadedRawTelomereImage8Bit = null;
 
         //Image und Bitmap vom normalisierten Nuclei Bild
         public Image<Gray, byte> _NucleiImageNormalized = null;
@@ -93,13 +100,14 @@ namespace TelomereAnalyzer
             if (dialog.ShowDialog(this) == System.Windows.Forms.DialogResult.OK)
             {
                 //erstmal mit der 16 Bit Version des Bildes ohne es in 8 Bit zu konvertieren
-
-                _uploadedRawNucleiImage = new Image<Gray, byte>(dialog.FileName);
+                _uploadedRawNucleiImage16Bit = new Image<Gray, UInt16>(dialog.FileName);
+                _uploadedRawNucleiImage8Bit = new Image<Gray, byte>(dialog.FileName);
                 //Main8BitImage = MainImage.Convert<Bgr, byte>();
                 //Bitmap tiffImageConvertedTo8Bit = Main8BitImage.ToBitmap();
                 //ImageBox.BackgroundImage = tiffImageConvertedTo8Bit;
-                _btmUploadedRawNucleiImage = _uploadedRawNucleiImage.ToBitmap();
-                ShowBitmapOnForm(ImageBoxOne, _btmUploadedRawNucleiImage);
+                _btmUploadedRawNucleiImage16Bit = _uploadedRawNucleiImage16Bit.ToBitmap();
+                _btmUploadedRawNucleiImage8Bit = _uploadedRawNucleiImage8Bit.ToBitmap();
+                ShowBitmapOnForm(ImageBoxOne, _btmUploadedRawNucleiImage8Bit);
                 //btnGenerateThreshold.Hide();
                 //btnMergeImages.Hide();
                 //btnDetectingNuclei.Hide();
@@ -122,13 +130,14 @@ namespace TelomereAnalyzer
             if (dialog.ShowDialog(this) == System.Windows.Forms.DialogResult.OK)
             {
                 //erstmal mit der 16 Bit Version des Bildes ohne es in 8 Bit zu konvertieren
-
-                _uploadedRawTelomereImage = new Image<Gray, byte>(dialog.FileName);
+                _uploadedRawTelomereImage16Bit = new Image<Gray, UInt16>(dialog.FileName);
+                _uploadedRawTelomereImage8Bit = new Image<Gray, byte>(dialog.FileName);
                 //Main8BitImage = MainImage.Convert<Bgr, byte>();
                 //Bitmap tiffImageConvertedTo8Bit = Main8BitImage.ToBitmap();
                 //ImageBox.BackgroundImage = tiffImageConvertedTo8Bit;
-                _btmUploadedRawTelomereImage = _uploadedRawTelomereImage.ToBitmap();
-                ShowBitmapOnForm(ImageBoxTwo, _btmUploadedRawTelomereImage);
+                _btmUploadedRawTelomereImage16Bit = _uploadedRawTelomereImage16Bit.ToBitmap();
+                _btmUploadedRawTelomereImage8Bit = _uploadedRawTelomereImage8Bit.ToBitmap();
+                ShowBitmapOnForm(ImageBoxTwo, _btmUploadedRawTelomereImage8Bit);
                 //btnGenerateThreshold.Hide();
                 _telomereImageUploaded = true;
                 if (_nucleiImageUploaded && _telomereImageUploaded)
@@ -146,7 +155,7 @@ namespace TelomereAnalyzer
          */
         private void OnStart(object sender, EventArgs e)
         {
-            if (IsImageOkay(_uploadedRawNucleiImage) && IsImageOkay(_uploadedRawTelomereImage))
+            if (IsImageOkay(_uploadedRawNucleiImage8Bit) && IsImageOkay(_uploadedRawTelomereImage8Bit))
                 Normalize();
         }
 
@@ -191,10 +200,10 @@ namespace TelomereAnalyzer
             }
             else
             {
-                _TelomereImageNormalized = _uploadedRawTelomereImage;
-                _btmTelomereImageNormalized = _uploadedRawTelomereImage.ToBitmap();
-                _NucleiImageNormalized = _uploadedRawNucleiImage;
-                _btmNucleiImageNormalized = _uploadedRawNucleiImage.ToBitmap();
+                _TelomereImageNormalized = _uploadedRawTelomereImage8Bit;
+                _btmTelomereImageNormalized = _uploadedRawTelomereImage8Bit.ToBitmap();
+                _NucleiImageNormalized = _uploadedRawNucleiImage8Bit;
+                _btmNucleiImageNormalized = _uploadedRawNucleiImage8Bit.ToBitmap();
                 Thresholding();
                 MergeImages();
             }
