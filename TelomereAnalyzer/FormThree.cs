@@ -1,5 +1,4 @@
-﻿using OfficeOpenXml;
-using System;
+﻿using System;
 using System.IO;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -9,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Microsoft.Office.Interop.Excel;
 
 namespace TelomereAnalyzer
 {
@@ -21,9 +21,6 @@ namespace TelomereAnalyzer
 
         public FormThree(Nuclei nuclei, AllTelomeres allTelomeres)
         {
-            /* The libary EPPlus is used in a non-commercial context as 
-             * this application is also non-commercial*/
-            ExcelPackage.LicenseContext = OfficeOpenXml.LicenseContext.NonCommercial;
             this._allNuclei = nuclei;
             _nuclei = _allNuclei._LstAllNuclei;
             this._allTelomeres = allTelomeres;
@@ -36,10 +33,7 @@ namespace TelomereAnalyzer
 
         private void CreateExcelSheet(FileInfo fileInfo)
         {
-            using (var package = new ExcelPackage(fileInfo))
-            {
-                
-            }
+
 
         }
     }
