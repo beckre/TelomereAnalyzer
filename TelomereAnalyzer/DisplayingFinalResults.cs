@@ -25,7 +25,7 @@ namespace TelomereAnalyzer
             
             for(Int32 n = 0; n < _nuclei.Count; n++)
             {
-                List<Telomere> telomeres = _nuclei[n]._LstnucleusTelomeres;
+                List<Telomere> telomeres = _nuclei[n]._LstNucleusTelomeres;
                 Console.WriteLine("Nucleus " + _nuclei[n]._nucleusName + " beinhaltet " + telomeres.Count + " Telomere.\n");
                 for (Int32 t = 0; t < telomeres.Count; t++)
                 {

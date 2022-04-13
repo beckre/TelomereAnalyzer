@@ -17,14 +17,14 @@ namespace TelomereAnalyzer
         public PointF _nucleusCenterPoint = new Point();
         //public Point[] _nucleusContourPoints = null;
         public PointF[] _nucleusContourPoints = null;
-        public List<Telomere> _LstnucleusTelomeres = null;
+        public List<Telomere> _LstNucleusTelomeres = null;
 
         public Nucleus(String nucleusName, PointF centerPoint, PointF[] contourPoints)
         {
             this._nucleusName = nucleusName;
             this._nucleusCenterPoint = centerPoint;
             this._nucleusContourPoints = contourPoints;
-            _LstnucleusTelomeres = new List<Telomere>();
+            _LstNucleusTelomeres = new List<Telomere>();
         }
 
         //Selbst gemalte und hinzugefügte Nuclei haben noch keinen Center Point!!
@@ -32,12 +32,12 @@ namespace TelomereAnalyzer
         {
             this._nucleusName = nucleusName;
             this._nucleusContourPoints = contourPoints;
-            _LstnucleusTelomeres = new List<Telomere>();
+            _LstNucleusTelomeres = new List<Telomere>();
         }
 
         public void AddTelomereToTelomereList(Telomere telomere)
         {
-            _LstnucleusTelomeres.Add(telomere);
+            _LstNucleusTelomeres.Add(telomere);
         }
     }
 }

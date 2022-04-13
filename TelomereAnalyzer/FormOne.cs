@@ -356,9 +356,9 @@ namespace TelomereAnalyzer
 
             //List<Telomere> telomeres = _allNuclei._allNuclei[0]._nucleusTelomeres;
             //malt Konturen zu zugehörigen Telomeren
-            for (Int32 i = 0; i < _allNuclei._LstAllNuclei[1]._LstnucleusTelomeres.Count; i++)
+            for (Int32 i = 0; i < _allNuclei._LstAllNuclei[1]._LstNucleusTelomeres.Count; i++)
             {
-                PointF[] contourTelomeres = _allNuclei._LstAllNuclei[1]._LstnucleusTelomeres[i]._telomereContourPoints;
+                PointF[] contourTelomeres = _allNuclei._LstAllNuclei[1]._LstNucleusTelomeres[i]._telomereContourPoints;
                 Bgr colorTelomeres = new Bgr(Color.Red);
 
                 //_TestingAllocatingTelomeresToNucleus.DrawPolyline(contourTelomeres, true, colorTelomeres, 1);
