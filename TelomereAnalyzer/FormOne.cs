@@ -34,7 +34,7 @@ namespace TelomereAnalyzer
         Image<Gray, UInt16> _uploadedRawNucleiImage16Bit = null;
         Bitmap _btmUploadedRawNucleiImage16Bit = null;
         //Image und Bitmap vom originalen hochgeladenen Telomere Bild in 16 Bit
-        Image<Gray, UInt16> _uploadedRawTelomereImage16Bit = null;
+        public Image<Gray, UInt16> _uploadedRawTelomereImage16Bit = null;
         Bitmap _btmUploadedRawTelomereImage16Bit = null;
 
         //Image und Bitmap vom originalen hochgeladenen Nuclei Bild
@@ -380,7 +380,7 @@ namespace TelomereAnalyzer
 
         public void DisplayEndResults()
         {
-            FormThree formThree = new FormThree(_allNuclei, _allTelomeres);
+            FormThree formThree = new FormThree(this, _allNuclei, _allTelomeres);
             formThree.Show();
             _DisplayingFinalResults = new DisplayingFinalResults(_allNuclei, _allTelomeres);
             _DisplayingFinalResults.PrintResultsOnConsole();

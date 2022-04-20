@@ -155,6 +155,7 @@ namespace TelomereAnalyzer
                 centerPoint.X = contour.BoundingRectangle.X + contour.BoundingRectangle.Width / 2;
                 centerPoint.Y = contour.BoundingRectangle.Y + contour.BoundingRectangle.Height / 2;
                 momentsOfContour = contour.GetMoments();
+                
                 Double value = Convert.ToDouble(momentsOfContour.GravityCenter.x);
                 if (Double.IsNaN(value) == false)
                 {

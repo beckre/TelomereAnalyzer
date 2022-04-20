@@ -14,6 +14,7 @@ namespace TelomereAnalyzer
 {
     public partial class FormThree : Form
     {
+        FormOne _formOne;
         Nuclei _allNuclei = null;
         List<Nucleus> _Lstnuclei = null;
         AllTelomeres _allTelomeres = null;
@@ -22,8 +23,9 @@ namespace TelomereAnalyzer
         mso.Worksheet ws;
 
 
-        public FormThree(Nuclei nuclei, AllTelomeres allTelomeres)
+        public FormThree(FormOne formOne, Nuclei nuclei, AllTelomeres allTelomeres)
         {
+            this._formOne = formOne;
             this._allNuclei = nuclei;
             _Lstnuclei = _allNuclei._LstAllNuclei;
             this._allTelomeres = allTelomeres;
@@ -90,6 +92,9 @@ namespace TelomereAnalyzer
 
                     //here the area of the telomere is calculated and written in the 7. column of the Excel file
                     //the area is the amount of pixels inside the telomere
+
+                    lsTelomeres[t].getAmountOfPixelsInTelomereArea(_formOne._uploadedRawTelomereImage16Bit);
+                    ws.Cells[counter, 7] = lsTelomeres[t]._area;
 
 
                     counter++;
