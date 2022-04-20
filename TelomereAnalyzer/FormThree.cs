@@ -56,6 +56,11 @@ namespace TelomereAnalyzer
             ws.Cells[1, 5] = "X";
             ws.Cells[1, 6] = "Y";
             ws.Cells[1, 7] = "Area";
+            ws.Cells[1, 8] = "Sum";
+            ws.Cells[1, 9] = "Min";
+            ws.Cells[1, 10] = "Max";
+            ws.Cells[1, 11] = "Stddev";
+            ws.Cells[1, 12] = "Mean";
             //
             //
             FillExcelFile();
@@ -96,6 +101,17 @@ namespace TelomereAnalyzer
                     lsTelomeres[t].getAmountOfPixelsInTelomereArea(_formOne._uploadedRawTelomereImage16Bit);
                     ws.Cells[counter, 7] = lsTelomeres[t]._area;
 
+                    //here the sum and the min and max values of the telomere is calculated and written in the 8. column of the Excel file
+                    //the sum is the sum of all pixel values in the telomere
+                    // the min/max are the min/max values of the pixel values in the telomere
+                    lsTelomeres[t].getSumMinMaxMeanOfTelomere(_formOne._uploadedRawTelomereImage16Bit);
+                    ws.Cells[counter, 8] = lsTelomeres[t]._sum;
+                    ws.Cells[counter, 9] = lsTelomeres[t]._min;
+                    ws.Cells[counter, 10] = lsTelomeres[t]._max;
+
+                    //here the mean and stdv is written in the 11. and 12. column of the Excel file
+                    ws.Cells[counter, 11] = lsTelomeres[t]._stdDev;
+                    ws.Cells[counter, 12] = lsTelomeres[t]._mean;
 
                     counter++;
                 }

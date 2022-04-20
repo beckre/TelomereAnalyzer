@@ -18,15 +18,15 @@ namespace TelomereAnalyzer
         public PointF[] _telomereContourPoints = null;
         //Stuff for Calculations
         //public Contour<PointF> _contour;
-        public List<PointF> _allTelomerePoints;
+        public List<Point> _allTelomerePoints;
         public double _area;
         public float _lowestX;
         public float _lowestY;
         public long _sum;
         public int _min;
         public int _max;
-        public int _stdDev;
-        public int _mean;
+        public double _stdDev;
+        public double _mean;
 
         //Images for getting all the Pixels inside the Telomere-Contour
         //Must be different when 16Bit or 8Bit Image --> First only 16 BIt is handled
@@ -77,7 +77,7 @@ namespace TelomereAnalyzer
             Bitmap btmp = _imageForFilledPolygon.ToBitmap();
 
             //Then every Pixel in the filled Polygon Image is checked if it's red --> if yes, then the Pixel is added to the List of every Pixel of the entirety of the Telomere
-            _allTelomerePoints = new List<PointF>();
+            _allTelomerePoints = new List<Point>();
 
             int width = btmp.Width;
             int height = btmp.Height;
@@ -87,11 +87,9 @@ namespace TelomereAnalyzer
                 for (int j = 0; j < height; j++)
                 {
                     Color checkedColor = btmp.GetPixel(i, j);
-                    //if (checkedColor.Equals(Color.Red))
                     if(Color.Red.ToArgb().Equals(checkedColor.ToArgb()))
                     {
-                        //Is that really the correct way to get the coordinates?
-                        PointF p = new PointF();
+                        Point p = new Point();
                         p.X = i;
                         p.Y = j;
                         _allTelomerePoints.Add(p);
@@ -100,6 +98,43 @@ namespace TelomereAnalyzer
             }
             _area = _allTelomerePoints.Count;
         }
+
+        public void getSumMinMaxMeanOfTelomere(Image<Gray, UInt16> image)
+        {
+            List<double> redOfPixel = new List<double>();
+            Bitmap btmp = new Bitmap(image.ToBitmap());
+            _sum = 0;
+            int tempMin = int.MaxValue;
+            int tempMax = int.MinValue;
+            for(Int32 p = 0; p < _allTelomerePoints.Count; p++)
+            {
+               Color tempColor = btmp.GetPixel(_allTelomerePoints[p].X, _allTelomerePoints[p].Y);
+                //Sum is calulated
+                _sum+=tempColor.R;
+                redOfPixel.Add(tempColor.R);
+                //In a grayscale Image all RGB Values are equal, so it is only necessary to check one of them
+                if(tempColor.R < tempMin)
+                    tempMin = tempColor.R;
+                else if(tempColor.R > tempMax)
+                    tempMax = tempColor.R;
+            }
+            _min = tempMin;
+            _max = tempMax;
+            _mean = _sum/_allTelomerePoints.Count;
+
+            //Calculate the standard deviation
+            double ret = 0;
+                //Compute the Average
+                //double avg = values.Average();
+
+                //Perform the Sum of (value-avg)^2
+                double sum = redOfPixel.Sum(d => (d - _mean) * (d - _mean)); 
+
+                //Put it all together
+                ret = Math.Sqrt(sum / _allTelomerePoints.Count);
+                _stdDev = ret;
+        }
+
         #endregion
     }
 }
