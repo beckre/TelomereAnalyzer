@@ -32,24 +32,39 @@ namespace TelomereAnalyzer
             this._NucleiImageWithAutomaticEdges = nucleiImageEdgesDetected;
             this._btmNucleiImageWithAutomaticEdges = nucleiImageEdgesDetected.ToBitmap();
             InitializeComponent();
+            SetStyle(ControlStyles.SupportsTransparentBackColor, true);
+            //imgBx.BackColor = Color.Transparent;
+
+
+
             _allNuclei.PrepareDrawingCenterPoints();
             _allNuclei.PrepareDrawingContoursByNucleus(new Bgr(Color.DarkSeaGreen));
             this._NucleiImageWithAutomaticEdges = _allNuclei._imageToDrawOn;
             this._btmNucleiImageWithAutomaticEdges = _NucleiImageWithAutomaticEdges.ToBitmap();
             ShowImageOnForm(pcBxOriImage, _NucleiImageWithAutomaticEdges);
+            ImageBox imgBx = new ImageBox();
+            //pnlImgContainer.Controls.Add(imgBx);
+            pcBxOriImage.Controls.Add(imgBx);
+            imgBx.BackColor = Color.Transparent;
+            imgBx.MouseUp += new MouseEventHandler(OnMouseUp);
+            imgBx.MouseDown += new MouseEventHandler(OnMouseDown);
+            imgBx.MouseMove += new MouseEventHandler(OnMouseMove);
+            imgBx.Paint += new PaintEventHandler(OnPaint);
             //Displaying the Image in the PictureBox and aligning the ImageBox with the PictureBox on top of it
             try {
                 //pcBxOriImage.BackgroundImage = image.ToBitmap();
                 imgBx.Width = _NucleiImageWithAutomaticEdges.Width;
                 imgBx.Height = _NucleiImageWithAutomaticEdges.Height;
                 imgBx.MaximumSize = _NucleiImageWithAutomaticEdges.Size;
+                imgBx.Location = pcBxOriImage.Location;
                 imgBx.Refresh();
-        }
+            }
             catch(Exception ex)
             {
                 Console.WriteLine(ex.ToString());
             }
-}
+            
+        }
 
         private void DisplayAllNucleiAsCheckboxes()
         {
@@ -321,7 +336,8 @@ namespace TelomereAnalyzer
                     picBox.Width = image.Width;
                     picBox.Height = image.Height;
                     picBox.MaximumSize = image.Size;
-                    picBox.Refresh();
+                    //picBox.Refresh();
+                    Refresh();
                 }
                 else
                     picBox.BackgroundImage = image.ToBitmap();
