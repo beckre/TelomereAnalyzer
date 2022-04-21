@@ -20,8 +20,8 @@ namespace TelomereAnalyzer
     public partial class FormTwo : Form
     {
         public Nuclei _allNuclei = null;
-        public Image<Bgr, byte> _NucleiImageEdited = null;
-        public Bitmap _btmNucleiImageEdited = null;
+        public Image<Bgr, byte> _NucleiImageWithAutomaticEdges = null;
+        public Bitmap _btmNucleiImageWithAutomaticEdges = null;
         public Boolean _finishedDrawingOfOneNucleus = false;
         public Boolean _pressedBtnApply = false;
 
@@ -29,21 +29,27 @@ namespace TelomereAnalyzer
         {
             //this.FormClosing += FormTwo_OnClosing;
             this._allNuclei = allNuclei;
-            this._NucleiImageEdited = nucleiImageEdgesDetected;
-            this._btmNucleiImageEdited = nucleiImageEdgesDetected.ToBitmap();
+            this._NucleiImageWithAutomaticEdges = nucleiImageEdgesDetected;
+            this._btmNucleiImageWithAutomaticEdges = nucleiImageEdgesDetected.ToBitmap();
             InitializeComponent();
             _allNuclei.PrepareDrawingCenterPoints();
             _allNuclei.PrepareDrawingContoursByNucleus(new Bgr(Color.DarkSeaGreen));
-            this._NucleiImageEdited = _allNuclei._imageToDrawOn;
-            this._btmNucleiImageEdited = _NucleiImageEdited.ToBitmap();
-            //ShowBitmapOnForm(ImageBoxOneFormTwo, _btmNucleiImageEdited);
-            //panel1.BackgroundImageLayout = ImageLayout.Stretch;
-            panel1.BackgroundImage = _btmNucleiImageEdited;
-            
-            //pictureBox1.BackgroundImage = _btmNucleiImageEdited;
-            DisplayAllNucleiAsCheckboxes();
-
+            this._NucleiImageWithAutomaticEdges = _allNuclei._imageToDrawOn;
+            this._btmNucleiImageWithAutomaticEdges = _NucleiImageWithAutomaticEdges.ToBitmap();
+            ShowImageOnForm(pcBxOriImage, _NucleiImageWithAutomaticEdges);
+            //Displaying the Image in the PictureBox and aligning the ImageBox with the PictureBox on top of it
+            try {
+                //pcBxOriImage.BackgroundImage = image.ToBitmap();
+                imgBx.Width = _NucleiImageWithAutomaticEdges.Width;
+                imgBx.Height = _NucleiImageWithAutomaticEdges.Height;
+                imgBx.MaximumSize = _NucleiImageWithAutomaticEdges.Size;
+                imgBx.Refresh();
         }
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
+}
 
         private void DisplayAllNucleiAsCheckboxes()
         {
@@ -78,13 +84,13 @@ namespace TelomereAnalyzer
             label.Text = nucleusName;
             label.Location = Point.Round(lastPoint);
             //panel1.Controls.Add(label);
-            ImageBoxOneFormTwo.Controls.Add(label);
+            pcBxOriImage.Controls.Add(label);
         }
 
         private void CheckBoxChanged(object sender, EventArgs e)
         {
             CheckBox checkBox = (sender as CheckBox);
-            foreach(Label label in ImageBoxOneFormTwo.Controls.OfType<Label>())
+            foreach(Label label in pcBxOriImage.Controls.OfType<Label>())
             {
                     if (label.Text.Equals(checkBox.Text))
                     {
@@ -233,9 +239,9 @@ namespace TelomereAnalyzer
                 _malKurve[P] = new PointF(_mouseCoordinates[P].X, _mouseCoordinates[P].Y);
 
             e.Graphics.DrawLines(Pens.Green, _malKurve);
-
+            _NucleiImageWithAutomaticEdges = new Image<Bgr, byte>(_btmNucleiImageWithAutomaticEdges);
             //g.DrawLines(Pens.Blue, malKurve); //Wird zwar gemalt aber verschoben vom Klick-Point
-            ShowBitmapOnForm(ImageBoxOneFormTwo, _btmNucleiImageEdited);
+            ShowImageOnForm(pcBxOriImage, _NucleiImageWithAutomaticEdges);
             //_mouseCoordinates = null;
         }
         #endregion
@@ -245,7 +251,7 @@ namespace TelomereAnalyzer
             if (!_finishedDrawingOfOneNucleus)
                 return;
 
-            Graphics graphics = Graphics.FromImage(_btmNucleiImageEdited);
+            Graphics graphics = Graphics.FromImage(_btmNucleiImageWithAutomaticEdges);
             /*
             PointF[] contour = new PointF[_mouseCoordinates.Length];
             for (Int32 P = 0; P < _mouseCoordinates.Length; P++)
@@ -255,8 +261,9 @@ namespace TelomereAnalyzer
             //graphics.DrawLines(Pens.Blue, contour);
             //graphics.DrawPolygon(Pens.Blue, _malKurve);
             graphics.DrawLines(Pens.Green, _malKurve);
-            ShowBitmapOnForm(ImageBoxOneFormTwo, _btmNucleiImageEdited);
-            _NucleiImageEdited = new Image<Bgr, byte>(_btmNucleiImageEdited);
+            _NucleiImageWithAutomaticEdges = new Image<Bgr, byte>(_btmNucleiImageWithAutomaticEdges);
+            ShowImageOnForm(pcBxOriImage, _NucleiImageWithAutomaticEdges);
+            _NucleiImageWithAutomaticEdges = new Image<Bgr, byte>(_btmNucleiImageWithAutomaticEdges);
 
             //hier erstellte Nuclei haben noch keinen Center Point!! Der Center Point ist hier also null!!
             Int32 nucleiNumber = _allNuclei._LstAllNuclei.Count + 1;
@@ -277,7 +284,7 @@ namespace TelomereAnalyzer
         {
             _pressedBtnApply = true;
             btnAddNucleus.Hide();
-            Graphics graphics = Graphics.FromImage(_btmNucleiImageEdited);
+            Graphics graphics = Graphics.FromImage(_btmNucleiImageWithAutomaticEdges);
                 foreach (CheckBox checkBox in pnlSelectNuclei.Controls.OfType<CheckBox>())
                 {
                     if (!checkBox.Checked)
@@ -288,14 +295,14 @@ namespace TelomereAnalyzer
                                 continue;
                             if (checkBox.Name.Equals("chkBx" + _allNuclei._LstAllNuclei[n]._nucleusName))
                             {
-                                _allNuclei.DrawContour(_NucleiImageEdited, _allNuclei._LstAllNuclei[n]._nucleusContourPoints, new Bgr(Color.Red)); //funktioniert nicht bzw. ist nicht sichtbar
+                                _allNuclei.DrawContour(_NucleiImageWithAutomaticEdges, _allNuclei._LstAllNuclei[n]._nucleusContourPoints, new Bgr(Color.Red)); //funktioniert nicht bzw. ist nicht sichtbar
                             /*
                                 SolidBrush redBrush = new SolidBrush(Color.Red);
                                 graphics.FillPolygon(redBrush, _allNuclei._LstAllNuclei[n]._nucleusContourPoints);
                                 Hier sollen einfach nur die Namen der Nuclei auf dem Bild angezeigt werden bzw. verschwinden, wenn sie abgewählt sind
                             */
-                                _NucleiImageEdited = new Image<Bgr, byte>(_btmNucleiImageEdited);
-                                ShowBitmapOnForm(ImageBoxOneFormTwo, _btmNucleiImageEdited);
+                                _NucleiImageWithAutomaticEdges = new Image<Bgr, byte>(_btmNucleiImageWithAutomaticEdges);
+                                ShowImageOnForm(pcBxOriImage, _NucleiImageWithAutomaticEdges);
                                 Refresh();
                                 _allNuclei._LstAllNuclei.Remove(_allNuclei._LstAllNuclei[n]);
                             }
@@ -304,19 +311,25 @@ namespace TelomereAnalyzer
                 }
         }
 
-        public void ShowBitmapOnForm(ImageBox imageBox, Bitmap bitmap)
+        public void ShowImageOnForm(PictureBox picBox, Image<Bgr, byte> image)
         {
-            if (imageBox.BackgroundImage == null)
+            try
             {
-                //imageBox.
-                imageBox.BackgroundImage = bitmap;
-                imageBox.Width = bitmap.Width;
-                imageBox.Height = bitmap.Height;
-                imageBox.MaximumSize = bitmap.Size;
-                imageBox.Refresh();
+                if (picBox.BackgroundImage == null)
+                {
+                    picBox.BackgroundImage = image.ToBitmap();
+                    picBox.Width = image.Width;
+                    picBox.Height = image.Height;
+                    picBox.MaximumSize = image.Size;
+                    picBox.Refresh();
+                }
+                else
+                    picBox.BackgroundImage = image.ToBitmap();
             }
-            else
-                imageBox.BackgroundImage = bitmap;
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
         }
 
         /*
