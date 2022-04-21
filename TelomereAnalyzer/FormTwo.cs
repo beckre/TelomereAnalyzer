@@ -24,46 +24,43 @@ namespace TelomereAnalyzer
         public Bitmap _btmNucleiImageWithAutomaticEdges = null;
         public Boolean _finishedDrawingOfOneNucleus = false;
         public Boolean _pressedBtnApply = false;
+        ImageBox _imgBx;
 
         public FormTwo(Nuclei allNuclei, Image<Bgr, byte> nucleiImageEdgesDetected)
         {
             //this.FormClosing += FormTwo_OnClosing;
+            InitializeComponent();
             this._allNuclei = allNuclei;
             this._NucleiImageWithAutomaticEdges = nucleiImageEdgesDetected;
             this._btmNucleiImageWithAutomaticEdges = nucleiImageEdgesDetected.ToBitmap();
-            InitializeComponent();
-            SetStyle(ControlStyles.SupportsTransparentBackColor, true);
-            //imgBx.BackColor = Color.Transparent;
-
-
-
             _allNuclei.PrepareDrawingCenterPoints();
             _allNuclei.PrepareDrawingContoursByNucleus(new Bgr(Color.DarkSeaGreen));
             this._NucleiImageWithAutomaticEdges = _allNuclei._imageToDrawOn;
             this._btmNucleiImageWithAutomaticEdges = _NucleiImageWithAutomaticEdges.ToBitmap();
+
+            SetStyle(ControlStyles.SupportsTransparentBackColor, true);
             ShowImageOnForm(pcBxOriImage, _NucleiImageWithAutomaticEdges);
-            ImageBox imgBx = new ImageBox();
-            //pnlImgContainer.Controls.Add(imgBx);
-            pcBxOriImage.Controls.Add(imgBx);
-            imgBx.BackColor = Color.Transparent;
-            imgBx.MouseUp += new MouseEventHandler(OnMouseUp);
-            imgBx.MouseDown += new MouseEventHandler(OnMouseDown);
-            imgBx.MouseMove += new MouseEventHandler(OnMouseMove);
-            imgBx.Paint += new PaintEventHandler(OnPaint);
+            _imgBx = new ImageBox();
+            pcBxOriImage.Controls.Add(_imgBx);
             //Displaying the Image in the PictureBox and aligning the ImageBox with the PictureBox on top of it
             try {
                 //pcBxOriImage.BackgroundImage = image.ToBitmap();
-                imgBx.Width = _NucleiImageWithAutomaticEdges.Width;
-                imgBx.Height = _NucleiImageWithAutomaticEdges.Height;
-                imgBx.MaximumSize = _NucleiImageWithAutomaticEdges.Size;
-                imgBx.Location = pcBxOriImage.Location;
-                imgBx.Refresh();
+                _imgBx.Width = _NucleiImageWithAutomaticEdges.Width;
+                _imgBx.Height = _NucleiImageWithAutomaticEdges.Height;
+                _imgBx.MaximumSize = _NucleiImageWithAutomaticEdges.Size;
+                _imgBx.Location = pcBxOriImage.Location;
+                _imgBx.Refresh();
             }
             catch(Exception ex)
             {
                 Console.WriteLine(ex.ToString());
             }
-            
+            _imgBx.BackColor = Color.Transparent;
+            _imgBx.MouseUp += new MouseEventHandler(OnMouseUp);
+            _imgBx.MouseDown += new MouseEventHandler(OnMouseDown);
+            _imgBx.MouseMove += new MouseEventHandler(OnMouseMove);
+            _imgBx.Paint += new PaintEventHandler(OnPaint);
+            DisplayAllNucleiAsCheckboxes();
         }
 
         private void DisplayAllNucleiAsCheckboxes()
@@ -83,6 +80,7 @@ namespace TelomereAnalyzer
                 //dynamically adds EventHandler for each Checkbox that is dynamically created
                 checkBox.CheckedChanged += new EventHandler(CheckBoxChanged);
                 pnlSelectNuclei.Controls.Add(checkBox);
+                
             }
             Refresh();
         }
@@ -99,13 +97,14 @@ namespace TelomereAnalyzer
             label.Text = nucleusName;
             label.Location = Point.Round(lastPoint);
             //panel1.Controls.Add(label);
-            pcBxOriImage.Controls.Add(label);
+            //pcBxOriImage.Controls.Add(label);
+            _imgBx.Controls.Add(label);
         }
 
         private void CheckBoxChanged(object sender, EventArgs e)
         {
             CheckBox checkBox = (sender as CheckBox);
-            foreach(Label label in pcBxOriImage.Controls.OfType<Label>())
+            foreach(Label label in _imgBx.Controls.OfType<Label>())
             {
                     if (label.Text.Equals(checkBox.Text))
                     {
