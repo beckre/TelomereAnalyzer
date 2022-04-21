@@ -20,6 +20,7 @@ namespace TelomereAnalyzer
         //Point[][] _nucleiAllContours = null;
         PointF[][] _nucleiAllContours = null;
 
+
         public Nuclei( )
         {
             _LstAllNuclei = new List<Nucleus>();

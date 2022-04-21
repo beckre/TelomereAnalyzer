@@ -18,6 +18,7 @@ namespace TelomereAnalyzer
         Nuclei _allNuclei = null;
         List<Nucleus> _Lstnuclei = null;
         AllTelomeres _allTelomeres = null;
+
         mso.Application excel = new mso.Application();
         mso.Workbook wb;
         mso.Worksheet ws;
@@ -61,8 +62,8 @@ namespace TelomereAnalyzer
             ws.Cells[1, 10] = "Max";
             ws.Cells[1, 11] = "Stddev";
             ws.Cells[1, 12] = "Mean";
-            //
-            //
+            ws.Cells[1, 13] = "Average of Means";
+
             FillExcelFile();
             wb.SaveAs(filePath);
             wb.Close();
@@ -71,9 +72,23 @@ namespace TelomereAnalyzer
         private void FillExcelFile()
         {
             Int32 counter = 2;
+            
             for (Int32 n = 0; n < _Lstnuclei.Count; n++)
             {
+                Int32 telomereNumber = 1;
                 List<Telomere> lsTelomeres = _Lstnuclei[n]._LstNucleusTelomeres;
+                //are needed for calculating the average of the means
+                double sum = 0;
+                double averageOfMeans = 0;
+                /*
+                for (Int32 t = 0; t < lsTelomeres.Count; t++)
+                {
+                    
+                    sum += lsTelomeres[t]._mean;
+                }
+                averageOfMeans = sum / lsTelomeres.Count;
+                */
+
                 for (Int32 t = 0; t < lsTelomeres.Count; t++)
                 {
                     //here the corresponding Nuclei is written in the 1. column of the Excel file
@@ -81,7 +96,7 @@ namespace TelomereAnalyzer
                     ws.Cells[counter, 1] = "N " + strNuclei.Substring(strNuclei.LastIndexOf(" ") + 1);
 
                     //here the Telomere Numbers are written in the 2. column of the Excel file
-                    ws.Cells[counter, 2] = counter-1;
+                    ws.Cells[counter, 2] = telomereNumber;
 
                     //here the Telomere ID is written in the 3. column of the Excel file --> takes the last characters of the Telomere Name
                     String strTID = lsTelomeres[t]._telomereName;
@@ -101,7 +116,7 @@ namespace TelomereAnalyzer
                     lsTelomeres[t].getAmountOfPixelsInTelomereArea(_formOne._uploadedRawTelomereImage16Bit);
                     ws.Cells[counter, 7] = lsTelomeres[t]._area;
 
-                    //here the sum and the min and max values of the telomere is calculated and written in the 8. column of the Excel file
+                    //here the sum and the min and max values of the telomere are calculated and written in the 8. column of the Excel file
                     //the sum is the sum of all pixel values in the telomere
                     // the min/max are the min/max values of the pixel values in the telomere
                     lsTelomeres[t].getSumMinMaxMeanOfTelomere(_formOne._uploadedRawTelomereImage16Bit);
@@ -113,8 +128,13 @@ namespace TelomereAnalyzer
                     ws.Cells[counter, 11] = lsTelomeres[t]._stdDev;
                     ws.Cells[counter, 12] = lsTelomeres[t]._mean;
 
+                    //here the average of means is written in the 13. column of the Excel file
+                    sum += lsTelomeres[t]._mean;
                     counter++;
+                    telomereNumber++;
                 }
+                averageOfMeans = sum / lsTelomeres.Count;
+                ws.Cells[counter-1, 13] = averageOfMeans;
             }
         }
     }

@@ -38,6 +38,7 @@ namespace TelomereAnalyzer
             this._telomereName = telomereName;
             this._telomereCenterPoint = centerPoint;
             this._telomereContourPoints = contourPoints;
+            _allTelomerePoints = new List<Point>();
             //this._contour = contourPoints;
             // Nun müsste in der Contour<PointF> Liste das gleiche drin sein wie in dem telomer-Contour Array 
             /*
@@ -77,7 +78,7 @@ namespace TelomereAnalyzer
             Bitmap btmp = _imageForFilledPolygon.ToBitmap();
 
             //Then every Pixel in the filled Polygon Image is checked if it's red --> if yes, then the Pixel is added to the List of every Pixel of the entirety of the Telomere
-            _allTelomerePoints = new List<Point>();
+
 
             int width = btmp.Width;
             int height = btmp.Height;
