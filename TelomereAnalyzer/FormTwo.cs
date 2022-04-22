@@ -20,7 +20,7 @@ namespace TelomereAnalyzer
     public partial class FormTwo : Form
     {
         public Nuclei _allNuclei = null;
-        public Image<Bgr, byte> _NucleiImageWithAutomaticEdges = null;
+        public Image<Bgr, byte> _NucleiImageWithAutomaticEdgesToDrawOn = null;
         public Bitmap _btmNucleiImageWithAutomaticEdges = null;
         public Boolean _finishedDrawingOfOneNucleus = false;
         public Boolean _pressedBtnApply = false;
@@ -31,23 +31,23 @@ namespace TelomereAnalyzer
             //this.FormClosing += FormTwo_OnClosing;
             InitializeComponent();
             this._allNuclei = allNuclei;
-            this._NucleiImageWithAutomaticEdges = nucleiImageEdgesDetected;
+            this._NucleiImageWithAutomaticEdgesToDrawOn = nucleiImageEdgesDetected;
             this._btmNucleiImageWithAutomaticEdges = nucleiImageEdgesDetected.ToBitmap();
             _allNuclei.PrepareDrawingCenterPoints();
             _allNuclei.PrepareDrawingContoursByNucleus(new Bgr(Color.DarkSeaGreen));
-            this._NucleiImageWithAutomaticEdges = _allNuclei._imageToDrawOn;
-            this._btmNucleiImageWithAutomaticEdges = _NucleiImageWithAutomaticEdges.ToBitmap();
+            this._NucleiImageWithAutomaticEdgesToDrawOn = _allNuclei._imageToDrawOn;
+            this._btmNucleiImageWithAutomaticEdges = _NucleiImageWithAutomaticEdgesToDrawOn.ToBitmap();
 
             SetStyle(ControlStyles.SupportsTransparentBackColor, true);
-            ShowImageOnForm(pcBxOriImage, _NucleiImageWithAutomaticEdges);
+            ShowImageOnForm(pcBxOriImage, _NucleiImageWithAutomaticEdgesToDrawOn);
             _imgBx = new ImageBox();
             pcBxOriImage.Controls.Add(_imgBx);
             //Displaying the Image in the PictureBox and aligning the ImageBox with the PictureBox on top of it
             try {
                 //pcBxOriImage.BackgroundImage = image.ToBitmap();
-                _imgBx.Width = _NucleiImageWithAutomaticEdges.Width;
-                _imgBx.Height = _NucleiImageWithAutomaticEdges.Height;
-                _imgBx.MaximumSize = _NucleiImageWithAutomaticEdges.Size;
+                _imgBx.Width = _NucleiImageWithAutomaticEdgesToDrawOn.Width;
+                _imgBx.Height = _NucleiImageWithAutomaticEdgesToDrawOn.Height;
+                _imgBx.MaximumSize = _NucleiImageWithAutomaticEdgesToDrawOn.Size;
                 _imgBx.Location = pcBxOriImage.Location;
                 _imgBx.Refresh();
             }
@@ -253,9 +253,9 @@ namespace TelomereAnalyzer
                 _malKurve[P] = new PointF(_mouseCoordinates[P].X, _mouseCoordinates[P].Y);
 
             e.Graphics.DrawLines(Pens.Green, _malKurve);
-            _NucleiImageWithAutomaticEdges = new Image<Bgr, byte>(_btmNucleiImageWithAutomaticEdges);
+            _NucleiImageWithAutomaticEdgesToDrawOn = new Image<Bgr, byte>(_btmNucleiImageWithAutomaticEdges);
             //g.DrawLines(Pens.Blue, malKurve); //Wird zwar gemalt aber verschoben vom Klick-Point
-            ShowImageOnForm(pcBxOriImage, _NucleiImageWithAutomaticEdges);
+            ShowImageOnForm(pcBxOriImage, _NucleiImageWithAutomaticEdgesToDrawOn);
             //_mouseCoordinates = null;
         }
         #endregion
@@ -275,9 +275,9 @@ namespace TelomereAnalyzer
             //graphics.DrawLines(Pens.Blue, contour);
             //graphics.DrawPolygon(Pens.Blue, _malKurve);
             graphics.DrawLines(Pens.Green, _malKurve);
-            _NucleiImageWithAutomaticEdges = new Image<Bgr, byte>(_btmNucleiImageWithAutomaticEdges);
-            ShowImageOnForm(pcBxOriImage, _NucleiImageWithAutomaticEdges);
-            _NucleiImageWithAutomaticEdges = new Image<Bgr, byte>(_btmNucleiImageWithAutomaticEdges);
+            _NucleiImageWithAutomaticEdgesToDrawOn = new Image<Bgr, byte>(_btmNucleiImageWithAutomaticEdges);
+            ShowImageOnForm(pcBxOriImage, _NucleiImageWithAutomaticEdgesToDrawOn);
+            _NucleiImageWithAutomaticEdgesToDrawOn = new Image<Bgr, byte>(_btmNucleiImageWithAutomaticEdges);
 
             //hier erstellte Nuclei haben noch keinen Center Point!! Der Center Point ist hier also null!!
             Int32 nucleiNumber = _allNuclei._LstAllNuclei.Count + 1;
@@ -309,20 +309,21 @@ namespace TelomereAnalyzer
                                 continue;
                             if (checkBox.Name.Equals("chkBx" + _allNuclei._LstAllNuclei[n]._nucleusName))
                             {
-                                _allNuclei.DrawContour(_NucleiImageWithAutomaticEdges, _allNuclei._LstAllNuclei[n]._nucleusContourPoints, new Bgr(Color.Red)); //funktioniert nicht bzw. ist nicht sichtbar
+                                _allNuclei.DrawContour(_NucleiImageWithAutomaticEdgesToDrawOn, _allNuclei._LstAllNuclei[n]._nucleusContourPoints, new Bgr(Color.Red)); //funktioniert nicht bzw. ist nicht sichtbar
                             /*
                                 SolidBrush redBrush = new SolidBrush(Color.Red);
                                 graphics.FillPolygon(redBrush, _allNuclei._LstAllNuclei[n]._nucleusContourPoints);
                                 Hier sollen einfach nur die Namen der Nuclei auf dem Bild angezeigt werden bzw. verschwinden, wenn sie abgewählt sind
                             */
-                                _NucleiImageWithAutomaticEdges = new Image<Bgr, byte>(_btmNucleiImageWithAutomaticEdges);
-                                ShowImageOnForm(pcBxOriImage, _NucleiImageWithAutomaticEdges);
+                                _NucleiImageWithAutomaticEdgesToDrawOn = new Image<Bgr, byte>(_btmNucleiImageWithAutomaticEdges);
+                                ShowImageOnForm(pcBxOriImage, _NucleiImageWithAutomaticEdgesToDrawOn);
                                 Refresh();
                                 _allNuclei._LstAllNuclei.Remove(_allNuclei._LstAllNuclei[n]);
                             }
                         }
                     }
                 }
+                
         }
 
         public void ShowImageOnForm(PictureBox picBox, Image<Bgr, byte> image)

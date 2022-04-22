@@ -137,5 +137,85 @@ namespace TelomereAnalyzer
                 ws.Cells[counter-1, 13] = averageOfMeans;
             }
         }
+
+        private void OnSaveThresholdTelomereImage(object sender, EventArgs e)
+        {
+            SaveFileDialog saveFileDlg = new SaveFileDialog();
+            saveFileDlg.Filter = "tiff files (*.tiff)|*.tiff|All files (*.*|*.*";
+            saveFileDlg.FileName = "Threshold Telomere";
+
+
+            if (saveFileDlg.ShowDialog() == DialogResult.OK)
+            {
+                _formOne._btmTelomereImageThreshold.Save(saveFileDlg.FileName);
+                //_formOne._btmTelomereImageThreshold.Dispose();
+            }
+            else if (saveFileDlg.ShowDialog() == DialogResult.Cancel)
+                return;
+        }
+
+        private void OnSaveThresholdTelomereOverlayNucleiImage(object sender, EventArgs e)
+        {
+            SaveFileDialog saveFileDlg = new SaveFileDialog();
+            saveFileDlg.Filter = "tiff files (*.tiff)|*.tiff|All files (*.*|*.*";
+            saveFileDlg.FileName = "Threshold Telomere Overlay Nuclei";
+
+
+            if (saveFileDlg.ShowDialog() == DialogResult.OK)
+            {
+                _formOne._btmTelomereImageHalfTransparent.Save(saveFileDlg.FileName);
+                //disposen
+            }
+            else if (saveFileDlg.ShowDialog() == DialogResult.Cancel)
+                return;
+        }
+
+        private void OnSaveDetectedNucleiImage(object sender, EventArgs e)
+        {
+            SaveFileDialog saveFileDlg = new SaveFileDialog();
+            saveFileDlg.Filter = "tiff files (*.tiff)|*.tiff|All files (*.*|*.*";
+            saveFileDlg.FileName = "Detected Nuclei";
+
+
+            if (saveFileDlg.ShowDialog() == DialogResult.OK)
+            {
+                _formOne._NucleiImageEdgesDetected.Save(saveFileDlg.FileName);
+                //disposen
+            }
+            else if (saveFileDlg.ShowDialog() == DialogResult.Cancel)
+                return;
+        }
+
+        private void OnSaveDetectedAndDrawnNucleiImage(object sender, EventArgs e)
+        {
+            SaveFileDialog saveFileDlg = new SaveFileDialog();
+            saveFileDlg.Filter = "tiff files (*.tiff)|*.tiff|All files (*.*|*.*";
+            saveFileDlg.FileName = "Detected and drawn Nuclei";
+
+
+            if (saveFileDlg.ShowDialog() == DialogResult.OK)
+            {
+                _formOne._NucleiImageEdgesDetectedAndDrawn.Save(saveFileDlg.FileName);
+                //disposen
+            }
+            else if (saveFileDlg.ShowDialog() == DialogResult.Cancel)
+                return;
+        }
+
+        private void OnSave(object sender, EventArgs e)
+        {
+            SaveFileDialog saveFileDlg = new SaveFileDialog();
+            saveFileDlg.Filter = "tiff files (*.tiff)|*.tiff|All files (*.*|*.*";
+            saveFileDlg.FileName = "Detected and drawn Nuclei merged with Threhold Telomere";
+
+
+            if (saveFileDlg.ShowDialog() == DialogResult.OK)
+            {
+                _formOne._btmNucleiImageMergedWithTresholdImage.Save(saveFileDlg.FileName);
+                //disposen
+            }
+            else if (saveFileDlg.ShowDialog() == DialogResult.Cancel)
+                return;
+        }
     }
 }

@@ -54,19 +54,26 @@ namespace TelomereAnalyzer
         Bitmap _btmTelomereImageNormalized = null;
 
         //Bitmap vom normalisierten Bild, wo die Threshold Methode angewandt wurde
-        Bitmap _btmTelomereImageThreshold = null;
+        public Bitmap _btmTelomereImageThreshold = null;
 
         //Bitmap vom normalisierten Bild, wo die Threshold Methode angewandt wurde und die Transparenz auf die Hälfte gesetzt wurde
-        Bitmap _btmTelomereImageHalfTransparent = null;
+        public Bitmap _btmTelomereImageHalfTransparent = null;
 
         // Image und Bitmap vom Nuclei Bild, welches von Elmi Wood bearbeitet und hieran übergeben wurde
         Image<Gray, byte> _nucleiBitonalForEdgeDetection = null;
 
         //Image und Bitmap vom Nuclei Bild mit Anwendung von Edge Detection
         public Image<Bgr, byte> _NucleiImageEdgesDetected = null;
+
         //Nochmal zum Testen der Nucleus und Nuclei Klasse
         public Image<Bgr, byte> _TestingNucleiImageEdgesDetected = null;
         Bitmap _btmNucleiImageEdgesDetected = null;
+
+        //Image vom Nuclei Bild mit Anwendung von Edge Detection + selbst gemalten Nuclei
+        public Image<Bgr, byte> _NucleiImageEdgesDetectedAndDrawn = null;
+
+        //Bitmap vom Nuclei Bild mit erkannten und gemalten Nuclei + Threshold Telomere Bild mit Transparenz übereinander
+        public Bitmap _btmNucleiImageMergedWithTresholdImage;
 
         //Image von entdeckten Nuclei Bild mit Anwendung von Edge Detection
         public Image<Bgr, byte> _TelomereImageTelomeresDetected = null;
@@ -196,7 +203,8 @@ namespace TelomereAnalyzer
             if (IsImageOkay(_TelomereImageNormalized))
             {
                 Thresholding();
-                MergeImages();
+                _btmTelomereImageHalfTransparent = MergeImages(_btmNucleiImageNormalized, _btmTelomereImageThreshold);
+                BtnDetectNuclei();
             }
             else
             {
@@ -205,34 +213,35 @@ namespace TelomereAnalyzer
                 _NucleiImageNormalized = _uploadedRawNucleiImage8Bit;
                 _btmNucleiImageNormalized = _uploadedRawNucleiImage8Bit.ToBitmap();
                 Thresholding();
-                MergeImages();
+                _btmTelomereImageHalfTransparent = MergeImages(_btmNucleiImageNormalized, _btmTelomereImageThreshold);
+                BtnDetectNuclei();
             }
 
         }
 
-        private void MergeImages()
-        {
-            var finalImage = new Bitmap(_btmTelomereImageThreshold.Width, _btmTelomereImageThreshold.Height);
+        private Bitmap MergeImages(Bitmap primaryImage, Bitmap secondaryImage) {
+            var finalImage = new Bitmap(secondaryImage.Width, secondaryImage.Height);
             var graphics = Graphics.FromImage(finalImage);
             graphics.CompositingMode = CompositingMode.SourceOver;
-
             double alphaTransparent = 0.0;
-            var transparentImage = new Bitmap(_btmTelomereImageThreshold.Width, _btmTelomereImageThreshold.Height);
-            for (int x = 0; x < _btmTelomereImageThreshold.Width; ++x)
+            var transparentImage = new Bitmap(secondaryImage.Width, secondaryImage.Height);
+            for (int x = 0; x < secondaryImage.Width; ++x)
             {
-                for (int y = 0; y < _btmTelomereImageThreshold.Height; ++y)
+                for (int y = 0; y < secondaryImage.Height; ++y)
                 {
                     Color pixel = _btmTelomereImageThreshold.GetPixel(x, y);
                     alphaTransparent = pixel.A / 2.0;
                     transparentImage.SetPixel(x, y, Color.FromArgb(Convert.ToInt32(alphaTransparent), pixel.R, pixel.G, pixel.B));
                 }
             }
-            _btmTelomereImageHalfTransparent = transparentImage;
-            graphics.DrawImage(_btmNucleiImageNormalized, 0, 0);
-            graphics.DrawImage(_btmTelomereImageHalfTransparent, 0, 0);
+            //savingImage = transparentImage;
+            graphics.DrawImage(primaryImage, 0, 0);
+            graphics.DrawImage(transparentImage, 0, 0);
             ShowBitmapOnForm(ImageBoxTwo, finalImage);
+            //savingImage = finalImage;
+            return finalImage;
             //btnDetectingNuclei.Show();
-            BtnDetectNuclei();
+            //BtnDetectNuclei();
         }
 
         private void BtnDetectNuclei()
@@ -265,6 +274,10 @@ namespace TelomereAnalyzer
             FormTwo formTwo = new FormTwo(_allNuclei, _NucleiImageNormalized.Convert<Bgr, byte>());
             formTwo.ShowDialog(); //.ShowDialog anstatt .Show, da es so nicht möglich ist auf das 1. Fenster zuzugreifen, bis das 2. Fenster geschlossen wurde
 
+            _NucleiImageEdgesDetectedAndDrawn = formTwo._NucleiImageWithAutomaticEdgesToDrawOn;
+            _btmNucleiImageMergedWithTresholdImage = MergeImages(_NucleiImageEdgesDetectedAndDrawn.ToBitmap(), _TelomereImageNormalized.ToBitmap());
+
+            //Detecting Telomeres
             Image<Gray, byte> telomereImageToDrawOn = new Image<Gray, byte>(_btmTelomereImageThreshold);
             DetectingTelomeres(telomereImageToDrawOn);
         }

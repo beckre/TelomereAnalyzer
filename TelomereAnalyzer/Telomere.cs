@@ -78,8 +78,6 @@ namespace TelomereAnalyzer
             Bitmap btmp = _imageForFilledPolygon.ToBitmap();
 
             //Then every Pixel in the filled Polygon Image is checked if it's red --> if yes, then the Pixel is added to the List of every Pixel of the entirety of the Telomere
-
-
             int width = btmp.Width;
             int height = btmp.Height;
 
