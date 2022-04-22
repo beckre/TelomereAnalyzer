@@ -32,8 +32,7 @@ namespace TelomereAnalyzer
             this._allTelomeres = allTelomeres;
 
             //Speichert die hier erzeugte Excel-Datei erstmal in einem bestimmten Pfad
-            var file = new FileInfo(@"D:\Hochschule Emden Leer - Bachelor Bioinformatik\Praxisphase Bachelorarbeit Vorbereitungen\Praktikumsstelle\MHH Hannover Telomere\Erzeugte Excel-Datei\excel.xls");
-            
+            //var file = new FileInfo(@"D:\Hochschule Emden Leer - Bachelor Bioinformatik\Praxisphase Bachelorarbeit Vorbereitungen\Praktikumsstelle\MHH Hannover Telomere\Erzeugte Excel-Datei\excel.xls");
             
             //object misValue = System.Reflection.Missing.Value;
             excel = new mso.Application();
@@ -42,12 +41,12 @@ namespace TelomereAnalyzer
             ws = wb.Worksheets[1];
             ws.Name = "Telomere";
 
-            CreateExcelFile(file);
+            CreateExcelFile();
             InitializeComponent();
             
         }
 
-        private void CreateExcelFile(FileInfo filePath)
+        private void CreateExcelFile()
         {
             //here all the headings of the excel file are specified
             ws.Cells[1, 1] = "Nucleus";
@@ -65,8 +64,6 @@ namespace TelomereAnalyzer
             ws.Cells[1, 13] = "Average of Means";
 
             FillExcelFile();
-            wb.SaveAs(filePath);
-            wb.Close();
         }
 
         private void FillExcelFile()
@@ -221,6 +218,22 @@ namespace TelomereAnalyzer
             }
             else if (saveFileDlg.ShowDialog() == DialogResult.Cancel)
                 return;
+        }
+
+        private void OnExportExcel(object sender, EventArgs e)
+        {
+            SaveFileDialog saveFileDlg = new SaveFileDialog();
+            saveFileDlg.Filter = "Excel files (*.xlsx)|*.xlsx|Excel files (*.xls)|*.xls|All files (*.*|*.*";
+            saveFileDlg.FileName = "Telomere Analysis";
+
+            if (saveFileDlg.ShowDialog() == DialogResult.OK)
+            {
+                wb.SaveAs(saveFileDlg.FileName);
+                wb.Close();
+            }
+            else if (saveFileDlg.ShowDialog() == DialogResult.Cancel)
+                return;
+
         }
     }
 }

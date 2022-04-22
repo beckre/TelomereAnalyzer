@@ -31,17 +31,18 @@ namespace TelomereAnalyzer
         {
             this.btnSaveThresholdImage = new System.Windows.Forms.Button();
             this.grpBxSaveImages = new System.Windows.Forms.GroupBox();
+            this.btnSaveMergedNucleiTelomereImage = new System.Windows.Forms.Button();
+            this.lblNucleiTelomereImageMerged = new System.Windows.Forms.Label();
+            this.btnSaveDetectedAndDrawnNucleiImage = new System.Windows.Forms.Button();
+            this.lblDetectedAndDrawnNucleiImage = new System.Windows.Forms.Label();
+            this.btnSaveDetectedNucleiImage = new System.Windows.Forms.Button();
+            this.lblDetectedNucleiImage = new System.Windows.Forms.Label();
+            this.btnSaveThresholdTelomereOverlayNucleiImage = new System.Windows.Forms.Button();
+            this.lblThresholdTemlomereOverlayNucleiImage = new System.Windows.Forms.Label();
+            this.lblThresholdImage = new System.Windows.Forms.Label();
             this.grpBx = new System.Windows.Forms.GroupBox();
             this.lblInstructionsFormTwo = new System.Windows.Forms.Label();
-            this.lblThresholdImage = new System.Windows.Forms.Label();
-            this.lblThresholdTemlomereOverlayNucleiImage = new System.Windows.Forms.Label();
-            this.btnSaveThresholdTelomereOverlayNucleiImage = new System.Windows.Forms.Button();
-            this.lblDetectedNucleiImage = new System.Windows.Forms.Label();
-            this.btnSaveDetectedNucleiImage = new System.Windows.Forms.Button();
-            this.lblDetectedAndDrawnNucleiImage = new System.Windows.Forms.Label();
-            this.btnSaveDetectedAndDrawnNucleiImage = new System.Windows.Forms.Button();
-            this.lblNucleiTelomereImageMerged = new System.Windows.Forms.Label();
-            this.btnSaveMergedNucleiTelomereImage = new System.Windows.Forms.Button();
+            this.btnExportExcel = new System.Windows.Forms.Button();
             this.grpBxSaveImages.SuspendLayout();
             this.grpBx.SuspendLayout();
             this.SuspendLayout();
@@ -59,6 +60,7 @@ namespace TelomereAnalyzer
             // 
             // grpBxSaveImages
             // 
+            this.grpBxSaveImages.Controls.Add(this.btnExportExcel);
             this.grpBxSaveImages.Controls.Add(this.btnSaveMergedNucleiTelomereImage);
             this.grpBxSaveImages.Controls.Add(this.lblNucleiTelomereImageMerged);
             this.grpBxSaveImages.Controls.Add(this.btnSaveDetectedAndDrawnNucleiImage);
@@ -75,6 +77,95 @@ namespace TelomereAnalyzer
             this.grpBxSaveImages.Size = new System.Drawing.Size(828, 1161);
             this.grpBxSaveImages.TabIndex = 2;
             this.grpBxSaveImages.TabStop = false;
+            // 
+            // btnSaveMergedNucleiTelomereImage
+            // 
+            this.btnSaveMergedNucleiTelomereImage.BackColor = System.Drawing.SystemColors.MenuHighlight;
+            this.btnSaveMergedNucleiTelomereImage.Location = new System.Drawing.Point(495, 405);
+            this.btnSaveMergedNucleiTelomereImage.Name = "btnSaveMergedNucleiTelomereImage";
+            this.btnSaveMergedNucleiTelomereImage.Size = new System.Drawing.Size(102, 39);
+            this.btnSaveMergedNucleiTelomereImage.TabIndex = 10;
+            this.btnSaveMergedNucleiTelomereImage.Text = "Save";
+            this.btnSaveMergedNucleiTelomereImage.UseVisualStyleBackColor = false;
+            this.btnSaveMergedNucleiTelomereImage.Click += new System.EventHandler(this.OnSave);
+            // 
+            // lblNucleiTelomereImageMerged
+            // 
+            this.lblNucleiTelomereImageMerged.AutoSize = true;
+            this.lblNucleiTelomereImageMerged.Location = new System.Drawing.Point(27, 419);
+            this.lblNucleiTelomereImageMerged.Name = "lblNucleiTelomereImageMerged";
+            this.lblNucleiTelomereImageMerged.Size = new System.Drawing.Size(375, 25);
+            this.lblNucleiTelomereImageMerged.TabIndex = 9;
+            this.lblNucleiTelomereImageMerged.Text = "Detected and drawn Nuclei Image merged";
+            // 
+            // btnSaveDetectedAndDrawnNucleiImage
+            // 
+            this.btnSaveDetectedAndDrawnNucleiImage.BackColor = System.Drawing.SystemColors.MenuHighlight;
+            this.btnSaveDetectedAndDrawnNucleiImage.Location = new System.Drawing.Point(495, 322);
+            this.btnSaveDetectedAndDrawnNucleiImage.Name = "btnSaveDetectedAndDrawnNucleiImage";
+            this.btnSaveDetectedAndDrawnNucleiImage.Size = new System.Drawing.Size(102, 39);
+            this.btnSaveDetectedAndDrawnNucleiImage.TabIndex = 8;
+            this.btnSaveDetectedAndDrawnNucleiImage.Text = "Save";
+            this.btnSaveDetectedAndDrawnNucleiImage.UseVisualStyleBackColor = false;
+            this.btnSaveDetectedAndDrawnNucleiImage.Click += new System.EventHandler(this.OnSaveDetectedAndDrawnNucleiImage);
+            // 
+            // lblDetectedAndDrawnNucleiImage
+            // 
+            this.lblDetectedAndDrawnNucleiImage.AutoSize = true;
+            this.lblDetectedAndDrawnNucleiImage.Location = new System.Drawing.Point(27, 336);
+            this.lblDetectedAndDrawnNucleiImage.Name = "lblDetectedAndDrawnNucleiImage";
+            this.lblDetectedAndDrawnNucleiImage.Size = new System.Drawing.Size(304, 25);
+            this.lblDetectedAndDrawnNucleiImage.TabIndex = 7;
+            this.lblDetectedAndDrawnNucleiImage.Text = "Detected and drawn Nuclei Image";
+            // 
+            // btnSaveDetectedNucleiImage
+            // 
+            this.btnSaveDetectedNucleiImage.BackColor = System.Drawing.SystemColors.MenuHighlight;
+            this.btnSaveDetectedNucleiImage.Location = new System.Drawing.Point(495, 237);
+            this.btnSaveDetectedNucleiImage.Name = "btnSaveDetectedNucleiImage";
+            this.btnSaveDetectedNucleiImage.Size = new System.Drawing.Size(102, 39);
+            this.btnSaveDetectedNucleiImage.TabIndex = 6;
+            this.btnSaveDetectedNucleiImage.Text = "Save";
+            this.btnSaveDetectedNucleiImage.UseVisualStyleBackColor = false;
+            this.btnSaveDetectedNucleiImage.Click += new System.EventHandler(this.OnSaveDetectedNucleiImage);
+            // 
+            // lblDetectedNucleiImage
+            // 
+            this.lblDetectedNucleiImage.AutoSize = true;
+            this.lblDetectedNucleiImage.Location = new System.Drawing.Point(27, 251);
+            this.lblDetectedNucleiImage.Name = "lblDetectedNucleiImage";
+            this.lblDetectedNucleiImage.Size = new System.Drawing.Size(208, 25);
+            this.lblDetectedNucleiImage.TabIndex = 5;
+            this.lblDetectedNucleiImage.Text = "Detected Nuclei Image";
+            // 
+            // btnSaveThresholdTelomereOverlayNucleiImage
+            // 
+            this.btnSaveThresholdTelomereOverlayNucleiImage.BackColor = System.Drawing.SystemColors.MenuHighlight;
+            this.btnSaveThresholdTelomereOverlayNucleiImage.Location = new System.Drawing.Point(495, 156);
+            this.btnSaveThresholdTelomereOverlayNucleiImage.Name = "btnSaveThresholdTelomereOverlayNucleiImage";
+            this.btnSaveThresholdTelomereOverlayNucleiImage.Size = new System.Drawing.Size(102, 39);
+            this.btnSaveThresholdTelomereOverlayNucleiImage.TabIndex = 4;
+            this.btnSaveThresholdTelomereOverlayNucleiImage.Text = "Save";
+            this.btnSaveThresholdTelomereOverlayNucleiImage.UseVisualStyleBackColor = false;
+            this.btnSaveThresholdTelomereOverlayNucleiImage.Click += new System.EventHandler(this.OnSaveThresholdTelomereOverlayNucleiImage);
+            // 
+            // lblThresholdTemlomereOverlayNucleiImage
+            // 
+            this.lblThresholdTemlomereOverlayNucleiImage.AutoSize = true;
+            this.lblThresholdTemlomereOverlayNucleiImage.Location = new System.Drawing.Point(27, 170);
+            this.lblThresholdTemlomereOverlayNucleiImage.Name = "lblThresholdTemlomereOverlayNucleiImage";
+            this.lblThresholdTemlomereOverlayNucleiImage.Size = new System.Drawing.Size(379, 25);
+            this.lblThresholdTemlomereOverlayNucleiImage.TabIndex = 3;
+            this.lblThresholdTemlomereOverlayNucleiImage.Text = "Threshold Telomere Overlay Nuclei Image";
+            // 
+            // lblThresholdImage
+            // 
+            this.lblThresholdImage.AutoSize = true;
+            this.lblThresholdImage.Location = new System.Drawing.Point(27, 83);
+            this.lblThresholdImage.Name = "lblThresholdImage";
+            this.lblThresholdImage.Size = new System.Drawing.Size(247, 25);
+            this.lblThresholdImage.TabIndex = 2;
+            this.lblThresholdImage.Text = "Threshold Telomere Image";
             // 
             // grpBx
             // 
@@ -100,94 +191,16 @@ namespace TelomereAnalyzer
             this.lblInstructionsFormTwo.TabIndex = 0;
             this.lblInstructionsFormTwo.Text = "Please save the Images and Export the Excel File of the Analysis.";
             // 
-            // lblThresholdImage
+            // btnExportExcel
             // 
-            this.lblThresholdImage.AutoSize = true;
-            this.lblThresholdImage.Location = new System.Drawing.Point(27, 83);
-            this.lblThresholdImage.Name = "lblThresholdImage";
-            this.lblThresholdImage.Size = new System.Drawing.Size(247, 25);
-            this.lblThresholdImage.TabIndex = 2;
-            this.lblThresholdImage.Text = "Threshold Telomere Image";
-            // 
-            // lblThresholdTemlomereOverlayNucleiImage
-            // 
-            this.lblThresholdTemlomereOverlayNucleiImage.AutoSize = true;
-            this.lblThresholdTemlomereOverlayNucleiImage.Location = new System.Drawing.Point(27, 170);
-            this.lblThresholdTemlomereOverlayNucleiImage.Name = "lblThresholdTemlomereOverlayNucleiImage";
-            this.lblThresholdTemlomereOverlayNucleiImage.Size = new System.Drawing.Size(379, 25);
-            this.lblThresholdTemlomereOverlayNucleiImage.TabIndex = 3;
-            this.lblThresholdTemlomereOverlayNucleiImage.Text = "Threshold Telomere Overlay Nuclei Image";
-            // 
-            // btnSaveThresholdTelomereOverlayNucleiImage
-            // 
-            this.btnSaveThresholdTelomereOverlayNucleiImage.BackColor = System.Drawing.SystemColors.MenuHighlight;
-            this.btnSaveThresholdTelomereOverlayNucleiImage.Location = new System.Drawing.Point(495, 156);
-            this.btnSaveThresholdTelomereOverlayNucleiImage.Name = "btnSaveThresholdTelomereOverlayNucleiImage";
-            this.btnSaveThresholdTelomereOverlayNucleiImage.Size = new System.Drawing.Size(102, 39);
-            this.btnSaveThresholdTelomereOverlayNucleiImage.TabIndex = 4;
-            this.btnSaveThresholdTelomereOverlayNucleiImage.Text = "Save";
-            this.btnSaveThresholdTelomereOverlayNucleiImage.UseVisualStyleBackColor = false;
-            this.btnSaveThresholdTelomereOverlayNucleiImage.Click += new System.EventHandler(this.OnSaveThresholdTelomereOverlayNucleiImage);
-            // 
-            // lblDetectedNucleiImage
-            // 
-            this.lblDetectedNucleiImage.AutoSize = true;
-            this.lblDetectedNucleiImage.Location = new System.Drawing.Point(27, 251);
-            this.lblDetectedNucleiImage.Name = "lblDetectedNucleiImage";
-            this.lblDetectedNucleiImage.Size = new System.Drawing.Size(208, 25);
-            this.lblDetectedNucleiImage.TabIndex = 5;
-            this.lblDetectedNucleiImage.Text = "Detected Nuclei Image";
-            // 
-            // btnSaveDetectedNucleiImage
-            // 
-            this.btnSaveDetectedNucleiImage.BackColor = System.Drawing.SystemColors.MenuHighlight;
-            this.btnSaveDetectedNucleiImage.Location = new System.Drawing.Point(495, 237);
-            this.btnSaveDetectedNucleiImage.Name = "btnSaveDetectedNucleiImage";
-            this.btnSaveDetectedNucleiImage.Size = new System.Drawing.Size(102, 39);
-            this.btnSaveDetectedNucleiImage.TabIndex = 6;
-            this.btnSaveDetectedNucleiImage.Text = "Save";
-            this.btnSaveDetectedNucleiImage.UseVisualStyleBackColor = false;
-            this.btnSaveDetectedNucleiImage.Click += new System.EventHandler(this.OnSaveDetectedNucleiImage);
-            // 
-            // lblDetectedAndDrawnNucleiImage
-            // 
-            this.lblDetectedAndDrawnNucleiImage.AutoSize = true;
-            this.lblDetectedAndDrawnNucleiImage.Location = new System.Drawing.Point(27, 336);
-            this.lblDetectedAndDrawnNucleiImage.Name = "lblDetectedAndDrawnNucleiImage";
-            this.lblDetectedAndDrawnNucleiImage.Size = new System.Drawing.Size(304, 25);
-            this.lblDetectedAndDrawnNucleiImage.TabIndex = 7;
-            this.lblDetectedAndDrawnNucleiImage.Text = "Detected and drawn Nuclei Image";
-            // 
-            // btnSaveDetectedAndDrawnNucleiImage
-            // 
-            this.btnSaveDetectedAndDrawnNucleiImage.BackColor = System.Drawing.SystemColors.MenuHighlight;
-            this.btnSaveDetectedAndDrawnNucleiImage.Location = new System.Drawing.Point(495, 322);
-            this.btnSaveDetectedAndDrawnNucleiImage.Name = "btnSaveDetectedAndDrawnNucleiImage";
-            this.btnSaveDetectedAndDrawnNucleiImage.Size = new System.Drawing.Size(102, 39);
-            this.btnSaveDetectedAndDrawnNucleiImage.TabIndex = 8;
-            this.btnSaveDetectedAndDrawnNucleiImage.Text = "Save";
-            this.btnSaveDetectedAndDrawnNucleiImage.UseVisualStyleBackColor = false;
-            this.btnSaveDetectedAndDrawnNucleiImage.Click += new System.EventHandler(this.OnSaveDetectedAndDrawnNucleiImage);
-            // 
-            // lblNucleiTelomereImageMerged
-            // 
-            this.lblNucleiTelomereImageMerged.AutoSize = true;
-            this.lblNucleiTelomereImageMerged.Location = new System.Drawing.Point(27, 419);
-            this.lblNucleiTelomereImageMerged.Name = "lblNucleiTelomereImageMerged";
-            this.lblNucleiTelomereImageMerged.Size = new System.Drawing.Size(375, 25);
-            this.lblNucleiTelomereImageMerged.TabIndex = 9;
-            this.lblNucleiTelomereImageMerged.Text = "Detected and drawn Nuclei Image merged";
-            // 
-            // btnSaveMergedNucleiTelomereImage
-            // 
-            this.btnSaveMergedNucleiTelomereImage.BackColor = System.Drawing.SystemColors.MenuHighlight;
-            this.btnSaveMergedNucleiTelomereImage.Location = new System.Drawing.Point(495, 405);
-            this.btnSaveMergedNucleiTelomereImage.Name = "btnSaveMergedNucleiTelomereImage";
-            this.btnSaveMergedNucleiTelomereImage.Size = new System.Drawing.Size(102, 39);
-            this.btnSaveMergedNucleiTelomereImage.TabIndex = 10;
-            this.btnSaveMergedNucleiTelomereImage.Text = "Save";
-            this.btnSaveMergedNucleiTelomereImage.UseVisualStyleBackColor = false;
-            this.btnSaveMergedNucleiTelomereImage.Click += new System.EventHandler(this.OnSave);
+            this.btnExportExcel.BackColor = System.Drawing.SystemColors.MenuHighlight;
+            this.btnExportExcel.Location = new System.Drawing.Point(337, 819);
+            this.btnExportExcel.Name = "btnExportExcel";
+            this.btnExportExcel.Size = new System.Drawing.Size(156, 93);
+            this.btnExportExcel.TabIndex = 11;
+            this.btnExportExcel.Text = "Export Excel";
+            this.btnExportExcel.UseVisualStyleBackColor = false;
+            this.btnExportExcel.Click += new System.EventHandler(this.OnExportExcel);
             // 
             // FormThree
             // 
@@ -220,5 +233,6 @@ namespace TelomereAnalyzer
         private System.Windows.Forms.Label lblDetectedAndDrawnNucleiImage;
         private System.Windows.Forms.Button btnSaveMergedNucleiTelomereImage;
         private System.Windows.Forms.Label lblNucleiTelomereImageMerged;
+        private System.Windows.Forms.Button btnExportExcel;
     }
 }
