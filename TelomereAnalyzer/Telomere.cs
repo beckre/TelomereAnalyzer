@@ -98,7 +98,7 @@ namespace TelomereAnalyzer
             _area = _allTelomerePoints.Count;
         }
 
-        public void getSumMinMaxMeanOfTelomere(Image<Gray, UInt16> image)
+        public void getSumMinMaxMeanStddevOfTelomere(Image<Gray, UInt16> image)
         {
             List<double> redOfPixel = new List<double>();
             Bitmap btmp = new Bitmap(image.ToBitmap());
@@ -123,7 +123,7 @@ namespace TelomereAnalyzer
 
             //Calculate the standard deviation
             double ret = 0;
-                //Compute the Average
+                //Compute the Average --> the average is the mean
                 //double avg = values.Average();
 
                 //Perform the Sum of (value-avg)^2

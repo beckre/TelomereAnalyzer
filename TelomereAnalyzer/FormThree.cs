@@ -119,7 +119,7 @@ namespace TelomereAnalyzer
                     //here the sum and the min and max values of the telomere are calculated and written in the 8. column of the Excel file
                     //the sum is the sum of all pixel values in the telomere
                     // the min/max are the min/max values of the pixel values in the telomere
-                    lsTelomeres[t].getSumMinMaxMeanOfTelomere(_formOne._uploadedRawTelomereImage16Bit);
+                    lsTelomeres[t].getSumMinMaxMeanStddevOfTelomere(_formOne._uploadedRawTelomereImage16Bit);
                     ws.Cells[counter, 8] = lsTelomeres[t]._sum;
                     ws.Cells[counter, 9] = lsTelomeres[t]._min;
                     ws.Cells[counter, 10] = lsTelomeres[t]._max;
