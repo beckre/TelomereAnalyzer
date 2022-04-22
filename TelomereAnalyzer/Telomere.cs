@@ -70,11 +70,11 @@ namespace TelomereAnalyzer
             Bitmap btmReference = new Bitmap(imageForReference.ToBitmap());
             Graphics graphics = Graphics.FromImage(btmReference);
 
-            //First the Polygon is filled in red on an empty image
+            //First the Polygon is filled in red on the reference Image
             SolidBrush redBrush = new SolidBrush(Color.Red);
             graphics.FillPolygon(redBrush, _telomereContourPoints);
             _imageForFilledPolygon = new Image<Bgr, UInt16>(btmReference);
-            _imageForFilledPolygon.Save(@"D:\Hochschule Emden Leer - Bachelor Bioinformatik\Praxisphase Bachelorarbeit Vorbereitungen\Praktikumsstelle\MHH Hannover Telomere\WE Transfer\Bilder filled Polygon\TelomerInRot.jpg");
+            _imageForFilledPolygon.Save(@"D:\Hochschule Emden Leer - Bachelor Bioinformatik\Praxisphase Bachelorarbeit Vorbereitungen\Praktikumsstelle\MHH Hannover Telomere\WE Transfer\Bilder filled Polygon\TelomerInRot" +this._telomereName +".jpg");
             Bitmap btmp = _imageForFilledPolygon.ToBitmap();
 
             //Then every Pixel in the filled Polygon Image is checked if it's red --> if yes, then the Pixel is added to the List of every Pixel of the entirety of the Telomere
@@ -119,7 +119,10 @@ namespace TelomereAnalyzer
             }
             _min = tempMin;
             _max = tempMax;
-            _mean = _sum/_allTelomerePoints.Count;
+            if (_allTelomerePoints.Count > 0)
+                _mean = _sum / _allTelomerePoints.Count;
+            else
+                _mean = 0;
 
             //Calculate the standard deviation
             double ret = 0;

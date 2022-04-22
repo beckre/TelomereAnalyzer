@@ -133,7 +133,12 @@ namespace TelomereAnalyzer
                     counter++;
                     telomereNumber++;
                 }
-                averageOfMeans = sum / lsTelomeres.Count;
+                //Kann natürlich nicht durch 0 teilen --> Polygon konnte nicht rot gefärbt werden aufgrund von zu wenig Kontur-Punkten oder Standort der Punkte
+                //Ist dies der Fall gibt es natürlich auch nur eine Area = 0 --> Alles andere = 0 --> muss gefixt werden
+                if (lsTelomeres.Count > 0)
+                    averageOfMeans = sum / lsTelomeres.Count;
+                else
+                    averageOfMeans = 0;
                 ws.Cells[counter-1, 13] = averageOfMeans;
             }
         }
