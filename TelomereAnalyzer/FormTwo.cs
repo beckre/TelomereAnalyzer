@@ -337,6 +337,7 @@ namespace TelomereAnalyzer
             _mouseCoordinates = null;
             _malKurve = null;
             DisplayAddedNucleusAsCheckboxes(nucleus);
+            //
         }
         /*
          * Hier werden alle Checkboxen im Panel durchgegangen.
