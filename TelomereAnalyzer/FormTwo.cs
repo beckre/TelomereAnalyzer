@@ -67,13 +67,12 @@ namespace TelomereAnalyzer
             _imgBx.MouseDown += new MouseEventHandler(OnMouseDown);
             _imgBx.MouseMove += new MouseEventHandler(OnMouseMove);
             _imgBx.Paint += new PaintEventHandler(OnPaint);
-            DisplayAllNucleiAsCheckboxes();
+            DisplayAllNucleiAsCheckboxesBeginning();
         }
 
-        private void DisplayAllNucleiAsCheckboxes()
+        private void DisplayAllNucleiAsCheckboxesBeginning()
         {
             pnlSelectNuclei.Controls.Clear();
-
             for(Int32 n = 0; n < _allNuclei._LstAllNuclei.Count; n++)
             {
                 CheckBox checkBox = new CheckBox();
@@ -81,15 +80,38 @@ namespace TelomereAnalyzer
                 checkBox.Text = _allNuclei._LstAllNuclei[n]._nucleusName;
                 checkBox.Width = (TextRenderer.MeasureText(checkBox.Text, checkBox.Font)).Width + 50;
                 checkBox.Location = new Point(5, pnlSelectNuclei.Controls.Count * 20);
-                checkBox.Checked = true;
-                //for (Int32 n = 0; n < _allNuclei._LstAllNuclei.Count; n++)
+                //checkBox.Checked = true;
                 CreateNucleiLabelOnImageBox(_allNuclei._LstAllNuclei[n]._nucleusContourPoints, _allNuclei._LstAllNuclei[n]._nucleusName);
                 //dynamically adds EventHandler for each Checkbox that is dynamically created
                 checkBox.CheckedChanged += new EventHandler(CheckBoxChanged);
                 pnlSelectNuclei.Controls.Add(checkBox);
-                
+            }            
+            foreach (Label label in _imgBx.Controls.OfType<Label>()) 
+            {
+                foreach(CheckBox checkBx in pnlSelectNuclei.Controls.OfType<CheckBox>())
+                    if (label.Text.Equals(checkBx.Text))
+                    {
+                        if (label.ForeColor.ToArgb().Equals(Color.White.ToArgb()))
+                            checkBx.Checked = true;
+                        else
+                            checkBx.Checked = false;
+                    }
             }
             Refresh();
+        }
+
+        private void DisplayAddedNucleusAsCheckboxes(Nucleus nucleus)
+        {
+            CheckBox checkBox = new CheckBox();
+            checkBox.Name = "chkBx" + nucleus._nucleusName;
+            checkBox.Text = nucleus._nucleusName;
+            checkBox.Width = (TextRenderer.MeasureText(checkBox.Text, checkBox.Font)).Width + 50;
+            checkBox.Location = new Point(5, pnlSelectNuclei.Controls.Count * 20);
+            checkBox.Checked = true;
+            CreateNucleiLabelOnImageBox(nucleus._nucleusContourPoints, nucleus._nucleusName);
+            //dynamically adds EventHandler for each Checkbox that is dynamically created
+            checkBox.CheckedChanged += new EventHandler(CheckBoxChanged);
+            pnlSelectNuclei.Controls.Add(checkBox);
         }
 
         private void CreateNucleiLabelOnImageBox(PointF[] contour, String nucleusName)
@@ -106,6 +128,7 @@ namespace TelomereAnalyzer
             //panel1.Controls.Add(label);
             //pcBxOriImage.Controls.Add(label);
             _imgBx.Controls.Add(label);
+            label.Show();
         }
 
         private void CheckBoxChanged(object sender, EventArgs e)
@@ -119,9 +142,11 @@ namespace TelomereAnalyzer
                     if (!checkBox.Checked)
                     {
                         label.Hide();
+                        label.ForeColor = Color.Red;
                     }
                     else if (checkBox.Checked)
                     {
+                        label.ForeColor = Color.White;
                         label.Show();
                     }
                 }
@@ -138,18 +163,13 @@ namespace TelomereAnalyzer
                         {      
                             foreach(CheckBox checkBx in pnlSelectNuclei.Controls.OfType<CheckBox>())
                             {
-                                /*
-                                    if (!checkBox.Checked)
-                                    {
-                                        
-                                    }
-                                    */
                                 //If the Nuclei Name equals an checked Checkbox the Nucleus should be redrawn
                                 if ( checkBx.Text.Equals(_allNuclei._LstAllNuclei.ElementAt(E)._nucleusName))
                                     {
                                         if (checkBx.Checked)
                                         {
                                             _NucleiImageWithAutomaticEdgesToDrawOn = _allNuclei.DrawContour(_NucleiImageWithAutomaticEdgesToDrawOn, _allNuclei._LstAllNuclei.ElementAt(E)._nucleusContourPoints, new Bgr(Color.DarkSeaGreen));
+                                            _btmNucleiImageWithAutomaticEdges = _NucleiImageWithAutomaticEdgesToDrawOn.ToBitmap();
                                         }
                                     }   
                             }
@@ -306,19 +326,9 @@ namespace TelomereAnalyzer
                 return;
 
             Graphics graphics = Graphics.FromImage(_btmNucleiImageWithAutomaticEdges);
-            /*
-            PointF[] contour = new PointF[_mouseCoordinates.Length];
-            for (Int32 P = 0; P < _mouseCoordinates.Length; P++)
-                contour[P] = new PointF(_mouseCoordinates[P].X, _mouseCoordinates[P].Y);
-            */
-
-            //graphics.DrawLines(Pens.Blue, contour);
-            //graphics.DrawPolygon(Pens.Blue, _malKurve);
-            graphics.DrawLines(Pens.Green, _malKurve);
+            graphics.DrawLines(Pens.Green, _malKurve);       
             _NucleiImageWithAutomaticEdgesToDrawOn = new Image<Bgr, byte>(_btmNucleiImageWithAutomaticEdges);
             ShowImageOnForm(pcBxOriImage, _NucleiImageWithAutomaticEdgesToDrawOn);
-            _NucleiImageWithAutomaticEdgesToDrawOn = new Image<Bgr, byte>(_btmNucleiImageWithAutomaticEdges);
-
             //hier erstellte Nuclei haben noch keinen Center Point!! Der Center Point ist hier also null!!
             Int32 nucleiNumber = _allNuclei._LstAllNuclei.Count + 1;
             Nucleus nucleus = new Nucleus("Nucleus " + nucleiNumber, _malKurve);
@@ -326,7 +336,7 @@ namespace TelomereAnalyzer
             _finishedDrawingOfOneNucleus = false;
             _mouseCoordinates = null;
             _malKurve = null;
-            DisplayAllNucleiAsCheckboxes();
+            DisplayAddedNucleusAsCheckboxes(nucleus);
         }
         /*
          * Hier werden alle Checkboxen im Panel durchgegangen.
