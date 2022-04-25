@@ -64,14 +64,8 @@ namespace TelomereAnalyzer
                     {
                         if(_LstAllNuclei.ElementAt(E)._nucleusContourPoints != null)
                         {
-                            DrawContour(_imageToDrawOn, _LstAllNuclei.ElementAt(E)._nucleusContourPoints, color);
-                            /*
-                            Point[] points = _allNucleiCoordinates.ElementAt(E)._contourPoints;
-                            for (Int32 J = 0; J < points.Length; J++)
-                            {
-                                DrawContour(points[J]);
-                            }
-                            */
+                            _imageToDrawOn = DrawContour(_imageToDrawOn, _LstAllNuclei.ElementAt(E)._nucleusContourPoints, color);
+                            _btmImageToDrawOn = _imageToDrawOn.ToBitmap();
                         }
                     }
 
@@ -103,17 +97,18 @@ namespace TelomereAnalyzer
 
         }
 
-        public void DrawContour(Image<Bgr, byte> imageToDrawOn, PointF[] contour, Bgr color)
+        public Image<Bgr, byte> DrawContour(Image<Bgr, byte> imageToDrawOn, PointF[] contour, Bgr color)
         {
             //Bgr color = new Bgr(Color.Green);
-            _btmImageToDrawOn = imageToDrawOn.ToBitmap();
+            Bitmap btmp = imageToDrawOn.ToBitmap();
 
             //_imageToDrawOn.DrawPolyline(contour, true, color, 1);
-            Graphics graphics = Graphics.FromImage(_btmImageToDrawOn);
+            Graphics graphics = Graphics.FromImage(btmp);
             graphics.DrawPolygon(Pens.Green, contour);
-            imageToDrawOn = new Image<Bgr, byte>(_btmImageToDrawOn);
-            _imageToDrawOn = imageToDrawOn;
-            _btmImageToDrawOn = _imageToDrawOn.ToBitmap();
+            imageToDrawOn = new Image<Bgr, byte>(btmp);
+            Image<Bgr, byte> imageForDrawing = imageToDrawOn;
+            //btmp = _imageToDrawOn.ToBitmap();
+            return imageForDrawing;
         }
 
         public void PrintResultValues()

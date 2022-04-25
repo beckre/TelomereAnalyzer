@@ -20,19 +20,26 @@ namespace TelomereAnalyzer
     public partial class FormTwo : Form
     {
         public Nuclei _allNuclei = null;
+        //Final Images
         public Image<Bgr, byte> _NucleiImageWithAutomaticEdgesToDrawOn = null;
         public Bitmap _btmNucleiImageWithAutomaticEdges = null;
+        //RawImages
+        public Image<Bgr, byte> _RawNucleiImage = null;
+     
         public Boolean _finishedDrawingOfOneNucleus = false;
         public Boolean _pressedBtnApply = false;
         ImageBox _imgBx;
 
-        public FormTwo(Nuclei allNuclei, Image<Bgr, byte> nucleiImageEdgesDetected)
+        public FormTwo(Nuclei allNuclei, Image<Bgr, byte> rawNucleiImageNormalized)
         {
             //this.FormClosing += FormTwo_OnClosing;
             InitializeComponent();
             this._allNuclei = allNuclei;
+            /*
             this._NucleiImageWithAutomaticEdgesToDrawOn = nucleiImageEdgesDetected;
             this._btmNucleiImageWithAutomaticEdges = nucleiImageEdgesDetected.ToBitmap();
+            */
+            this._RawNucleiImage = rawNucleiImageNormalized;
             _allNuclei.PrepareDrawingCenterPoints();
             _allNuclei.PrepareDrawingContoursByNucleus(new Bgr(Color.DarkSeaGreen));
             this._NucleiImageWithAutomaticEdgesToDrawOn = _allNuclei._imageToDrawOn;
@@ -103,21 +110,54 @@ namespace TelomereAnalyzer
 
         private void CheckBoxChanged(object sender, EventArgs e)
         {
+            //Label hiding/showing if Checkbox not checked/checked
             CheckBox checkBox = (sender as CheckBox);
-            foreach(Label label in _imgBx.Controls.OfType<Label>())
+            foreach (Label label in _imgBx.Controls.OfType<Label>())
             {
-                    if (label.Text.Equals(checkBox.Text))
+                if (label.Text.Equals(checkBox.Text))
+                {
+                    if (!checkBox.Checked)
                     {
-                        if (!checkBox.Checked)
-                        {
-                            label.Hide();
-                        }
-                        else if (checkBox.Checked)
-                        {
-                            label.Show();
+                        label.Hide();
+                    }
+                    else if (checkBox.Checked)
+                    {
+                        label.Show();
+                    }
+                }
+            }
+            //attempt to redraw the shown Image with deselected Nuclei without their borders and redraw them when selected again
+            _NucleiImageWithAutomaticEdgesToDrawOn = _RawNucleiImage;
+            if (_allNuclei._LstAllNuclei != null)
+            {
+                for (Int32 E = 0; E < _allNuclei._LstAllNuclei.Count; E++)
+                {
+                    if (_allNuclei._LstAllNuclei.ElementAt(E) != null)
+                    {
+                        if (_allNuclei._LstAllNuclei.ElementAt(E)._nucleusContourPoints != null)
+                        {      
+                            foreach(CheckBox checkBx in pnlSelectNuclei.Controls.OfType<CheckBox>())
+                            {
+                                /*
+                                    if (!checkBox.Checked)
+                                    {
+                                        
+                                    }
+                                    */
+                                //If the Nuclei Name equals an checked Checkbox the Nucleus should be redrawn
+                                if ( checkBx.Text.Equals(_allNuclei._LstAllNuclei.ElementAt(E)._nucleusName))
+                                    {
+                                        if (checkBx.Checked)
+                                        {
+                                            _NucleiImageWithAutomaticEdgesToDrawOn = _allNuclei.DrawContour(_NucleiImageWithAutomaticEdgesToDrawOn, _allNuclei._LstAllNuclei.ElementAt(E)._nucleusContourPoints, new Bgr(Color.DarkSeaGreen));
+                                        }
+                                    }   
+                            }
                         }
                     }
+                }
             }
+            ShowImageOnForm(pcBxOriImage, _NucleiImageWithAutomaticEdgesToDrawOn);
         }
 
         #region Nuclei Borders drawn by User--------------------------------------------------------
