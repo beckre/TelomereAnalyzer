@@ -366,16 +366,14 @@ namespace TelomereAnalyzer
                     }
                 }
             }
-            //Alles zum Testen
 
+            //Alles zum Testen
             _TestingAllocatingTelomeresToNucleus = new Image<Bgr, byte>(_btmTelomereImageThreshold);
             //malt Kontur von 1 Nuclei
             PointF[] contour = _allNuclei._LstAllNuclei[1]._nucleusContourPoints;
             Bgr color = new Bgr(Color.HotPink);
 
             //_TestingAllocatingTelomeresToNucleus.DrawPolyline(contour, true, color, 1);
-
-
             //List<Telomere> telomeres = _allNuclei._allNuclei[0]._nucleusTelomeres;
             //malt Konturen zu zugehörigen Telomeren
             for (Int32 i = 0; i < _allNuclei._LstAllNuclei[1]._LstNucleusTelomeres.Count; i++)
@@ -388,6 +386,7 @@ namespace TelomereAnalyzer
             //ShowBitmapOnForm(ImageBoxOne, _TestingAllocatingTelomeresToNucleus.ToBitmap());
             //_TestingAllocatingTelomeresToNucleus.Save("D:\\Hochschule Emden Leer - Bachelor Bioinformatik\\Praxisphase Bachelorarbeit Vorbereitungen\\Praktikumsstelle\\MHH Hannover Telomere\\Programm Bilder\\6_TestingTelomeresDetected.tiff");
             // Ende Testen
+
             DisplayEndResults();
         }
 
