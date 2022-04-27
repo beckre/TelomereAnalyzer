@@ -61,7 +61,7 @@ namespace TelomereAnalyzer
             _highestX = float.NegativeInfinity;
             _highestY = float.NegativeInfinity;
 
-            for(int p = 0; p < _telomereContourPoints.Length; p++)
+            for (int p = 0; p < _telomereContourPoints.Length; p++)
             {
                 if (_telomereContourPoints[p].X < _lowestX)
                     _lowestX = _telomereContourPoints[p].X;
@@ -99,10 +99,10 @@ namespace TelomereAnalyzer
             tempRedFilledPolygonImg.Save(@"D:\Hochschule Emden Leer - Bachelor Bioinformatik\Praxisphase Bachelorarbeit Vorbereitungen\Praktikumsstelle\MHH Hannover Telomere\WE Transfer\Bilder filled Polygon\Reference Telomer " + this._telomereName + ".jpg");
             //tempRedFilledPolygonImg.ROI = rec;
             _ROIimageForFilledPolygon = tempRedFilledPolygonImg.Copy(rec);
-            
-            _ROIimageForFilledPolygon.Save(@"D:\Hochschule Emden Leer - Bachelor Bioinformatik\Praxisphase Bachelorarbeit Vorbereitungen\Praktikumsstelle\MHH Hannover Telomere\WE Transfer\Bilder filled Polygon\ROI Red Telomer " +this._telomereName +".jpg");
-            _ROIimageForTelomerePolygon.Save(@"D:\Hochschule Emden Leer - Bachelor Bioinformatik\Praxisphase Bachelorarbeit Vorbereitungen\Praktikumsstelle\MHH Hannover Telomere\WE Transfer\Bilder filled Polygon\ROI Telomer " +this._telomereName +".jpg");
-            
+
+            _ROIimageForFilledPolygon.Save(@"D:\Hochschule Emden Leer - Bachelor Bioinformatik\Praxisphase Bachelorarbeit Vorbereitungen\Praktikumsstelle\MHH Hannover Telomere\WE Transfer\Bilder filled Polygon\ROI Red Telomer " + this._telomereName + ".jpg");
+            _ROIimageForTelomerePolygon.Save(@"D:\Hochschule Emden Leer - Bachelor Bioinformatik\Praxisphase Bachelorarbeit Vorbereitungen\Praktikumsstelle\MHH Hannover Telomere\WE Transfer\Bilder filled Polygon\ROI Telomer " + this._telomereName + ".jpg");
+
             Bitmap btmp = _ROIimageForFilledPolygon.ToBitmap();
 
             //Then every Pixel in the ROI filled Polygon Image is checked if it's red --> if yes, then the Pixel is added to the List of every Pixel of the entirety of the Telomere
@@ -114,7 +114,7 @@ namespace TelomereAnalyzer
                 for (int w = 0; w < width; w++)
                 {
                     Color checkedColor = btmp.GetPixel(w, h);
-                    if(Color.Red.ToArgb().Equals(checkedColor.ToArgb()))
+                    if (Color.Red.ToArgb().Equals(checkedColor.ToArgb()))
                     {
                         Point p = new Point();
                         p.X = w;
@@ -124,46 +124,47 @@ namespace TelomereAnalyzer
                 }
             }
             //Very small Areas of Telomere Contours cannot be filled with .fillPolygon()
-            if (_telomereContourPoints.Length < 10)
+            if (_telomereContourPoints.Length < 8)
             {
-                for(Int32 i = 0; i < _telomereContourPoints.Length; i++)
+                for (Int32 i = 0; i < _telomereContourPoints.Length; i++)
                 {
                     Point point = Point.Round(_telomereContourPoints[i]);
                     _allTelomerePoints.Add(point);
                 }
             }
-                
+
             _area = _allTelomerePoints.Count;
         }
 
-        public void getSumMinMaxMeanStddevOfTelomere()
+        public void getSumMinMaxMeanStddevOfTelomere(Image<Gray, UInt16> imageForReference)
         {
-            if(_telomereContourPoints.Length < 10)
+            Bitmap btmp = null;
+            if (_telomereContourPoints.Length < 8)
             {
                 //temporäre Lösung für sehr kleine Telomere unter 8 Pixel --> muss noch geändert werden
-                _min = 0;
-                _max = 0;
-                _mean = 0;
-                _stdDev = 0;
-                return;
+                btmp = imageForReference.ToBitmap();
+            }
+            else
+            {
+                btmp = _ROIimageForTelomerePolygon.ToBitmap();
             }
             List<double> redOfPixel = new List<double>();
             //Bitmap btmp = new Bitmap(image.ToBitmap());
-            Bitmap btmp = _ROIimageForTelomerePolygon.ToBitmap();
+
             _sum = 0;
             int tempMin = int.MaxValue;
             int tempMax = int.MinValue;
-            for(Int32 p = 0; p < _allTelomerePoints.Count; p++)
+            for (Int32 p = 0; p < _allTelomerePoints.Count; p++)
             {
-                Color tempColor = btmp.GetPixel(_allTelomerePoints[p].X, _allTelomerePoints[p].Y); //Out of Range Exception Parameter X muss positiv und kleiner als die Breite sein
+                Color tempColor = btmp.GetPixel(_allTelomerePoints[p].X, _allTelomerePoints[p].Y);
                 //Sum is calulated
                 _sum += tempColor.R;
                 redOfPixel.Add(tempColor.R);
                 //In a grayscale Image all RGB Values are equal, so it is only necessary to check one of them
                 if (tempColor.R < tempMin)
-                   tempMin = tempColor.R;
+                    tempMin = tempColor.R;
                 else if (tempColor.R > tempMax)
-                   tempMax = tempColor.R;
+                    tempMax = tempColor.R;
 
             }
             _min = tempMin;
@@ -175,15 +176,12 @@ namespace TelomereAnalyzer
 
             //Calculate the standard deviation
             double ret = 0;
-                //Compute the Average --> the average is the mean
-                //double avg = values.Average();
+            //Perform the Sum of (value-avg)^2
+            double sum = redOfPixel.Sum(d => (d - _mean) * (d - _mean));
 
-                //Perform the Sum of (value-avg)^2
-                double sum = redOfPixel.Sum(d => (d - _mean) * (d - _mean)); 
-
-                //Put it all together
-                ret = Math.Sqrt(sum / _allTelomerePoints.Count);
-                _stdDev = ret;
+            //Put it all together
+            ret = Math.Sqrt(sum / _allTelomerePoints.Count);
+            _stdDev = ret;
         }
 
         #endregion
