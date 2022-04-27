@@ -103,7 +103,7 @@ namespace TelomereAnalyzer
                     ws.Cells[counter, 4] = lsTelomeres[t]._telomereName;
 
                     //here the lowest X- and Y-Values of the Telomere-Contour is found and written in the 5. and 6. column of the Excel file
-                    lsTelomeres[t].getLowestXY();
+                    lsTelomeres[t].getLowestAndHighestXY();
                     ws.Cells[counter, 5] = lsTelomeres[t]._lowestX;
                     ws.Cells[counter, 6] = lsTelomeres[t]._lowestY;
 
@@ -116,7 +116,8 @@ namespace TelomereAnalyzer
                     //here the sum and the min and max values of the telomere are calculated and written in the 8. column of the Excel file
                     //the sum is the sum of all pixel values in the telomere
                     // the min/max are the min/max values of the pixel values in the telomere
-                    lsTelomeres[t].getSumMinMaxMeanStddevOfTelomere(_formOne._uploadedRawTelomereImage16Bit);
+                    //lsTelomeres[t].getSumMinMaxMeanStddevOfTelomere(_formOne._uploadedRawTelomereImage16Bit);
+                    lsTelomeres[t].getSumMinMaxMeanStddevOfTelomere();
                     ws.Cells[counter, 8] = lsTelomeres[t]._sum;
                     ws.Cells[counter, 9] = lsTelomeres[t]._min;
                     ws.Cells[counter, 10] = lsTelomeres[t]._max;
@@ -223,7 +224,7 @@ namespace TelomereAnalyzer
         private void OnExportExcel(object sender, EventArgs e)
         {
             SaveFileDialog saveFileDlg = new SaveFileDialog();
-            saveFileDlg.Filter = "Excel files (*.xlsx)|*.xlsx|Excel files (*.xls)|*.xls|All files (*.*|*.*";
+            saveFileDlg.Filter = "Excel files (*.xlsx)|*.xlsx|Excel files (*.xls)|*.xls|All files (*.*)|*.*";
             saveFileDlg.FileName = "Telomere Analysis";
 
             if (saveFileDlg.ShowDialog() == DialogResult.OK)
