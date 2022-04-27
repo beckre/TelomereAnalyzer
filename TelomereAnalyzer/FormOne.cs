@@ -348,6 +348,20 @@ namespace TelomereAnalyzer
 
         public void AllocateTelomeresToNucleus()
         {
+            _allTelomeres = _EdgeDetection._allTelomeres;
+            for (Int32 n = 0; n < _allNuclei._LstAllNuclei.Count; n++)
+            {
+                _allNuclei._LstAllNuclei[n].getAmountOfPixelsInNucleusArea(_uploadedRawNucleiImage16Bit);
+                //Goes through every existing telomere per Nucleus --> checks if any contour-Point of the Telomere is in the Nucleus-Area
+                for(Int32 t = 0; t < _allTelomeres._LstAllTelomeres.Count; t++)
+                {
+                    if(_allNuclei._LstAllNuclei[n].isTelomereContourInThisNucleus(_allTelomeres._LstAllTelomeres[t]._telomereContourPoints))
+                            _allNuclei._LstAllNuclei[n].AddTelomereToTelomereList(_allTelomeres._LstAllTelomeres[t]);
+                }
+            }
+
+
+            /*
             //hier muss ungebdingt nochmal überprüft werden, ob dies hier so richtig abläuft!
             //es wird immer noch geprüft, ob die Center-Points des Telomers innerhalb des Punkte-Arrays der Nucleus-Kontur vorhanden ist und NICHT, ob der Center-Point innerhalb dieses Nucleus-Kontur-Polygons enthalten ist!
             _allTelomeres = _EdgeDetection._allTelomeres;
@@ -365,27 +379,39 @@ namespace TelomereAnalyzer
                         _allNuclei._LstAllNuclei[n].AddTelomereToTelomereList(_allTelomeres._LstAllTelomeres[t]);
                     }
                 }
+
             }
+            */
 
             //Alles zum Testen
             _TestingAllocatingTelomeresToNucleus = new Image<Bgr, byte>(_btmTelomereImageThreshold);
             //malt Kontur von 1 Nuclei
-            PointF[] contour = _allNuclei._LstAllNuclei[1]._nucleusContourPoints;
+            PointF[] contour = _allNuclei._LstAllNuclei[0]._nucleusContourPoints;
             Bgr color = new Bgr(Color.HotPink);
+            Point[] nucleiContourTesting = new Point[contour.Length];
+            for (Int32 p = 0; p < contour.Length; p++)
+            {
+                nucleiContourTesting[p] = Point.Round(contour[p]);
+            }
 
-            //_TestingAllocatingTelomeresToNucleus.DrawPolyline(contour, true, color, 1);
+            _TestingAllocatingTelomeresToNucleus.DrawPolyline(nucleiContourTesting, true, color, 1);
             //List<Telomere> telomeres = _allNuclei._allNuclei[0]._nucleusTelomeres;
             //malt Konturen zu zugehörigen Telomeren
-            for (Int32 i = 0; i < _allNuclei._LstAllNuclei[1]._LstNucleusTelomeres.Count; i++)
+            for (Int32 i = 0; i < _allNuclei._LstAllNuclei[0]._LstNucleusTelomeres.Count; i++)
             {
-                PointF[] contourTelomeres = _allNuclei._LstAllNuclei[1]._LstNucleusTelomeres[i]._telomereContourPoints;
+                PointF[] contourTelomeres = _allNuclei._LstAllNuclei[0]._LstNucleusTelomeres[i]._telomereContourPoints;
+                Point[] contourTesting = new Point[contourTelomeres.Length];
                 Bgr colorTelomeres = new Bgr(Color.Red);
-
-                //_TestingAllocatingTelomeresToNucleus.DrawPolyline(contourTelomeres, true, colorTelomeres, 1);
+                for(Int32 p = 0; p < contourTelomeres.Length; p++)
+                {
+                    contourTesting[p] = Point.Round(contourTelomeres[p]);
+                }
+                _TestingAllocatingTelomeresToNucleus.DrawPolyline(contourTesting, true, colorTelomeres, 1);
             }
-            //ShowBitmapOnForm(ImageBoxOne, _TestingAllocatingTelomeresToNucleus.ToBitmap());
-            //_TestingAllocatingTelomeresToNucleus.Save("D:\\Hochschule Emden Leer - Bachelor Bioinformatik\\Praxisphase Bachelorarbeit Vorbereitungen\\Praktikumsstelle\\MHH Hannover Telomere\\Programm Bilder\\6_TestingTelomeresDetected.tiff");
+            ShowBitmapOnForm(ImageBoxOne, _TestingAllocatingTelomeresToNucleus.ToBitmap());
+            _TestingAllocatingTelomeresToNucleus.Save("D:\\Hochschule Emden Leer - Bachelor Bioinformatik\\Praxisphase Bachelorarbeit Vorbereitungen\\Praktikumsstelle\\MHH Hannover Telomere\\Programm Bilder\\6_TestingTelomeresDetected.tiff");
             // Ende Testen
+            
 
             DisplayEndResults();
         }

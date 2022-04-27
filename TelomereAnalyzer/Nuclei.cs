@@ -122,7 +122,7 @@ namespace TelomereAnalyzer
                 return false;
             return true;
         }
-
+        /*
         public Boolean IsCenterPointOfTelomereInNucleus(PointF[] contour, PointF centerPointOfTelomere)
         {
             bool result = false;
@@ -140,5 +140,6 @@ namespace TelomereAnalyzer
             }
             return result;
         }
+        */
     }
 }

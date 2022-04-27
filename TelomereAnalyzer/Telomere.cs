@@ -14,11 +14,9 @@ namespace TelomereAnalyzer
     {
         public String _telomereName = "";
         //Nucleus _nucleusOfTelomere = null;
-        public PointF _telomereCenterPoint = new Point();
+        public PointF _telomereCenterPoint = new PointF();
         public PointF[] _telomereContourPoints = null;
         //Stuff for Calculations
-        //public Contour<PointF> _contour;
-        public List<Point> _allTelomerePoints;
         public double _area;
         public float _lowestX;
         public float _highestX;
@@ -35,6 +33,7 @@ namespace TelomereAnalyzer
         Image<Bgr, UInt16> _ROIimageForFilledPolygon;
         Image<Gray, UInt16> _ROIimageForTelomerePolygon;
         Point _location;
+        public List<Point> _allTelomerePoints;
 
         public Telomere(String telomereName, PointF centerPoint, PointF[] contourPoints)
         {
