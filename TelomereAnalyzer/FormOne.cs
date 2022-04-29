@@ -191,6 +191,10 @@ namespace TelomereAnalyzer
             */
             lblPleaseSelectPic.Text = "Please click on Threshold to automatically generate a Threshold for the Telomere Image";
             //btnGenerateThreshold.Show();
+
+            
+
+
             Threshold();
         }
         /*----------------------------------------------------------------------------------------*\
