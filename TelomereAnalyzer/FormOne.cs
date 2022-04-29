@@ -3,9 +3,11 @@ using Emgu.CV.CvEnum;
 using Emgu.CV.Structure;
 using Emgu.CV.UI;
 using System;
+using System.IO;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Windows.Forms;
+using ImageMagick;
 
 
 namespace TelomereAnalyzer
@@ -36,6 +38,9 @@ namespace TelomereAnalyzer
         //Image und Bitmap vom originalen hochgeladenen Telomere Bild in 16 Bit
         public Image<Gray, UInt16> _uploadedRawTelomereImage16Bit = null;
         Bitmap _btmUploadedRawTelomereImage16Bit = null;
+
+        String _nucleiFileName;
+        String _telomereFileName;
 
         //Image und Bitmap vom originalen hochgeladenen Nuclei Bild
         Image<Gray, byte> _uploadedRawNucleiImage8Bit = null;
@@ -106,6 +111,7 @@ namespace TelomereAnalyzer
             //dialog.Filter = "Image Files|*.tif;*.tiff";
             if (dialog.ShowDialog(this) == System.Windows.Forms.DialogResult.OK)
             {
+                _nucleiFileName = dialog.FileName;
                 //erstmal mit der 16 Bit Version des Bildes ohne es in 8 Bit zu konvertieren
                 _uploadedRawNucleiImage16Bit = new Image<Gray, UInt16>(dialog.FileName);
                 _uploadedRawNucleiImage8Bit = new Image<Gray, byte>(dialog.FileName);
@@ -136,6 +142,7 @@ namespace TelomereAnalyzer
             dialog.Filter = "Image Files|*.tif;*.tiff";
             if (dialog.ShowDialog(this) == System.Windows.Forms.DialogResult.OK)
             {
+                _telomereFileName = dialog.FileName;
                 //erstmal mit der 16 Bit Version des Bildes ohne es in 8 Bit zu konvertieren
                 _uploadedRawTelomereImage16Bit = new Image<Gray, UInt16>(dialog.FileName);
                 _uploadedRawTelomereImage8Bit = new Image<Gray, byte>(dialog.FileName);
@@ -192,7 +199,29 @@ namespace TelomereAnalyzer
             lblPleaseSelectPic.Text = "Please click on Threshold to automatically generate a Threshold for the Telomere Image";
             //btnGenerateThreshold.Show();
 
-            
+            //using ImageMagick Nuclei Image
+            MagickImage magickImageNuclei = new MagickImage(_nucleiFileName);
+            magickImageNuclei.AutoLevel();
+            using(var memStream = new MemoryStream())
+            {
+                magickImageNuclei.Write(memStream);
+                Bitmap btm = new System.Drawing.Bitmap(memStream);
+                _NucleiImageNormalized = new Image<Gray, byte>(btm);
+                _btmNucleiImageNormalized = btm;
+                ImageBoxOne.BackgroundImage = btm;
+            }
+
+            //using ImageMagick Telomere Image
+            MagickImage magickImageTelomere = new MagickImage(_telomereFileName);
+            magickImageTelomere.AutoLevel();
+            using (var memStream = new MemoryStream())
+            {
+                magickImageTelomere.Write(memStream);
+                Bitmap btm = new System.Drawing.Bitmap(memStream);
+                _TelomereImageNormalized = new Image<Gray, byte>(btm);
+                _btmTelomereImageNormalized = btm;
+                ImageBoxTwo.BackgroundImage = btm;
+            }
 
 
             Threshold();
