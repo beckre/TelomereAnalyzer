@@ -95,12 +95,12 @@ namespace TelomereAnalyzer
             graphics.FillPolygon(redBrush, _telomereContourPoints);
             //imageForReference = new Image<Bgr, UInt16>(btmReference);
             Image<Bgr, UInt16> tempRedFilledPolygonImg = new Image<Bgr, UInt16>(btmReference);
-            tempRedFilledPolygonImg.Save(@"D:\Hochschule Emden Leer - Bachelor Bioinformatik\Praxisphase Bachelorarbeit Vorbereitungen\Praktikumsstelle\MHH Hannover Telomere\WE Transfer\Bilder filled Polygon\Reference Telomer " + this._telomereName + ".jpg");
+            //tempRedFilledPolygonImg.Save(@"D:\Hochschule Emden Leer - Bachelor Bioinformatik\Praxisphase Bachelorarbeit Vorbereitungen\Praktikumsstelle\MHH Hannover Telomere\WE Transfer\Bilder filled Polygon\Reference Telomer " + this._telomereName + ".jpg");
             //tempRedFilledPolygonImg.ROI = rec;
             _ROIimageForFilledPolygon = tempRedFilledPolygonImg.Copy(rec);
 
-            _ROIimageForFilledPolygon.Save(@"D:\Hochschule Emden Leer - Bachelor Bioinformatik\Praxisphase Bachelorarbeit Vorbereitungen\Praktikumsstelle\MHH Hannover Telomere\WE Transfer\Bilder filled Polygon\ROI Red Telomer " + this._telomereName + ".jpg");
-            _ROIimageForTelomerePolygon.Save(@"D:\Hochschule Emden Leer - Bachelor Bioinformatik\Praxisphase Bachelorarbeit Vorbereitungen\Praktikumsstelle\MHH Hannover Telomere\WE Transfer\Bilder filled Polygon\ROI Telomer " + this._telomereName + ".jpg");
+            //_ROIimageForFilledPolygon.Save(@"D:\Hochschule Emden Leer - Bachelor Bioinformatik\Praxisphase Bachelorarbeit Vorbereitungen\Praktikumsstelle\MHH Hannover Telomere\WE Transfer\Bilder filled Polygon\ROI Red Telomer " + this._telomereName + ".jpg");
+            //_ROIimageForTelomerePolygon.Save(@"D:\Hochschule Emden Leer - Bachelor Bioinformatik\Praxisphase Bachelorarbeit Vorbereitungen\Praktikumsstelle\MHH Hannover Telomere\WE Transfer\Bilder filled Polygon\ROI Telomer " + this._telomereName + ".jpg");
 
             Bitmap btmp = _ROIimageForFilledPolygon.ToBitmap();
 
@@ -162,27 +162,29 @@ namespace TelomereAnalyzer
                 //In a grayscale Image all RGB Values are equal, so it is only necessary to check one of them
                 if (tempColor.R < tempMin)
                     tempMin = tempColor.R;
-                else if (tempColor.R > tempMax)
+                if (tempColor.R > tempMax)
                     tempMax = tempColor.R;
 
             }
             _min = tempMin;
             _max = tempMax;
+            if(_area <= 0)
+            {
+                _min = 0;
+                _max = 0;
+            }
             if (_allTelomerePoints.Count > 0)
                 _mean = _sum / _allTelomerePoints.Count;
             else
                 _mean = 0;
-
             //Calculate the standard deviation
             double ret = 0;
             //Perform the Sum of (value-avg)^2
             double sum = redOfPixel.Sum(d => (d - _mean) * (d - _mean));
-
             //Put it all together
             ret = Math.Sqrt(sum / _allTelomerePoints.Count);
             _stdDev = ret;
         }
-
         #endregion
     }
 }

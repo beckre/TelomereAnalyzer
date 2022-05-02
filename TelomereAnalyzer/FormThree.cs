@@ -141,6 +141,37 @@ namespace TelomereAnalyzer
             }
         }
 
+        private void OnSaveAutoLevelNucleiImage(object sender, EventArgs e)
+        {
+            SaveFileDialog saveFileDlg = new SaveFileDialog();
+            saveFileDlg.Filter = "tiff files (*.tiff)|*.tiff|All files (*.*|*.*";
+            saveFileDlg.FileName = "Auto-Level Nuclei";
+
+
+            if (saveFileDlg.ShowDialog() == DialogResult.OK)
+            {
+                _formOne._btmNucleiImageAutoLevel.Save(saveFileDlg.FileName);
+                //_formOne._btmTelomereImageThreshold.Dispose();
+            }
+            else if (saveFileDlg.ShowDialog() == DialogResult.Cancel)
+                return;
+        }
+        private void OnSaveAutoLevelTelomereImage(object sender, EventArgs e)
+        {
+            SaveFileDialog saveFileDlg = new SaveFileDialog();
+            saveFileDlg.Filter = "tiff files (*.tiff)|*.tiff|All files (*.*|*.*";
+            saveFileDlg.FileName = "Auto-Level Telomere";
+
+
+            if (saveFileDlg.ShowDialog() == DialogResult.OK)
+            {
+                _formOne._btmTelomereImageAutoLevel.Save(saveFileDlg.FileName);
+                //_formOne._btmTelomereImageThreshold.Dispose();
+            }
+            else if (saveFileDlg.ShowDialog() == DialogResult.Cancel)
+                return;
+        }
+
         private void OnSaveThresholdTelomereImage(object sender, EventArgs e)
         {
             SaveFileDialog saveFileDlg = new SaveFileDialog();
@@ -236,5 +267,7 @@ namespace TelomereAnalyzer
                 return;
 
         }
+
+
     }
 }

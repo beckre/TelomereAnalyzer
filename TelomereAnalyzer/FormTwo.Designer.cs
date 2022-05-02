@@ -127,6 +127,9 @@ namespace TelomereAnalyzer
             // 
             // btnAddNucleus
             // 
+            this.btnAddNucleus.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.btnAddNucleus.BackColor = System.Drawing.SystemColors.MenuHighlight;
             this.btnAddNucleus.Location = new System.Drawing.Point(162, 89);
             this.btnAddNucleus.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
@@ -139,9 +142,6 @@ namespace TelomereAnalyzer
             // 
             // pnlImgContainer
             // 
-            this.pnlImgContainer.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.pnlImgContainer.AutoScroll = true;
             this.pnlImgContainer.BackColor = System.Drawing.SystemColors.Control;
             this.pnlImgContainer.Controls.Add(this.pcBxOriImage);

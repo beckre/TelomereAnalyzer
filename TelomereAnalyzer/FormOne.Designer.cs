@@ -33,8 +33,6 @@ namespace TelomereAnalyzer
             this.ImageBoxOne = new Emgu.CV.UI.ImageBox();
             this.grpBoxSelectDialog = new System.Windows.Forms.GroupBox();
             this.lblPleaseSelectPic = new System.Windows.Forms.Label();
-            this.btnPreviousStep = new System.Windows.Forms.Button();
-            this.btnNextStep = new System.Windows.Forms.Button();
             this.mnuMainMenu = new System.Windows.Forms.MenuStrip();
             this.toolStrpMnuUpload = new System.Windows.Forms.ToolStripMenuItem();
             this.tIFFToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -66,8 +64,6 @@ namespace TelomereAnalyzer
             this.grpBoxSelectDialog.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.grpBoxSelectDialog.Controls.Add(this.lblPleaseSelectPic);
-            this.grpBoxSelectDialog.Controls.Add(this.btnPreviousStep);
-            this.grpBoxSelectDialog.Controls.Add(this.btnNextStep);
             this.grpBoxSelectDialog.Location = new System.Drawing.Point(12, 32);
             this.grpBoxSelectDialog.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.grpBoxSelectDialog.Name = "grpBoxSelectDialog";
@@ -86,29 +82,6 @@ namespace TelomereAnalyzer
             this.lblPleaseSelectPic.TabIndex = 11;
             this.lblPleaseSelectPic.Text = "Please upload a Nuclei .TIFF file ";
             // 
-            // btnPreviousStep
-            // 
-            this.btnPreviousStep.BackColor = System.Drawing.SystemColors.MenuHighlight;
-            this.btnPreviousStep.Location = new System.Drawing.Point(1196, 45);
-            this.btnPreviousStep.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.btnPreviousStep.Name = "btnPreviousStep";
-            this.btnPreviousStep.Size = new System.Drawing.Size(86, 32);
-            this.btnPreviousStep.TabIndex = 10;
-            this.btnPreviousStep.Text = "Back";
-            this.btnPreviousStep.UseVisualStyleBackColor = false;
-            // 
-            // btnNextStep
-            // 
-            this.btnNextStep.BackColor = System.Drawing.SystemColors.MenuHighlight;
-            this.btnNextStep.Location = new System.Drawing.Point(1318, 45);
-            this.btnNextStep.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.btnNextStep.Name = "btnNextStep";
-            this.btnNextStep.Size = new System.Drawing.Size(88, 32);
-            this.btnNextStep.TabIndex = 9;
-            this.btnNextStep.Text = "Next";
-            this.btnNextStep.UseVisualStyleBackColor = false;
-            this.btnNextStep.Click += new System.EventHandler(this.OnClickNext);
-            // 
             // mnuMainMenu
             // 
             this.mnuMainMenu.BackColor = System.Drawing.SystemColors.MenuHighlight;
@@ -118,7 +91,7 @@ namespace TelomereAnalyzer
             this.toolStrpMnuUpload});
             this.mnuMainMenu.Location = new System.Drawing.Point(0, 0);
             this.mnuMainMenu.Name = "mnuMainMenu";
-            this.mnuMainMenu.Size = new System.Drawing.Size(3065, 36);
+            this.mnuMainMenu.Size = new System.Drawing.Size(3065, 33);
             this.mnuMainMenu.TabIndex = 13;
             this.mnuMainMenu.Text = "menuStrip2";
             // 
@@ -135,7 +108,7 @@ namespace TelomereAnalyzer
             // 
             this.tIFFToolStripMenuItem.BackColor = System.Drawing.SystemColors.MenuHighlight;
             this.tIFFToolStripMenuItem.Name = "tIFFToolStripMenuItem";
-            this.tIFFToolStripMenuItem.Size = new System.Drawing.Size(270, 34);
+            this.tIFFToolStripMenuItem.Size = new System.Drawing.Size(231, 34);
             this.tIFFToolStripMenuItem.Text = "Nuclei Image";
             this.tIFFToolStripMenuItem.Click += new System.EventHandler(this.OnUploadNucleiImage);
             // 
@@ -143,7 +116,7 @@ namespace TelomereAnalyzer
             // 
             this.telomerImageToolStripMenuItem.BackColor = System.Drawing.SystemColors.MenuHighlight;
             this.telomerImageToolStripMenuItem.Name = "telomerImageToolStripMenuItem";
-            this.telomerImageToolStripMenuItem.Size = new System.Drawing.Size(270, 34);
+            this.telomerImageToolStripMenuItem.Size = new System.Drawing.Size(231, 34);
             this.telomerImageToolStripMenuItem.Text = "Telomer Image";
             this.telomerImageToolStripMenuItem.Click += new System.EventHandler(this.OnUploadTelomereImage);
             // 
@@ -204,6 +177,10 @@ namespace TelomereAnalyzer
             this.Controls.Add(this.grpBoxSelectDialog);
             this.Controls.Add(this.ImageBoxOne);
             this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.MaximizeBox = false;
+            this.MaximumSize = new System.Drawing.Size(3087, 1407);
+            this.MinimizeBox = false;
+            this.MinimumSize = new System.Drawing.Size(3087, 1407);
             this.Name = "FormOne";
             this.Text = "FormOne";
             this.Load += new System.EventHandler(this.FormOne_Load);
@@ -222,8 +199,6 @@ namespace TelomereAnalyzer
         #endregion
         private System.Windows.Forms.GroupBox grpBoxSelectDialog;
         private System.Windows.Forms.Label lblPleaseSelectPic;
-        private System.Windows.Forms.Button btnPreviousStep;
-        private System.Windows.Forms.Button btnNextStep;
         private System.Windows.Forms.MenuStrip mnuMainMenu;
         private System.Windows.Forms.ToolStripMenuItem toolStrpMnuUpload;
         private System.Windows.Forms.ToolStripMenuItem tIFFToolStripMenuItem;
