@@ -34,6 +34,7 @@ namespace TelomereAnalyzer
         //Image und Bitmap vom originalen hochgeladenen Nuclei Bild in 16 Bit
         Image<Gray, UInt16> _uploadedRawNucleiImage16Bit = null;
         Bitmap _btmUploadedRawNucleiImage16Bit = null;
+
         //Image und Bitmap vom originalen hochgeladenen Telomere Bild in 16 Bit
         public Image<Gray, UInt16> _uploadedRawTelomereImage16Bit = null;
         Bitmap _btmUploadedRawTelomereImage16Bit = null;
@@ -265,8 +266,6 @@ namespace TelomereAnalyzer
             ShowBitmapOnForm(ImageBoxOne, _btmNucleiImageEdgesDetected);
             //_btmNucleiImageEdgesDetected.Save("D:\\Hochschule Emden Leer - Bachelor Bioinformatik\\Praxisphase Bachelorarbeit Vorbereitungen\\Praktikumsstelle\\MHH Hannover Telomere\\Programm Bilder\\5_NucleiDetected.tiff");
             //Nuclei selber umranden können
-
-
             //Testing the Nucleus and Nuclei Classes
             //ShowBitmapOnForm(ImageBoxTwo, _TestingNucleiImageEdgesDetected.ToBitmap());
 
@@ -347,7 +346,6 @@ namespace TelomereAnalyzer
             //_TelomereImageTelomeresDetected.Save("D:\\Hochschule Emden Leer - Bachelor Bioinformatik\\Praxisphase Bachelorarbeit Vorbereitungen\\Praktikumsstelle\\MHH Hannover Telomere\\Programm Bilder\\6_TelomeresDetected.tiff");
             //Testing the Telomere and AllTelomere Classes
             //ShowBitmapOnForm(ImageBoxTwo, _TestingTelomereImageTelomeresDetected.ToBitmap());
-
             AllocateTelomeresToNucleus();
         }
 
@@ -364,8 +362,6 @@ namespace TelomereAnalyzer
                             _allNuclei._LstAllNuclei[n].AddTelomereToTelomereList(_allTelomeres._LstAllTelomeres[t]);
                 }
             }
-
-
             /*
             //hier muss ungebdingt nochmal überprüft werden, ob dies hier so richtig abläuft!
             //es wird immer noch geprüft, ob die Center-Points des Telomers innerhalb des Punkte-Arrays der Nucleus-Kontur vorhanden ist und NICHT, ob der Center-Point innerhalb dieses Nucleus-Kontur-Polygons enthalten ist!
@@ -389,6 +385,7 @@ namespace TelomereAnalyzer
             */
 
             //Alles zum Testen
+            /*
             _TestingAllocatingTelomeresToNucleus = new Image<Bgr, byte>(_btmTelomereImageThreshold);
             //malt Kontur von 1 Nuclei
             PointF[] contour = _allNuclei._LstAllNuclei[0]._nucleusContourPoints;
@@ -416,8 +413,7 @@ namespace TelomereAnalyzer
             ShowBitmapOnForm(ImageBoxOne, _TestingAllocatingTelomeresToNucleus.ToBitmap());
             _TestingAllocatingTelomeresToNucleus.Save("D:\\Hochschule Emden Leer - Bachelor Bioinformatik\\Praxisphase Bachelorarbeit Vorbereitungen\\Praktikumsstelle\\MHH Hannover Telomere\\Programm Bilder\\6_TestingTelomeresDetected.tiff");
             // Ende Testen
-            
-
+            */
             DisplayEndResults();
         }
 
@@ -425,11 +421,9 @@ namespace TelomereAnalyzer
         {
             FormThree formThree = new FormThree(this, _allNuclei, _allTelomeres);
             formThree.Show();
-            _DisplayingFinalResults = new DisplayingFinalResults(_allNuclei, _allTelomeres);
-            _DisplayingFinalResults.PrintResultsOnConsole();
+            //_DisplayingFinalResults = new DisplayingFinalResults(_allNuclei, _allTelomeres);
+            //_DisplayingFinalResults.PrintResultsOnConsole();
         }
-
-
 
         public void ShowBitmapOnForm(ImageBox imageBox, Bitmap bitmap)
         {
@@ -439,7 +433,6 @@ namespace TelomereAnalyzer
                 imageBox.Width = bitmap.Width;
                 imageBox.Height = bitmap.Height;
                 imageBox.MaximumSize = bitmap.Size;
-                //imageBox.BackgroundImageLayout
                 imageBox.BackgroundImageLayout = ImageLayout.Stretch;
                 imageBox.Refresh();
             }
@@ -447,29 +440,11 @@ namespace TelomereAnalyzer
                 imageBox.BackgroundImage = bitmap;
         }
 
-
         private void DisplaySelectPicForTreshhold()
         {
             grpBoxSelectDialog.Show();
         }
 
-        private void OnClickNext(object sender, EventArgs e)
-        {
-            /*
-            if(!nucleiImageUploaded && !telomereImageUploaded)
-            {
-                lblPleaseSelectPic.Text = "Please upload a Nuclei .TIFF file";
-            }
-            if (nucleiImageUploaded && !telomereImageUploaded)
-            {
-                lblPleaseSelectPic.Text = "Please upload a Telomere .TIFF file";
-            }
-            if(nucleiImageUploaded && telomereImageUploaded)
-            {
-                //lblPleaseSelectPic.Text
-            }
-            */
-        }
         // checks if image is null --> needs to be extended probably
         private Boolean IsImageOkay(Image<Gray, byte> image)
         {

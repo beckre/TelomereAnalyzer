@@ -30,8 +30,8 @@ namespace TelomereAnalyzer
 
         //Images for getting all the Pixels inside the Telomere-Contour
         //Must be different when 16Bit or 8Bit Image --> First only 16 Bit is handled
-        Image<Bgr, UInt16> _ROIimageForFilledPolygon;
-        Image<Gray, UInt16> _ROIimageForTelomerePolygon;
+        Image<Bgr, byte> _ROIimageForFilledPolygon;
+        Image<Gray, byte> _ROIimageForTelomerePolygon;
         Point _location;
         public List<Point> _allTelomerePoints;
 
@@ -76,7 +76,7 @@ namespace TelomereAnalyzer
             _location.Y = (int)_lowestY;
         }
 
-        public void getAmountOfPixelsInTelomereArea(Image<Gray, UInt16> imageForReference)
+        public void getAmountOfPixelsInTelomereArea(Image<Gray, byte> imageForReference)
         {
             //imageForReference.Save(@"D:\Hochschule Emden Leer - Bachelor Bioinformatik\Praxisphase Bachelorarbeit Vorbereitungen\Praktikumsstelle\MHH Hannover Telomere\WE Transfer\Bilder filled Polygon\Referenz-Bild.jpg");
             Rectangle rec = Rectangle.Empty;
@@ -94,7 +94,7 @@ namespace TelomereAnalyzer
             SolidBrush redBrush = new SolidBrush(Color.Red);
             graphics.FillPolygon(redBrush, _telomereContourPoints);
             //imageForReference = new Image<Bgr, UInt16>(btmReference);
-            Image<Bgr, UInt16> tempRedFilledPolygonImg = new Image<Bgr, UInt16>(btmReference);
+            Image<Bgr, byte> tempRedFilledPolygonImg = new Image<Bgr, byte>(btmReference);
             //tempRedFilledPolygonImg.Save(@"D:\Hochschule Emden Leer - Bachelor Bioinformatik\Praxisphase Bachelorarbeit Vorbereitungen\Praktikumsstelle\MHH Hannover Telomere\WE Transfer\Bilder filled Polygon\Reference Telomer " + this._telomereName + ".jpg");
             //tempRedFilledPolygonImg.ROI = rec;
             _ROIimageForFilledPolygon = tempRedFilledPolygonImg.Copy(rec);
@@ -135,7 +135,7 @@ namespace TelomereAnalyzer
             _area = _allTelomerePoints.Count;
         }
 
-        public void getSumMinMaxMeanStddevOfTelomere(Image<Gray, UInt16> imageForReference)
+        public void getSumMinMaxMeanStddevOfTelomere(Image<Gray, byte> imageForReference)
         {
             Bitmap btmp = null;
             if (_telomereContourPoints.Length < 8)
