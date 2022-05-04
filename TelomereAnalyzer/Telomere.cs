@@ -138,15 +138,17 @@ namespace TelomereAnalyzer
         public void getSumMinMaxMeanStddevOfTelomere(Image<Gray, byte> imageForReference)
         {
             Bitmap btmp = null;
+            /*
             if (_telomereContourPoints.Length < 8)
             {
                 //temporäre Lösung für sehr kleine Telomere unter 8 Pixel --> muss noch geändert werden
                 btmp = imageForReference.ToBitmap();
             }
-            else
-            {
+            */
+            //else
+            //{
                 btmp = _ROIimageForTelomerePolygon.ToBitmap();
-            }
+            //}
             List<double> redOfPixel = new List<double>();
             //Bitmap btmp = new Bitmap(image.ToBitmap());
 
