@@ -65,9 +65,10 @@ namespace TelomereAnalyzer
             this.lblInstructionsFormTwo.AutoSize = true;
             this.lblInstructionsFormTwo.Location = new System.Drawing.Point(22, 40);
             this.lblInstructionsFormTwo.Name = "lblInstructionsFormTwo";
-            this.lblInstructionsFormTwo.Size = new System.Drawing.Size(768, 29);
+            this.lblInstructionsFormTwo.Size = new System.Drawing.Size(1293, 29);
             this.lblInstructionsFormTwo.TabIndex = 0;
-            this.lblInstructionsFormTwo.Text = "Please select/deselect and/or draw the Nuclei that you want to analyze.";
+            this.lblInstructionsFormTwo.Text = "Please select/deselect and/or draw the Nuclei that you want to analyze. Click on " +
+    "Apply and Close to confirm your choice. ";
             // 
             // grpBxToolsSelectNucleiFormTwo
             // 
@@ -170,8 +171,9 @@ namespace TelomereAnalyzer
             this.Controls.Add(this.grpBxToolsSelectNucleiFormTwo);
             this.Controls.Add(this.grpBxFormTwo);
             this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.MaximumSize = new System.Drawing.Size(1574, 1407);
+            this.MinimumSize = new System.Drawing.Size(1574, 1407);
             this.Name = "FormTwo";
-            this.Text = "FormTwo";
             this.grpBxFormTwo.ResumeLayout(false);
             this.grpBxFormTwo.PerformLayout();
             this.grpBxToolsSelectNucleiFormTwo.ResumeLayout(false);

@@ -184,7 +184,6 @@ namespace TelomereAnalyzer
             this.MinimizeBox = false;
             this.MinimumSize = new System.Drawing.Size(3087, 1407);
             this.Name = "FormOne";
-            this.Text = "FormOne";
             ((System.ComponentModel.ISupportInitialize)(this.ImageBoxOne)).EndInit();
             this.grpBoxSelectDialog.ResumeLayout(false);
             this.grpBoxSelectDialog.PerformLayout();

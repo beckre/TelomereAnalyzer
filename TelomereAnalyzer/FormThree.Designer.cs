@@ -260,7 +260,6 @@ namespace TelomereAnalyzer
             this.MaximumSize = new System.Drawing.Size(875, 1442);
             this.MinimumSize = new System.Drawing.Size(875, 1442);
             this.Name = "FormThree";
-            this.Text = "FormThree";
             this.grpBxSaveImages.ResumeLayout(false);
             this.grpBxSaveImages.PerformLayout();
             this.grpBx.ResumeLayout(false);

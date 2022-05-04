@@ -373,11 +373,6 @@ namespace TelomereAnalyzer
                 imageBox.BackgroundImage = bitmap;
         }
 
-        private void DisplaySelectPicForTreshhold()
-        {
-            grpBoxSelectDialog.Show();
-        }
-
         // checks if image is null --> needs to be extended probably
         private Boolean IsImageOkay(Image<Gray, byte> image)
         {
