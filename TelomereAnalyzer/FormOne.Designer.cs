@@ -50,6 +50,7 @@ namespace TelomereAnalyzer
             // 
             // ImageBoxOne
             // 
+            this.ImageBoxOne.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ImageBoxOne.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.ImageBoxOne.Location = new System.Drawing.Point(443, 182);
             this.ImageBoxOne.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
@@ -169,6 +170,7 @@ namespace TelomereAnalyzer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(3065, 1351);
             this.Controls.Add(this.grpBoxSelectOptions);
             this.Controls.Add(this.lblThreshold);
@@ -183,7 +185,6 @@ namespace TelomereAnalyzer
             this.MinimumSize = new System.Drawing.Size(3087, 1407);
             this.Name = "FormOne";
             this.Text = "FormOne";
-            this.Load += new System.EventHandler(this.FormOne_Load);
             ((System.ComponentModel.ISupportInitialize)(this.ImageBoxOne)).EndInit();
             this.grpBoxSelectDialog.ResumeLayout(false);
             this.grpBoxSelectDialog.PerformLayout();

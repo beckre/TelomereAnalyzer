@@ -1,87 +1,80 @@
-﻿using Emgu.CV;
+﻿using System;
+using System.IO;
+using System.Drawing;
+using System.Drawing.Drawing2D;
+using System.Windows.Forms;
+using Emgu.CV;
 using Emgu.CV.CvEnum;
 using Emgu.CV.Structure;
 using Emgu.CV.UI;
-using System;
-using System.IO;
-using System.Drawing;
-using System.Drawing.Imaging;
-using System.Drawing.Drawing2D;
-using System.Windows.Forms;
 using ImageMagick;
-
 
 namespace TelomereAnalyzer
 {
     public partial class FormOne : Form
     {
-        ElmiWood _elmiWood = null;
-
-        //Image<Bgr, byte> Main8BitImage = null;       // Das Hauptbild
+        ElmiWood _elmiWood;
+        EdgeDetection _EdgeDetection;
+        Nuclei _allNuclei;
+        AllTelomeres _allTelomeres;
 
         Boolean _nucleiImageUploaded = false;
         Boolean _telomereImageUploaded = false;
 
-        EdgeDetection _EdgeDetection = null;
-        DisplayingFinalResults _DisplayingFinalResults = null;
-
-        Nuclei _allNuclei = null;
-        AllTelomeres _allTelomeres = null;
-
         String _nucleiFilePathName;
         String _telomereFilePathName;
-
         public String _nucleiFileName;
         public String _telomereFileName;
 
         /*
-         * Die Bilder werden alle seperat gespeichert, da es die Option geben soll
-         * die unterschiedlichen Stadien der Bilder später zu speichern.
+         * All Images are stored individually because the User should have
+         * the Option to store the Images at different stages at the End.
          */
-        //Image und Bitmap vom originalen hochgeladenen Nuclei Bild
+        //Image and Bitmap of the original loaded Nuclei Image
         Image<Gray, byte> _uploadedRawNucleiImage = null;
         Bitmap _btmUploadedRawNucleiImage = null;
 
-        //Image und Bitmap vom originalen hochgeladenen Telomer Bild
+        //Image and Bitmap of the original loaded Telomere Image
         Image<Gray, byte> _uploadedRawTelomereImage = null;
         Bitmap _btmUploadedRawTelomereImage = null;
 
-        //Image und Bitmap vom normalisierten Nuclei Bild
+        //Image and Bitmap of the auto-leveled Nuclei Image
         public Image<Gray, byte> _NucleiImageAutoLevel = null;
         public Bitmap _btmNucleiImageAutoLevel = null;
 
-        //Image und Bitmap vom normalisierten Telomer Bild
+        //Image and Bitmap of the auto-leveled Telomere Image
         public Image<Gray, byte> _TelomereImageAutoLevel = null;
         public Bitmap _btmTelomereImageAutoLevel = null;
 
-        //Bitmap vom normalisierten Bild, wo die Threshold Methode angewandt wurde
+        //Bitmap of the auto-leveld Telomere Image with applied Threshold
         public Bitmap _btmTelomereImageThreshold = null;
 
-        //Bitmap vom normalisierten Bild, wo die Threshold Methode angewandt wurde und die Transparenz auf die Hälfte gesetzt wurde
+        //Bitmap of the auto-leveled merged Nuclei and Telomere Image with applied Threshold
         public Bitmap _btmTelomereImageHalfTransparent = null;
 
-        // Image und Bitmap vom Nuclei Bild, welches von Elmi Wood bearbeitet und hieran übergeben wurde
+        // Image and Bitmap of the Nuclei Image which is to be altered for the Edge Detection % by Elmi Wood %
         Image<Gray, byte> _nucleiBitonalForEdgeDetection = null;
 
-        //Image und Bitmap vom Nuclei Bild mit Anwendung von Edge Detection
+        //Image and Bitmap of the Nuclei Image and the automatically detected Nuclei Borders % by Elmi Wood %
         public Image<Bgr, byte> _NucleiImageEdgesDetected = null;
-
-        //Nochmal zum Testen der Nucleus und Nuclei Klasse
-        public Image<Bgr, byte> _TestingNucleiImageEdgesDetected = null;
         Bitmap _btmNucleiImageEdgesDetected = null;
 
-        //Image vom Nuclei Bild mit Anwendung von Edge Detection + selbst gemalten Nuclei
+        //Image for Testing the Nuclei Edge Detection
+        public Image<Bgr, byte> _TestingNucleiImageEdgesDetected = null;
+
+        //Image of the automatically detected Nuclei % by Elmi Wood % + Nuclei drawn by User
         public Image<Bgr, byte> _NucleiImageEdgesDetectedAndDrawn = null;
 
-        //Bitmap vom Nuclei Bild mit erkannten und gemalten Nuclei + Threshold Telomere Bild mit Transparenz übereinander
+        //Bitmap of Nuclei Image with automatically detected and drawn Nuclei merged with Telomere Image with applied Threshold
         public Bitmap _btmNucleiImageMergedWithTresholdImage;
 
-        //Image von entdeckten Nuclei Bild mit Anwendung von Edge Detection
+        //Image of the detected Telomeres Borders
         public Image<Bgr, byte> _TelomereImageTelomeresDetected = null;
-        //Nochmal zum Testen der Telomere und AllTelomeres Klasse
+
+        //Image for Testing the Telomere Edge Detection
         public Image<Bgr, byte> _TestingTelomereImageTelomeresDetected = null;
 
-        //zum testen, ob telomere dem zugehörigem Nucleus zugeórdnet wurden
+        //Image for Testing the Allocation of the Telomeres to their belonging Nucleus
         public Image<Bgr, byte> _TestingAllocatingTelomeresToNucleus = null;
 
 
@@ -96,38 +89,25 @@ namespace TelomereAnalyzer
         #region Callbacks--------------------------------------------------------------------------------------------
         /*----------------------------------------------------------------------------------------*\
          *  is called when clicking on the upload --> .tiff button.                               *|
-         *  Enables the user to choose and load any file for now --> only .tiff should be         *|
-         *  acceptible.
+         *  
         \*----------------------------------------------------------------------------------------*/
-
         private void OnUploadNucleiImage(object sender, EventArgs e)
         {
             System.Windows.Forms.OpenFileDialog dialog = new
             System.Windows.Forms.OpenFileDialog();
-            //dialog.Filter = "Image Files|*.tif;*.tiff";
+            dialog.Filter = "Image Files|*.tif;*.tiff;*.jpg;*.jpeg;*.png;*";
             if (dialog.ShowDialog(this) == System.Windows.Forms.DialogResult.OK)
             {
                 _nucleiFilePathName = dialog.FileName;
                 String[] tempFileNameArr = dialog.SafeFileName.Split('.');
                 _nucleiFileName = tempFileNameArr[0];
-
-                //erstmal mit der 16 Bit Version des Bildes ohne es in 8 Bit zu konvertieren
-                //_uploadedRawNucleiImage16Bit = new Image<Gray, UInt16>(dialog.FileName);
                 _uploadedRawNucleiImage = new Image<Gray, byte>(dialog.FileName);
-
-                //Main8BitImage = MainImage.Convert<Bgr, byte>();
-                //Bitmap tiffImageConvertedTo8Bit = Main8BitImage.ToBitmap();
-                //ImageBox.BackgroundImage = tiffImageConvertedTo8Bit;
-                //_btmUploadedRawNucleiImage16Bit = _uploadedRawNucleiImage16Bit.ToBitmap();
                 _btmUploadedRawNucleiImage = _uploadedRawNucleiImage.ToBitmap();
                 ShowBitmapOnForm(ImageBoxOne, _btmUploadedRawNucleiImage);
-                //btnGenerateThreshold.Hide();
-                //btnMergeImages.Hide();
-                //btnDetectingNuclei.Hide();
                 _nucleiImageUploaded = true;
                 if (_nucleiImageUploaded && _telomereImageUploaded)
                 {
-                    lblPleaseSelectPic.Text = "Please click on Normalize to normalize both images";
+                    lblPleaseSelectPic.Text = "Please click on Start to launch the Analysis";
                     grpBoxSelectOptions.Show();
                 }
                 if (!_telomereImageUploaded)
@@ -139,26 +119,19 @@ namespace TelomereAnalyzer
         {
             System.Windows.Forms.OpenFileDialog dialog = new
             System.Windows.Forms.OpenFileDialog();
-            dialog.Filter = "Image Files|*.tif;*.tiff";
+            dialog.Filter = "Image Files|*.tif;*.tiff;*.jpg;*.jpeg;*.png;*";
             if (dialog.ShowDialog(this) == System.Windows.Forms.DialogResult.OK)
             {
                 _telomereFilePathName = dialog.FileName;
                 String[] tempFileNameArr = dialog.SafeFileName.Split('.');
                 _telomereFileName = tempFileNameArr[0];
-                //erstmal mit der 16 Bit Version des Bildes ohne es in 8 Bit zu konvertieren
-                //_uploadedRawTelomereImage16Bit = new Image<Gray, UInt16>(dialog.FileName);
                 _uploadedRawTelomereImage = new Image<Gray, byte>(dialog.FileName);
-                //Main8BitImage = MainImage.Convert<Bgr, byte>();
-                //Bitmap tiffImageConvertedTo8Bit = Main8BitImage.ToBitmap();
-                //ImageBox.BackgroundImage = tiffImageConvertedTo8Bit;
-                //_btmUploadedRawTelomereImage16Bit = _uploadedRawTelomereImage16Bit.ToBitmap();
                 _btmUploadedRawTelomereImage = _uploadedRawTelomereImage.ToBitmap();
                 ShowBitmapOnForm(ImageBoxTwo, _btmUploadedRawTelomereImage);
-                //btnGenerateThreshold.Hide();
                 _telomereImageUploaded = true;
                 if (_nucleiImageUploaded && _telomereImageUploaded)
                 {
-                    lblPleaseSelectPic.Text = "Please click on Normalize to normalize both images";
+                    lblPleaseSelectPic.Text = "Please click on Start to launch the Analysis";
                     grpBoxSelectOptions.Show();
                 }
                 if (!_nucleiImageUploaded)
@@ -166,30 +139,28 @@ namespace TelomereAnalyzer
             }
         }
 
-        /*
-         * Auto-Levels the nuclei and telomer Image at once
-         */
         private void OnStart(object sender, EventArgs e)
         {
             if (IsImageOkay(_uploadedRawNucleiImage) && IsImageOkay(_uploadedRawTelomereImage))
                 AutoLevel();
         }
 
+        /*
+         * Auto-Levels the nuclei and telomer Image at once
+         */
         private void AutoLevel()
         {
-            lblPleaseSelectPic.Text = "Please click on Threshold to automatically generate a Threshold for the Telomere Image";
-            //using ImageMagick Nuclei Image
+            //lblPleaseSelectPic.Text = "Please click on Threshold to automatically generate a Threshold for the Telomere Image";
             MagickImage magickImageNuclei = new MagickImage(_nucleiFilePathName);
             magickImageNuclei.AutoLevel();
-            using(var memStream = new MemoryStream())
+            using (var memStream = new MemoryStream())
             {
                 magickImageNuclei.Write(memStream);
                 Bitmap btm = new System.Drawing.Bitmap(memStream);
-                _NucleiImageAutoLevel = new Image<Gray, byte>(btm);      
+                _NucleiImageAutoLevel = new Image<Gray, byte>(btm);
             }
             _btmNucleiImageAutoLevel = _NucleiImageAutoLevel.ToBitmap();
             ImageBoxOne.BackgroundImage = _btmNucleiImageAutoLevel;
-            //using ImageMagick Telomere Image
             MagickImage magickImageTelomere = new MagickImage(_telomereFilePathName);
             magickImageTelomere.AutoLevel();
             using (var memStream = new MemoryStream())
@@ -227,7 +198,8 @@ namespace TelomereAnalyzer
             }
         }
 
-        private Bitmap MergeImages(Bitmap primaryImage, Bitmap secondaryImage) {
+        private Bitmap MergeImages(Bitmap primaryImage, Bitmap secondaryImage)
+        {
             var finalImage = new Bitmap(secondaryImage.Width, secondaryImage.Height);
             var graphics = Graphics.FromImage(finalImage);
             graphics.CompositingMode = CompositingMode.SourceOver;
@@ -242,14 +214,10 @@ namespace TelomereAnalyzer
                     transparentImage.SetPixel(x, y, Color.FromArgb(Convert.ToInt32(alphaTransparent), pixel.R, pixel.G, pixel.B));
                 }
             }
-            //savingImage = transparentImage;
             graphics.DrawImage(primaryImage, 0, 0);
             graphics.DrawImage(transparentImage, 0, 0);
             ShowBitmapOnForm(ImageBoxTwo, finalImage);
-            //savingImage = finalImage;
             return finalImage;
-            //btnDetectingNuclei.Show();
-            //BtnDetectNuclei();
         }
 
         private void BtnDetectNuclei()
@@ -257,19 +225,14 @@ namespace TelomereAnalyzer
             _elmiWood = new ElmiWood(this);
             _elmiWood.DoAnalyze(_NucleiImageAutoLevel);
             _nucleiBitonalForEdgeDetection = _elmiWood._nucleiBitonalForEdgeDetection;
-
             if (IsImageOkay(_nucleiBitonalForEdgeDetection))
             {
                 _EdgeDetection = new EdgeDetection(this);
                 _EdgeDetection.FindingContoursNuclei(_nucleiBitonalForEdgeDetection, _NucleiImageAutoLevel);
             }
-
             _btmNucleiImageEdgesDetected = _NucleiImageEdgesDetected.ToBitmap();
             ShowBitmapOnForm(ImageBoxOne, _btmNucleiImageEdgesDetected);
             //_btmNucleiImageEdgesDetected.Save("D:\\Hochschule Emden Leer - Bachelor Bioinformatik\\Praxisphase Bachelorarbeit Vorbereitungen\\Praktikumsstelle\\MHH Hannover Telomere\\Programm Bilder\\5_NucleiDetected.tiff");
-            //Nuclei selber umranden können
-            //Testing the Nucleus and Nuclei Classes
-            //ShowBitmapOnForm(ImageBoxTwo, _TestingNucleiImageEdgesDetected.ToBitmap());
 
             /* Nun wurden die Nuclei automatisch umrandet.
              * Der User soll daraufhin die Nuclei selber einzeichnen können. 
@@ -282,8 +245,6 @@ namespace TelomereAnalyzer
 
             _NucleiImageEdgesDetectedAndDrawn = formTwo._NucleiImageWithAutomaticEdgesToDrawOn;
             _btmNucleiImageMergedWithTresholdImage = MergeImages(_NucleiImageEdgesDetectedAndDrawn.ToBitmap(), _TelomereImageAutoLevel.ToBitmap());
-
-            //Detecting Telomeres
             Image<Gray, byte> telomereImageToDrawOn = new Image<Gray, byte>(_btmTelomereImageThreshold);
             DetectingTelomeres(telomereImageToDrawOn);
         }
@@ -297,7 +258,6 @@ namespace TelomereAnalyzer
             Image<Gray, byte> destImage = new Image<Gray, byte>(image.Width, image.Height, new Gray(0));
             try
             {
-                //double threshold = CvInvoke.Threshold(image.Convert<Gray, byte>(), destImage, 50, 255, Emgu.CV.CvEnum.ThresholdType.Otsu);
                 double threshold = CvInvoke.cvThreshold(image.Convert<Gray, byte>(), destImage, 0.0, 255.0, THRESH.CV_THRESH_OTSU);
                 lblThreshold.Text = "Calculated Threshold: " + threshold;
             }
@@ -307,13 +267,9 @@ namespace TelomereAnalyzer
             }
             _btmTelomereImageThreshold = ChangingColourOfBitonalImage(destImage);
             ShowBitmapOnForm(ImageBoxTwo, _btmTelomereImageThreshold);
-            //_btmTelomereImageThreshold.Save("D:\\Hochschule Emden Leer - Bachelor Bioinformatik\\Praxisphase Bachelorarbeit Vorbereitungen\\Praktikumsstelle\\MHH Hannover Telomere\\Programm Bilder\\0_Threshold_Done_OnTelomeres.tiff");
             lblPleaseSelectPic.Text = "Please click on Merge Images to overlay both of the Images on top of each other";
-            //btnMergeImages.Show();
-
         }
 
-        //funktioniert, ist wahrscheinlich nicht die effizienteste Lösung
         private Bitmap ChangingColourOfBitonalImage(Image<Gray, byte> image)
         {
             Bitmap destImageBitmap = image.ToBitmap();
@@ -329,8 +285,8 @@ namespace TelomereAnalyzer
                 {
                     Color checkedColor = destImageBitmap.GetPixel(i, j);
                     /*
-                     * Das Bild ist schwarzweiß, also 2 farbig. Wenn ein Rotanteil in dem Pixel drin ist, ist dieser Pixel weiß.
-                     * Der weiße Pixel wird in rot umgewandelt und die restlichen Pixel werden schwarz gesetzt.
+                     * The Image is black and white (bitonal). If there is a red component in a Pixel than this Pixel is white.
+                     * The white Pixels are converted to yellow and the rest is set to black.
                      */
                     if (checkedColor.R == 255)
                         resultBmpToBeColoured.SetPixel(i, j, Color.FromArgb(255, 255, 255, 0));
@@ -339,13 +295,13 @@ namespace TelomereAnalyzer
                 }
             }
             return resultBmpToBeColoured;
+            
         }
         #endregion
         public void DetectingTelomeres(Image<Gray, byte> telomereImage)
         {
             _EdgeDetection.FindingContoursTelomeres(telomereImage, telomereImage);
             ShowBitmapOnForm(ImageBoxOne, _TelomereImageTelomeresDetected.ToBitmap());
-            //_TelomereImageTelomeresDetected.Save("D:\\Hochschule Emden Leer - Bachelor Bioinformatik\\Praxisphase Bachelorarbeit Vorbereitungen\\Praktikumsstelle\\MHH Hannover Telomere\\Programm Bilder\\6_TelomeresDetected.tiff");
             //Testing the Telomere and AllTelomere Classes
             //ShowBitmapOnForm(ImageBoxTwo, _TestingTelomereImageTelomeresDetected.ToBitmap());
             AllocateTelomeresToNucleus();
@@ -358,34 +314,12 @@ namespace TelomereAnalyzer
             {
                 _allNuclei._LstAllNuclei[n].getAmountOfPixelsInNucleusArea(_uploadedRawNucleiImage);
                 //Goes through every existing telomere per Nucleus --> checks if any contour-Point of the Telomere is in the Nucleus-Area
-                for(Int32 t = 0; t < _allTelomeres._LstAllTelomeres.Count; t++)
-                {
-                    if(_allNuclei._LstAllNuclei[n].isTelomereContourInThisNucleus(_allTelomeres._LstAllTelomeres[t]._telomereContourPoints))
-                            _allNuclei._LstAllNuclei[n].AddTelomereToTelomereList(_allTelomeres._LstAllTelomeres[t]);
-                }
-            }
-            /*
-            //hier muss ungebdingt nochmal überprüft werden, ob dies hier so richtig abläuft!
-            //es wird immer noch geprüft, ob die Center-Points des Telomers innerhalb des Punkte-Arrays der Nucleus-Kontur vorhanden ist und NICHT, ob der Center-Point innerhalb dieses Nucleus-Kontur-Polygons enthalten ist!
-            _allTelomeres = _EdgeDetection._allTelomeres;
-            Boolean telomereIsInNucleus = false;
-            //Geht alle Nuclei durch und geht dann alle Telomere pro Nucleus durch und überprüft ob diese in der Nucleus Kontur enthalten sind
-            for (Int32 n = 0; n < _allNuclei._LstAllNuclei.Count; n++)
-            {
-                //Geht alle Telomere pro Nucleus durch --> es wird überprüft, ob der center point des Telomers in der Nucleus-Kontur enthalten ist
-                //Theoretisch müssen nicht nochmal absolut alle Telomere überprüft werden, da ja manche schon Nuclei zugeordnet sind --> kann effizienter sein!
                 for (Int32 t = 0; t < _allTelomeres._LstAllTelomeres.Count; t++)
                 {
-                    telomereIsInNucleus = _allNuclei.IsCenterPointOfTelomereInNucleus(_allNuclei._LstAllNuclei[n]._nucleusContourPoints, _allTelomeres._LstAllTelomeres[t]._telomereCenterPoint);
-                    if (telomereIsInNucleus)
-                    {
+                    if (_allNuclei._LstAllNuclei[n].isTelomereContourInThisNucleus(_allTelomeres._LstAllTelomeres[t]._telomereContourPoints))
                         _allNuclei._LstAllNuclei[n].AddTelomereToTelomereList(_allTelomeres._LstAllTelomeres[t]);
-                    }
                 }
-
             }
-            */
-
             //Alles zum Testen
             /*
             _TestingAllocatingTelomeresToNucleus = new Image<Bgr, byte>(_btmTelomereImageThreshold);
@@ -423,8 +357,6 @@ namespace TelomereAnalyzer
         {
             FormThree formThree = new FormThree(this, _allNuclei, _allTelomeres);
             formThree.Show();
-            //_DisplayingFinalResults = new DisplayingFinalResults(_allNuclei, _allTelomeres);
-            //_DisplayingFinalResults.PrintResultsOnConsole();
         }
 
         public void ShowBitmapOnForm(ImageBox imageBox, Bitmap bitmap)
@@ -435,7 +367,6 @@ namespace TelomereAnalyzer
                 imageBox.Width = bitmap.Width;
                 imageBox.Height = bitmap.Height;
                 imageBox.MaximumSize = bitmap.Size;
-                imageBox.BackgroundImageLayout = ImageLayout.Stretch;
                 imageBox.Refresh();
             }
             else
@@ -453,11 +384,6 @@ namespace TelomereAnalyzer
             if (image == null)
                 return false;
             return true;
-        }
-
-        private void FormOne_Load(object sender, EventArgs e)
-        {
-
         }
     }
 }
