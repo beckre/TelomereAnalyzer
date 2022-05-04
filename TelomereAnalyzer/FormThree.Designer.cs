@@ -31,6 +31,10 @@ namespace TelomereAnalyzer
         {
             this.btnSaveThresholdImage = new System.Windows.Forms.Button();
             this.grpBxSaveImages = new System.Windows.Forms.GroupBox();
+            this.btnSaveAutoLevelTelomereImage = new System.Windows.Forms.Button();
+            this.lblAutoLevelTelomereImage = new System.Windows.Forms.Label();
+            this.btnSaveAutoLevelNucleiImage = new System.Windows.Forms.Button();
+            this.lblAutoLevelImage = new System.Windows.Forms.Label();
             this.btnExportExcel = new System.Windows.Forms.Button();
             this.btnSaveMergedNucleiTelomereImage = new System.Windows.Forms.Button();
             this.lblNucleiTelomereImageMerged = new System.Windows.Forms.Label();
@@ -43,10 +47,6 @@ namespace TelomereAnalyzer
             this.lblThresholdImage = new System.Windows.Forms.Label();
             this.grpBx = new System.Windows.Forms.GroupBox();
             this.lblInstructionsFormTwo = new System.Windows.Forms.Label();
-            this.lblAutoLevelImage = new System.Windows.Forms.Label();
-            this.btnSaveAutoLevelNucleiImage = new System.Windows.Forms.Button();
-            this.lblAutoLevelTelomereImage = new System.Windows.Forms.Label();
-            this.btnSaveAutoLevelTelomereImage = new System.Windows.Forms.Button();
             this.grpBxSaveImages.SuspendLayout();
             this.grpBx.SuspendLayout();
             this.SuspendLayout();
@@ -86,6 +86,46 @@ namespace TelomereAnalyzer
             this.grpBxSaveImages.TabIndex = 2;
             this.grpBxSaveImages.TabStop = false;
             // 
+            // btnSaveAutoLevelTelomereImage
+            // 
+            this.btnSaveAutoLevelTelomereImage.BackColor = System.Drawing.SystemColors.MenuHighlight;
+            this.btnSaveAutoLevelTelomereImage.Location = new System.Drawing.Point(495, 125);
+            this.btnSaveAutoLevelTelomereImage.Name = "btnSaveAutoLevelTelomereImage";
+            this.btnSaveAutoLevelTelomereImage.Size = new System.Drawing.Size(102, 39);
+            this.btnSaveAutoLevelTelomereImage.TabIndex = 15;
+            this.btnSaveAutoLevelTelomereImage.Text = "Save";
+            this.btnSaveAutoLevelTelomereImage.UseVisualStyleBackColor = false;
+            this.btnSaveAutoLevelTelomereImage.Click += new System.EventHandler(this.OnSaveAutoLevelTelomereImage);
+            // 
+            // lblAutoLevelTelomereImage
+            // 
+            this.lblAutoLevelTelomereImage.AutoSize = true;
+            this.lblAutoLevelTelomereImage.Location = new System.Drawing.Point(24, 132);
+            this.lblAutoLevelTelomereImage.Name = "lblAutoLevelTelomereImage";
+            this.lblAutoLevelTelomereImage.Size = new System.Drawing.Size(254, 25);
+            this.lblAutoLevelTelomereImage.TabIndex = 14;
+            this.lblAutoLevelTelomereImage.Text = "Auto-Level Telomere Image";
+            // 
+            // btnSaveAutoLevelNucleiImage
+            // 
+            this.btnSaveAutoLevelNucleiImage.BackColor = System.Drawing.SystemColors.MenuHighlight;
+            this.btnSaveAutoLevelNucleiImage.Location = new System.Drawing.Point(495, 29);
+            this.btnSaveAutoLevelNucleiImage.Name = "btnSaveAutoLevelNucleiImage";
+            this.btnSaveAutoLevelNucleiImage.Size = new System.Drawing.Size(102, 39);
+            this.btnSaveAutoLevelNucleiImage.TabIndex = 13;
+            this.btnSaveAutoLevelNucleiImage.Text = "Save";
+            this.btnSaveAutoLevelNucleiImage.UseVisualStyleBackColor = false;
+            this.btnSaveAutoLevelNucleiImage.Click += new System.EventHandler(this.OnSaveAutoLevelNucleiImage);
+            // 
+            // lblAutoLevelImage
+            // 
+            this.lblAutoLevelImage.AutoSize = true;
+            this.lblAutoLevelImage.Location = new System.Drawing.Point(31, 36);
+            this.lblAutoLevelImage.Name = "lblAutoLevelImage";
+            this.lblAutoLevelImage.Size = new System.Drawing.Size(225, 25);
+            this.lblAutoLevelImage.TabIndex = 12;
+            this.lblAutoLevelImage.Text = "Auto-Level Nuclei Image";
+            // 
             // btnExportExcel
             // 
             this.btnExportExcel.BackColor = System.Drawing.SystemColors.MenuHighlight;
@@ -106,7 +146,7 @@ namespace TelomereAnalyzer
             this.btnSaveMergedNucleiTelomereImage.TabIndex = 10;
             this.btnSaveMergedNucleiTelomereImage.Text = "Save";
             this.btnSaveMergedNucleiTelomereImage.UseVisualStyleBackColor = false;
-            this.btnSaveMergedNucleiTelomereImage.Click += new System.EventHandler(this.OnSave);
+            this.btnSaveMergedNucleiTelomereImage.Click += new System.EventHandler(this.OnSaveMergedDetectedAndDrawnNucleiImage);
             // 
             // lblNucleiTelomereImageMerged
             // 
@@ -210,46 +250,6 @@ namespace TelomereAnalyzer
             this.lblInstructionsFormTwo.TabIndex = 0;
             this.lblInstructionsFormTwo.Text = "Please save the Images and Export the Excel File of the Analysis.";
             // 
-            // lblAutoLevelImage
-            // 
-            this.lblAutoLevelImage.AutoSize = true;
-            this.lblAutoLevelImage.Location = new System.Drawing.Point(31, 36);
-            this.lblAutoLevelImage.Name = "lblAutoLevelImage";
-            this.lblAutoLevelImage.Size = new System.Drawing.Size(225, 25);
-            this.lblAutoLevelImage.TabIndex = 12;
-            this.lblAutoLevelImage.Text = "Auto-Level Nuclei Image";
-            // 
-            // btnSaveAutoLevelNucleiImage
-            // 
-            this.btnSaveAutoLevelNucleiImage.BackColor = System.Drawing.SystemColors.MenuHighlight;
-            this.btnSaveAutoLevelNucleiImage.Location = new System.Drawing.Point(495, 29);
-            this.btnSaveAutoLevelNucleiImage.Name = "btnSaveAutoLevelNucleiImage";
-            this.btnSaveAutoLevelNucleiImage.Size = new System.Drawing.Size(102, 39);
-            this.btnSaveAutoLevelNucleiImage.TabIndex = 13;
-            this.btnSaveAutoLevelNucleiImage.Text = "Save";
-            this.btnSaveAutoLevelNucleiImage.UseVisualStyleBackColor = false;
-            this.btnSaveAutoLevelNucleiImage.Click += new System.EventHandler(this.OnSaveAutoLevelNucleiImage);
-            // 
-            // lblAutoLevelTelomereImage
-            // 
-            this.lblAutoLevelTelomereImage.AutoSize = true;
-            this.lblAutoLevelTelomereImage.Location = new System.Drawing.Point(24, 132);
-            this.lblAutoLevelTelomereImage.Name = "lblAutoLevelTelomereImage";
-            this.lblAutoLevelTelomereImage.Size = new System.Drawing.Size(254, 25);
-            this.lblAutoLevelTelomereImage.TabIndex = 14;
-            this.lblAutoLevelTelomereImage.Text = "Auto-Level Telomere Image";
-            // 
-            // btnSaveAutoLevelTelomereImage
-            // 
-            this.btnSaveAutoLevelTelomereImage.BackColor = System.Drawing.SystemColors.MenuHighlight;
-            this.btnSaveAutoLevelTelomereImage.Location = new System.Drawing.Point(495, 125);
-            this.btnSaveAutoLevelTelomereImage.Name = "btnSaveAutoLevelTelomereImage";
-            this.btnSaveAutoLevelTelomereImage.Size = new System.Drawing.Size(102, 39);
-            this.btnSaveAutoLevelTelomereImage.TabIndex = 15;
-            this.btnSaveAutoLevelTelomereImage.Text = "Save";
-            this.btnSaveAutoLevelTelomereImage.UseVisualStyleBackColor = false;
-            this.btnSaveAutoLevelTelomereImage.Click += new System.EventHandler(this.OnSaveAutoLevelTelomereImage);
-            // 
             // FormThree
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
@@ -257,6 +257,8 @@ namespace TelomereAnalyzer
             this.ClientSize = new System.Drawing.Size(853, 1386);
             this.Controls.Add(this.grpBx);
             this.Controls.Add(this.grpBxSaveImages);
+            this.MaximumSize = new System.Drawing.Size(875, 1442);
+            this.MinimumSize = new System.Drawing.Size(875, 1442);
             this.Name = "FormThree";
             this.Text = "FormThree";
             this.grpBxSaveImages.ResumeLayout(false);

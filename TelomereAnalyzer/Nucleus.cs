@@ -19,7 +19,7 @@ namespace TelomereAnalyzer
 
         //Images for getting all the Pixels inside the Telomere-Contour
         //Must be different when 16Bit or 8Bit Image --> First only 16 Bit is handled
-        Image<Bgr, UInt16> _imageForFilledPolygon;
+        Image<Bgr, byte> _imageForFilledPolygon;
         List<PointF> _allNucleusPoints;
 
         public Nucleus(String nucleusName, PointF centerPoint, PointF[] contourPoints)
@@ -45,7 +45,7 @@ namespace TelomereAnalyzer
             _LstNucleusTelomeres.Add(telomere);
         }
 
-        public void getAmountOfPixelsInNucleusArea(Image<Gray, UInt16> imageForReference)
+        public void getAmountOfPixelsInNucleusArea(Image<Gray, byte> imageForReference)
         {   //No ROI here
 
             Bitmap btmReference = new Bitmap(imageForReference.ToBitmap());
@@ -53,7 +53,7 @@ namespace TelomereAnalyzer
             //First the Polygon is filled in red in the reference Bitmap
             SolidBrush redBrush = new SolidBrush(Color.Red);
             graphics.FillPolygon(redBrush, _nucleusContourPoints);
-            _imageForFilledPolygon = new Image<Bgr, UInt16>(btmReference);
+            _imageForFilledPolygon = new Image<Bgr, byte>(btmReference);
             _imageForFilledPolygon.Save(@"D:\Hochschule Emden Leer - Bachelor Bioinformatik\Praxisphase Bachelorarbeit Vorbereitungen\Praktikumsstelle\MHH Hannover Telomere\WE Transfer\Bilder filled Polygon\ROI Red Nucleus " + this._nucleusName + ".jpg");
             Bitmap btmp = _imageForFilledPolygon.ToBitmap();
 
