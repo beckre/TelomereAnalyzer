@@ -73,7 +73,11 @@ namespace TelomereAnalyzer
             for (Int32 n = 0; n < _Lstnuclei.Count; n++)
             {
                 Int32 telomereNumber = 1;
-                List<Telomere> lsTelomeres = _Lstnuclei[n]._LstNucleusTelomeres;
+                List<Telomere> lsTelomeres = new List<Telomere>();
+                lsTelomeres = _Lstnuclei[n]._LstNucleusTelomeres;
+                //If the Nuclei does not contain a Telomere at all, then this Nuclei should not show up in the Excel-Sheet at all
+                if (lsTelomeres.Count <= 0)
+                    continue;
                 //are needed for calculating the average of the means
                 double sum = 0;
                 double averageOfMeans = 0;
