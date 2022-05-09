@@ -159,14 +159,14 @@ namespace TelomereAnalyzer
                 Double value = Convert.ToDouble(momentsOfContour.GravityCenter.x);
                 if (Double.IsNaN(value) == false)
                 {
-                    //if (contour.Area > 50)
-                    //{
+                    if (contour.Area >= 8)
+                    {
                         contourPoints = Array.ConvertAll(contour.ToArray(), input => new PointF(input.X, input.Y));
 
                         huMoments = momentsOfContour.GetHuMoment();
                     //Contours smaller than 8 Pixels should not be counted as a Telomere
-                    if (contourPoints.Length >= 8)
-                    {
+                    //if (contourPoints.Length >= 8)
+                    //{
                         contourFound++;
                         AddContourPoints(ref allContours, contourPoints);
                         AddCenterPoint(ref centerPoints, centerPoint);

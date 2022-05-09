@@ -99,8 +99,9 @@ namespace TelomereAnalyzer
             if (dialog.ShowDialog(this) == System.Windows.Forms.DialogResult.OK)
             {
                 _nucleiFilePathName = dialog.FileName;
-                String[] tempFileNameArr = dialog.SafeFileName.Split('.');
-                _nucleiFileName = tempFileNameArr[0];
+                //String[] tempFileNameArr = dialog.SafeFileName.Split('.');
+                //_nucleiFileName = tempFileNameArr[0];
+                _nucleiFileName = dialog.SafeFileName;
                 _uploadedRawNucleiImage = new Image<Gray, byte>(dialog.FileName);
                 _btmUploadedRawNucleiImage = _uploadedRawNucleiImage.ToBitmap();
                 ShowBitmapOnForm(ImageBoxOne, _btmUploadedRawNucleiImage);
@@ -123,8 +124,9 @@ namespace TelomereAnalyzer
             if (dialog.ShowDialog(this) == System.Windows.Forms.DialogResult.OK)
             {
                 _telomereFilePathName = dialog.FileName;
-                String[] tempFileNameArr = dialog.SafeFileName.Split('.');
-                _telomereFileName = tempFileNameArr[0];
+                //String[] tempFileNameArr = dialog.SafeFileName.Split('.');
+                //_telomereFileName = tempFileNameArr[0];
+                _telomereFileName = dialog.SafeFileName;
                 _uploadedRawTelomereImage = new Image<Gray, byte>(dialog.FileName);
                 _btmUploadedRawTelomereImage = _uploadedRawTelomereImage.ToBitmap();
                 ShowBitmapOnForm(ImageBoxTwo, _btmUploadedRawTelomereImage);
@@ -184,7 +186,7 @@ namespace TelomereAnalyzer
             {
                 Thresholding();
                 _btmTelomereImageHalfTransparent = MergeImages(_btmNucleiImageAutoLevel, _btmTelomereImageThreshold);
-                BtnDetectNuclei();
+                DetectNuclei();
             }
             else
             {
@@ -194,7 +196,7 @@ namespace TelomereAnalyzer
                 _btmNucleiImageAutoLevel = _uploadedRawNucleiImage.ToBitmap();
                 Thresholding();
                 _btmTelomereImageHalfTransparent = MergeImages(_btmNucleiImageAutoLevel, _btmTelomereImageThreshold);
-                BtnDetectNuclei();
+                DetectNuclei();
             }
         }
 
@@ -220,7 +222,7 @@ namespace TelomereAnalyzer
             return finalImage;
         }
 
-        private void BtnDetectNuclei()
+        private void DetectNuclei()
         {
             _elmiWood = new ElmiWood(this);
             _elmiWood.DoAnalyze(_NucleiImageAutoLevel);
