@@ -88,8 +88,8 @@ namespace TelomereAnalyzer
         }
         #region Callbacks--------------------------------------------------------------------------------------------
         /*----------------------------------------------------------------------------------------*\
-         *  is called when clicking on the upload --> .tiff button.                               *|
-         *  
+        |* Is called when clicking on the Load... --> Nuclei.tiff button.                         *|
+        |* Stores the uploaded Nuclei Image in an Image and Bitmap Structure                      *|
         \*----------------------------------------------------------------------------------------*/
         private void OnUploadNucleiImage(object sender, EventArgs e)
         {
@@ -99,8 +99,6 @@ namespace TelomereAnalyzer
             if (dialog.ShowDialog(this) == System.Windows.Forms.DialogResult.OK)
             {
                 _nucleiFilePathName = dialog.FileName;
-                //String[] tempFileNameArr = dialog.SafeFileName.Split('.');
-                //_nucleiFileName = tempFileNameArr[0];
                 _nucleiFileName = dialog.SafeFileName;
                 _uploadedRawNucleiImage = new Image<Gray, byte>(dialog.FileName);
                 _btmUploadedRawNucleiImage = _uploadedRawNucleiImage.ToBitmap();
@@ -108,14 +106,17 @@ namespace TelomereAnalyzer
                 _nucleiImageUploaded = true;
                 if (_nucleiImageUploaded && _telomereImageUploaded)
                 {
-                    lblPleaseSelectPic.Text = "Please click on Start to launch the Analysis";
+                    lblInstructions.Text = "Please click on Start to launch the Analysis";
                     grpBoxSelectOptions.Show();
                 }
                 if (!_telomereImageUploaded)
-                    lblPleaseSelectPic.Text = "Please upload a Telomere .TIFF file";
+                    lblInstructions.Text = "Please upload a Telomere .TIFF file";
             }
         }
-
+        /*----------------------------------------------------------------------------------------*\
+        |* Is called when clicking on the Load... --> Telomere.tiff button.                       *|
+        |* Stores the uploaded Telomere Image in an Image and Bitmap Structure                    *|
+        \*----------------------------------------------------------------------------------------*/
         private void OnUploadTelomereImage(object sender, EventArgs e)
         {
             System.Windows.Forms.OpenFileDialog dialog = new
@@ -124,8 +125,6 @@ namespace TelomereAnalyzer
             if (dialog.ShowDialog(this) == System.Windows.Forms.DialogResult.OK)
             {
                 _telomereFilePathName = dialog.FileName;
-                //String[] tempFileNameArr = dialog.SafeFileName.Split('.');
-                //_telomereFileName = tempFileNameArr[0];
                 _telomereFileName = dialog.SafeFileName;
                 _uploadedRawTelomereImage = new Image<Gray, byte>(dialog.FileName);
                 _btmUploadedRawTelomereImage = _uploadedRawTelomereImage.ToBitmap();
@@ -133,26 +132,31 @@ namespace TelomereAnalyzer
                 _telomereImageUploaded = true;
                 if (_nucleiImageUploaded && _telomereImageUploaded)
                 {
-                    lblPleaseSelectPic.Text = "Please click on Start to launch the Analysis";
+                    lblInstructions.Text = "Please click on Start to launch the Analysis";
                     grpBoxSelectOptions.Show();
                 }
                 if (!_nucleiImageUploaded)
-                    lblPleaseSelectPic.Text = "Please upload a Nuclei .TIFF file";
+                    lblInstructions.Text = "Please upload a Nuclei .TIFF file";
             }
         }
 
+        /*----------------------------------------------------------------------------------------*\
+        |* Is called when clicking on the Start-Button that appears after uploading a Nuclei      *|
+        |* and Telomer Image.                                                                     *|
+        |* Starting Point of all Analyses.  Calls AutoLevel()                          *|
+        \*----------------------------------------------------------------------------------------*/
         private void OnStart(object sender, EventArgs e)
         {
             if (IsImageOkay(_uploadedRawNucleiImage) && IsImageOkay(_uploadedRawTelomereImage))
                 AutoLevel();
         }
 
-        /*
-         * Auto-Levels the nuclei and telomer Image at once
-         */
+        /*----------------------------------------------------------------------------------------*\
+        |* Auto-Levels the Nuclei and Telomere Images using the MagickImage Library.              *|
+        |* Calls Threshold()                                                                      *|
+        \*----------------------------------------------------------------------------------------*/
         private void AutoLevel()
         {
-            //lblPleaseSelectPic.Text = "Please click on Threshold to automatically generate a Threshold for the Telomere Image";
             MagickImage magickImageNuclei = new MagickImage(_nucleiFilePathName);
             magickImageNuclei.AutoLevel();
             using (var memStream = new MemoryStream())
@@ -175,11 +179,12 @@ namespace TelomereAnalyzer
             ImageBoxTwo.BackgroundImage = _btmNucleiImageAutoLevel;
             Threshold();
         }
-        /*----------------------------------------------------------------------------------------*\
-         *  Generates the Threshold of the uploaded image using the otsu's method.                *|
-         *  Converts the choosen image to grayscale and byte before thresholding                  *|
-         *  otherwise an exception is thrown.
-        \*----------------------------------------------------------------------------------------*/
+        /*---------------------------------------------------------------------------------------*\
+        |* Generates the Threshold of the uploaded image using the otsu's method.                *|
+        |* Converts the choosen image to grayscale and byte before thresholding                  *|
+        |* otherwise an exception is thrown.                                                     *|
+        |* Calls DetectNuclei()                                                                  *|
+        \*---------------------------------------------------------------------------------------*/
         private void Threshold()
         {
             if (IsImageOkay(_TelomereImageAutoLevel))
@@ -199,7 +204,9 @@ namespace TelomereAnalyzer
                 DetectNuclei();
             }
         }
-
+        /*---------------------------------------------------------------------------------------*\
+        |* Merges the two parameter Bitmaps for visual dislplay.                                 *|
+        \*---------------------------------------------------------------------------------------*/
         private Bitmap MergeImages(Bitmap primaryImage, Bitmap secondaryImage)
         {
             var finalImage = new Bitmap(secondaryImage.Width, secondaryImage.Height);
@@ -221,7 +228,14 @@ namespace TelomereAnalyzer
             ShowBitmapOnForm(ImageBoxTwo, finalImage);
             return finalImage;
         }
-
+        /*---------------------------------------------------------------------------------------*\
+        |* Automatically detects the Nuclei and draws Borders around them.                       *|
+        |* Opens another 2. Form in which the detected Nuclei are shown. Here the User has the   *|
+        |* Option to evaluate if the detected Nuclei Borders are okay.                           *|
+        |* The User can also draw Nuclei Borders on the 2. Form and Select or Deselect           *|
+        |* all Nuclei that should be included in the further Analysis.                           *|
+        |* Calls DetectingTelomeres()                                                            *|
+        \*---------------------------------------------------------------------------------------*/
         private void DetectNuclei()
         {
             _elmiWood = new ElmiWood(this);
@@ -233,27 +247,24 @@ namespace TelomereAnalyzer
                 _EdgeDetection.FindingContoursNuclei(_nucleiBitonalForEdgeDetection, _NucleiImageAutoLevel);
             }
             _btmNucleiImageEdgesDetected = _NucleiImageEdgesDetected.ToBitmap();
-            ShowBitmapOnForm(ImageBoxOne, _btmNucleiImageEdgesDetected);
-            //_btmNucleiImageEdgesDetected.Save("D:\\Hochschule Emden Leer - Bachelor Bioinformatik\\Praxisphase Bachelorarbeit Vorbereitungen\\Praktikumsstelle\\MHH Hannover Telomere\\Programm Bilder\\5_NucleiDetected.tiff");
-
-            /* Nun wurden die Nuclei automatisch umrandet.
-             * Der User soll daraufhin die Nuclei selber einzeichnen können. 
-             * Hierfür soll sich eine neue Form öffnen, in der dies komplett gehandelt wird.
-             * Übergeben wird die Nuclei-Liste und diese kann modifiziert werden.
-             */
             _allNuclei = _EdgeDetection._allNuclei;
             FormTwo formTwo = new FormTwo(_allNuclei, _NucleiImageAutoLevel.Convert<Bgr, byte>());
-            formTwo.ShowDialog(); //.ShowDialog anstatt .Show, da es so nicht möglich ist auf das 1. Fenster zuzugreifen, bis das 2. Fenster geschlossen wurde
-
+            //.ShowDialog() instead of .Show() because it prevents the User to interact with the 1. Form unless the 2. is closed
+            formTwo.ShowDialog();
             _NucleiImageEdgesDetectedAndDrawn = formTwo._NucleiImageWithAutomaticEdgesToDrawOn;
             _btmNucleiImageMergedWithTresholdImage = MergeImages(_NucleiImageEdgesDetectedAndDrawn.ToBitmap(), _TelomereImageAutoLevel.ToBitmap());
+            ShowBitmapOnForm(ImageBoxOne, _NucleiImageEdgesDetected.ToBitmap());
             Image<Gray, byte> telomereImageToDrawOn = new Image<Gray, byte>(_btmTelomereImageThreshold);
             DetectingTelomeres(telomereImageToDrawOn);
         }
 
         #endregion
-
         #region Thresholding---------------------------------------------------------------------------------
+        /*---------------------------------------------------------------------------------------*\
+        |* Generates the Threshold for the Telomere Image using the Otsu-Method.                 *|
+        |* This is important for the Telomere Detection. The Threshold should be determined      *|
+        |* automatically so that no human bias can falsify this part of the analysis.            *|
+        \*---------------------------------------------------------------------------------------*/
         private void Thresholding()
         {
             Image<Gray, byte> image = _TelomereImageAutoLevel.Convert<Gray, byte>();
@@ -269,13 +280,16 @@ namespace TelomereAnalyzer
             }
             _btmTelomereImageThreshold = ChangingColourOfBitonalImage(destImage);
             ShowBitmapOnForm(ImageBoxTwo, _btmTelomereImageThreshold);
-            lblPleaseSelectPic.Text = "Please click on Merge Images to overlay both of the Images on top of each other";
         }
-
+        /*---------------------------------------------------------------------------------------*\
+        |* Changes the Colour of a Bitonal black and white Image.                                *|
+        |* Goes through every Pixel of the whole Bitmap.                                         *|
+        |* If the Pixel is white that it is changed into yellow. Black Pixels remain black.      *|
+        \*---------------------------------------------------------------------------------------*/
         private Bitmap ChangingColourOfBitonalImage(Image<Gray, byte> image)
         {
             Bitmap destImageBitmap = image.ToBitmap();
-            //Ziel Bitmap muss diese Art von Bitmap sein, weil sonst die Methode .SetPixel() nicht aufrufbar ist
+            //Must be this type of Bitmap because otherwise the .SetPixel() Method cannot be called
             Bitmap resultBmpToBeColoured = new Bitmap(image.Width, image.Height, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
 
             int width = destImageBitmap.Width;
@@ -297,18 +311,26 @@ namespace TelomereAnalyzer
                 }
             }
             return resultBmpToBeColoured;
-            
         }
         #endregion
+        /*---------------------------------------------------------------------------------------*\
+        |* Initializes the Detection of the Telomeres.                                           *|
+        |* Similar Procedure like in DetectNuclei().                                             *|
+        |* Calls AllocateTelomrersToNucleus()                                                    *|
+        \*---------------------------------------------------------------------------------------*/
         public void DetectingTelomeres(Image<Gray, byte> telomereImage)
         {
             _EdgeDetection.FindingContoursTelomeres(telomereImage, telomereImage);
+            /*For Testing the Telomere and AllTelomere Classes
             ShowBitmapOnForm(ImageBoxOne, _TelomereImageTelomeresDetected.ToBitmap());
-            //Testing the Telomere and AllTelomere Classes
-            //ShowBitmapOnForm(ImageBoxTwo, _TestingTelomereImageTelomeresDetected.ToBitmap());
+            ShowBitmapOnForm(ImageBoxTwo, _TestingTelomereImageTelomeresDetected.ToBitmap());
+            */
             AllocateTelomeresToNucleus();
         }
-
+        /*---------------------------------------------------------------------------------------*\
+        |* Allocates the Telomeres to their belonging Nucleus.                                   *|
+        |* Calls DisplayEndResults()                                                             *|
+        \*---------------------------------------------------------------------------------------*/
         public void AllocateTelomeresToNucleus()
         {
             _allTelomeres = _EdgeDetection._allTelomeres;
@@ -322,10 +344,9 @@ namespace TelomereAnalyzer
                         _allNuclei._LstAllNuclei[n].AddTelomereToTelomereList(_allTelomeres._LstAllTelomeres[t]);
                 }
             }
-            //Alles zum Testen
-            /*
+            /* For Testing the Allocation of the Telomeres to their Nucleus
             _TestingAllocatingTelomeresToNucleus = new Image<Bgr, byte>(_btmTelomereImageThreshold);
-            //malt Kontur von 1 Nuclei
+            //draws Contour of one Nucleus
             PointF[] contour = _allNuclei._LstAllNuclei[0]._nucleusContourPoints;
             Bgr color = new Bgr(Color.HotPink);
             Point[] nucleiContourTesting = new Point[contour.Length];
@@ -336,7 +357,7 @@ namespace TelomereAnalyzer
 
             _TestingAllocatingTelomeresToNucleus.DrawPolyline(nucleiContourTesting, true, color, 1);
             //List<Telomere> telomeres = _allNuclei._allNuclei[0]._nucleusTelomeres;
-            //malt Konturen zu zugehörigen Telomeren
+            //draws Contours of belonging Telomeres
             for (Int32 i = 0; i < _allNuclei._LstAllNuclei[0]._LstNucleusTelomeres.Count; i++)
             {
                 PointF[] contourTelomeres = _allNuclei._LstAllNuclei[0]._LstNucleusTelomeres[i]._telomereContourPoints;
@@ -349,18 +370,25 @@ namespace TelomereAnalyzer
                 _TestingAllocatingTelomeresToNucleus.DrawPolyline(contourTesting, true, colorTelomeres, 1);
             }
             ShowBitmapOnForm(ImageBoxOne, _TestingAllocatingTelomeresToNucleus.ToBitmap());
-            _TestingAllocatingTelomeresToNucleus.Save("D:\\Hochschule Emden Leer - Bachelor Bioinformatik\\Praxisphase Bachelorarbeit Vorbereitungen\\Praktikumsstelle\\MHH Hannover Telomere\\Programm Bilder\\6_TestingTelomeresDetected.tiff");
-            // Ende Testen
             */
             DisplayEndResults();
         }
-
+        /*---------------------------------------------------------------------------------------*\
+        |* Creates a third Form which handles the Displaying of the Endresults.                  *|
+        |* In this Form the User has the Option to download specific Images that show the        *|
+        |* different states of analysis.                                                         *|
+        \*---------------------------------------------------------------------------------------*/
         public void DisplayEndResults()
         {
             FormThree formThree = new FormThree(this, _allNuclei, _allTelomeres);
             formThree.Show();
         }
-
+        /*---------------------------------------------------------------------------------------*\
+        |* Displays a Bitmap in an Image Box.                                                    *|
+        |* If it is the first time that an Image is displayed in this Image Box than the         *|
+        |* attributes of the Image Box are altered to match the Bitmap.                          *|
+        |* If not the Bitmap is simply shown in the Image Box                                    *|
+        \*---------------------------------------------------------------------------------------*/
         public void ShowBitmapOnForm(ImageBox imageBox, Bitmap bitmap)
         {
             if (imageBox.BackgroundImage == null)
@@ -374,8 +402,9 @@ namespace TelomereAnalyzer
             else
                 imageBox.BackgroundImage = bitmap;
         }
-
-        // checks if image is null --> needs to be extended probably
+        /*---------------------------------------------------------------------------------------*\
+        |* Checks if an Image is null                                                            *|
+        \*---------------------------------------------------------------------------------------*/
         private Boolean IsImageOkay(Image<Gray, byte> image)
         {
             if (image == null)

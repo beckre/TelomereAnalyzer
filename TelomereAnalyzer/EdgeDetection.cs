@@ -145,7 +145,7 @@ namespace TelomereAnalyzer
             PointF centerPoint = new Point();
             PointF[] contourPoints = null;
             PointF[][] allContours = null;
-            Boolean contourTooSmall = false;
+            //Boolean contourTooSmall = false;
 
             MCvMoments momentsOfContour;
             MCvHuMoments huMoments;
@@ -159,12 +159,13 @@ namespace TelomereAnalyzer
                 Double value = Convert.ToDouble(momentsOfContour.GravityCenter.x);
                 if (Double.IsNaN(value) == false)
                 {
+                    //Contours that have a very small Area should not be counted as a Telomere
                     if (contour.Area >= 8)
                     {
                         contourPoints = Array.ConvertAll(contour.ToArray(), input => new PointF(input.X, input.Y));
 
                         huMoments = momentsOfContour.GetHuMoment();
-                    //Contours smaller than 8 Pixels should not be counted as a Telomere
+                    
                     //if (contourPoints.Length >= 8)
                     //{
                         contourFound++;
@@ -174,7 +175,7 @@ namespace TelomereAnalyzer
                         Telomere telomere = new Telomere("Telomere " + contourFound, centerPoint, contourPoints);
                         _allTelomeres.AddTelomereToAllTelomeresList(telomere);
                         resultValues += "relative Area=" + contour.Area.ToString() + "  Xc= " + centerPoint.X.ToString() + "  Yc= " + centerPoint.Y.ToString() + "Gravity Center= ( " + momentsOfContour.GravityCenter.x.ToString() + " | " + momentsOfContour.GravityCenter.y.ToString() + " )\n";
-                        contourTooSmall = true;
+                        //contourTooSmall = true;
                     }
                     //}
                 }

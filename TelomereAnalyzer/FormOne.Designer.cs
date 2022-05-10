@@ -32,7 +32,7 @@ namespace TelomereAnalyzer
             this.components = new System.ComponentModel.Container();
             this.ImageBoxOne = new Emgu.CV.UI.ImageBox();
             this.grpBoxSelectDialog = new System.Windows.Forms.GroupBox();
-            this.lblPleaseSelectPic = new System.Windows.Forms.Label();
+            this.lblInstructions = new System.Windows.Forms.Label();
             this.mnuMainMenu = new System.Windows.Forms.MenuStrip();
             this.toolStrpMnuUpload = new System.Windows.Forms.ToolStripMenuItem();
             this.tIFFToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -64,7 +64,7 @@ namespace TelomereAnalyzer
             // 
             this.grpBoxSelectDialog.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.grpBoxSelectDialog.Controls.Add(this.lblPleaseSelectPic);
+            this.grpBoxSelectDialog.Controls.Add(this.lblInstructions);
             this.grpBoxSelectDialog.Location = new System.Drawing.Point(12, 32);
             this.grpBoxSelectDialog.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.grpBoxSelectDialog.Name = "grpBoxSelectDialog";
@@ -73,15 +73,15 @@ namespace TelomereAnalyzer
             this.grpBoxSelectDialog.TabIndex = 12;
             this.grpBoxSelectDialog.TabStop = false;
             // 
-            // lblPleaseSelectPic
+            // lblInstructions
             // 
-            this.lblPleaseSelectPic.AutoSize = true;
-            this.lblPleaseSelectPic.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblPleaseSelectPic.Location = new System.Drawing.Point(17, 22);
-            this.lblPleaseSelectPic.Name = "lblPleaseSelectPic";
-            this.lblPleaseSelectPic.Size = new System.Drawing.Size(370, 29);
-            this.lblPleaseSelectPic.TabIndex = 11;
-            this.lblPleaseSelectPic.Text = "Please upload a Nuclei .TIFF file ";
+            this.lblInstructions.AutoSize = true;
+            this.lblInstructions.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblInstructions.Location = new System.Drawing.Point(17, 22);
+            this.lblInstructions.Name = "lblInstructions";
+            this.lblInstructions.Size = new System.Drawing.Size(370, 29);
+            this.lblInstructions.TabIndex = 11;
+            this.lblInstructions.Text = "Please upload a Nuclei .TIFF file ";
             // 
             // mnuMainMenu
             // 
@@ -198,7 +198,7 @@ namespace TelomereAnalyzer
 
         #endregion
         private System.Windows.Forms.GroupBox grpBoxSelectDialog;
-        private System.Windows.Forms.Label lblPleaseSelectPic;
+        private System.Windows.Forms.Label lblInstructions;
         private System.Windows.Forms.MenuStrip mnuMainMenu;
         private System.Windows.Forms.ToolStripMenuItem toolStrpMnuUpload;
         private System.Windows.Forms.ToolStripMenuItem tIFFToolStripMenuItem;
