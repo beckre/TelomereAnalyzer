@@ -18,7 +18,7 @@ namespace TelomereAnalyzer
 {
     public class vesselDetectorClass : IDisposable
     {
-        ElmiWood _parentControl = null;
+        Detection _parentControl = null;
         struct Settings
         {
             public Double imgBrightness;   //--------------------------------------------------- 
@@ -39,7 +39,7 @@ namespace TelomereAnalyzer
         StochasticsClass _mathStochastics = null;
         Image<Hsv, Byte> _resultVesselImg = null;
 
-        public vesselDetectorClass(ElmiWood parentControl)
+        public vesselDetectorClass(Detection parentControl)
         {
             _parentControl = parentControl;
             InitializeGlobalParameter();

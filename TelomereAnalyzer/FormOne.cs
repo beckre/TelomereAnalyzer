@@ -13,7 +13,7 @@ namespace TelomereAnalyzer
 {
     public partial class FormOne : Form
     {
-        ElmiWood _elmiWood;
+        Detection _detection;
         EdgeDetection _EdgeDetection;
         Nuclei _allNuclei;
         AllTelomeres _allTelomeres;
@@ -238,9 +238,9 @@ namespace TelomereAnalyzer
         \*---------------------------------------------------------------------------------------*/
         private void DetectNuclei()
         {
-            _elmiWood = new ElmiWood(this);
-            _elmiWood.DoAnalyze(_NucleiImageAutoLevel);
-            _nucleiBitonalForEdgeDetection = _elmiWood._nucleiBitonalForEdgeDetection;
+            _detection = new Detection(this);
+            _detection.DoAnalyze(_NucleiImageAutoLevel);
+            _nucleiBitonalForEdgeDetection = _detection._nucleiBitonalForEdgeDetection;
             if (IsImageOkay(_nucleiBitonalForEdgeDetection))
             {
                 _EdgeDetection = new EdgeDetection(this);
@@ -251,10 +251,11 @@ namespace TelomereAnalyzer
             FormTwo formTwo = new FormTwo(_allNuclei, _NucleiImageAutoLevel.Convert<Bgr, byte>());
             //.ShowDialog() instead of .Show() because it prevents the User to interact with the 1. Form unless the 2. is closed
             formTwo.ShowDialog();
+            lblInstructions.Text = "Analyzing...";
             _NucleiImageEdgesDetectedAndDrawn = formTwo._NucleiImageWithAutomaticEdgesToDrawOn;
             _btmNucleiImageMergedWithTresholdImage = MergeImages(_NucleiImageEdgesDetectedAndDrawn.ToBitmap(), _TelomereImageAutoLevel.ToBitmap());
             ShowBitmapOnForm(ImageBoxOne, _NucleiImageEdgesDetected.ToBitmap());
-            Image<Gray, byte> telomereImageToDrawOn = new Image<Gray, byte>(_btmTelomereImageThreshold);
+            Image<Gray, byte> telomereImageToDrawOn = new Image<Gray, byte>(_btmTelomereImageThreshold);  
             DetectingTelomeres(telomereImageToDrawOn);
         }
 
@@ -371,6 +372,7 @@ namespace TelomereAnalyzer
             }
             ShowBitmapOnForm(ImageBoxOne, _TestingAllocatingTelomeresToNucleus.ToBitmap());
             */
+            lblInstructions.Text = "The analysis is finished.";
             DisplayEndResults();
         }
         /*---------------------------------------------------------------------------------------*\

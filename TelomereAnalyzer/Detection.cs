@@ -15,11 +15,11 @@ using System.Reflection;
 
 namespace TelomereAnalyzer
 {
-    public partial class ElmiWood : Form
+    public partial class Detection : Form
     {
         public FormOne _formOne = null;
 
-       public Image<Gray, byte> _nucleiBitonalForEdgeDetection = null;
+        public Image<Gray, byte> _nucleiBitonalForEdgeDetection = null;
 
 
         vesselDetectorClass _imgProcessor = null;
@@ -60,7 +60,7 @@ namespace TelomereAnalyzer
 
         #endregion(stuff for vessel analysis)
         
-        public ElmiWood(FormOne formOne)
+        public Detection(FormOne formOne)
         {
             //SetLocalPathDescriptions(Environment.CurrentDirectory);
             InitializeComponent();

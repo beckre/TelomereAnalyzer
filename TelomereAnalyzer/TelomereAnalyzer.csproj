@@ -127,7 +127,7 @@
   <ItemGroup>
     <Compile Include="AllTelomeres.cs" />
     <Compile Include="circularMorphologicalOperator.cs" />
-    <Compile Include="ElmiWood.cs">
+    <Compile Include="Detection.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="FormOne.cs">
@@ -158,8 +158,8 @@
     <Compile Include="VesselAnalysisClass.cs" />
     <Compile Include="VesselClass.cs" />
     <Compile Include="vesselDetectorClass.cs" />
-    <EmbeddedResource Include="ElmiWood.resx">
-      <DependentUpon>ElmiWood.cs</DependentUpon>
+    <EmbeddedResource Include="Detection.resx">
+      <DependentUpon>Detection.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormOne.resx">
       <DependentUpon>FormOne.cs</DependentUpon>

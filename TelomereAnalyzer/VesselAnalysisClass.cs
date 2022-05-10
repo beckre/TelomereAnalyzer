@@ -6,7 +6,7 @@ namespace TelomereAnalyzer
 {
     public class VesselAnalysisClass : IDisposable
     {
-        ElmiWood _parentForm = null;
+        Detection _parentForm = null;
         public VesselClass[] _vesselInTissue = null;
 
         protected enum ClusterMergePos : int
@@ -57,7 +57,7 @@ namespace TelomereAnalyzer
         public Double _dVerticalToleranceMultiplicator = 1.0;
 
         #region Construction, initialization, destruction --------------------------------------------------------------------------
-        public VesselAnalysisClass(ElmiWood parentForm, ref VesselClass[] vesselsToBeAnalysed)
+        public VesselAnalysisClass(Detection parentForm, ref VesselClass[] vesselsToBeAnalysed)
         {
             _parentForm = parentForm;
             _vesselInTissue = vesselsToBeAnalysed;
