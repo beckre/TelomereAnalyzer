@@ -150,7 +150,8 @@ namespace TelomereAnalyzer
             SaveFileDialog saveFileDlg = new SaveFileDialog();
             saveFileDlg.Filter = "tiff files (*.tiff)|*.tiff|All files (*.*|*.*";
             saveFileDlg.FileName = _formOne._nucleiFileName +"_Auto-Level Nuclei";
-
+            if (saveFileDlg.FileName.Length >= 248)
+                saveFileDlg.FileName = "_Auto-Level Nuclei";
 
             if (saveFileDlg.ShowDialog() == DialogResult.OK)
             {
@@ -165,7 +166,8 @@ namespace TelomereAnalyzer
             SaveFileDialog saveFileDlg = new SaveFileDialog();
             saveFileDlg.Filter = "tiff files (*.tiff)|*.tiff|All files (*.*|*.*";
             saveFileDlg.FileName = _formOne._telomereFileName+"_Auto-Level Telomere";
-
+            if (saveFileDlg.FileName.Length >= 248)
+                saveFileDlg.FileName = "_Auto-Level Telomere";
 
             if (saveFileDlg.ShowDialog() == DialogResult.OK)
             {
@@ -181,7 +183,8 @@ namespace TelomereAnalyzer
             SaveFileDialog saveFileDlg = new SaveFileDialog();
             saveFileDlg.Filter = "tiff files (*.tiff)|*.tiff|All files (*.*|*.*";
             saveFileDlg.FileName = _formOne._telomereFileName+"_Threshold Telomere";
-
+            if (saveFileDlg.FileName.Length >= 248)
+                saveFileDlg.FileName = "_Threshold Telomere";
 
             if (saveFileDlg.ShowDialog() == DialogResult.OK)
             {
@@ -196,8 +199,9 @@ namespace TelomereAnalyzer
         {
             SaveFileDialog saveFileDlg = new SaveFileDialog();
             saveFileDlg.Filter = "tiff files (*.tiff)|*.tiff|All files (*.*|*.*";
-            saveFileDlg.FileName = _formOne._nucleiFileName+"_Threshold Telomere Overlay Nuclei";
-
+            saveFileDlg.FileName = _formOne._nucleiFileName+"_Threshold Telomere+Nuclei";
+            if (saveFileDlg.FileName.Length >= 248)
+                saveFileDlg.FileName = "_Threshold Telomere Overlay Nuclei";
 
             if (saveFileDlg.ShowDialog() == DialogResult.OK)
             {
@@ -213,7 +217,8 @@ namespace TelomereAnalyzer
             SaveFileDialog saveFileDlg = new SaveFileDialog();
             saveFileDlg.Filter = "tiff files (*.tiff)|*.tiff|All files (*.*|*.*";
             saveFileDlg.FileName = _formOne._nucleiFileName+"_Detected Nuclei";
-
+            if (saveFileDlg.FileName.Length >= 248)
+                saveFileDlg.FileName = "_Detected Nuclei";
 
             if (saveFileDlg.ShowDialog() == DialogResult.OK)
             {
@@ -228,8 +233,10 @@ namespace TelomereAnalyzer
         {
             SaveFileDialog saveFileDlg = new SaveFileDialog();
             saveFileDlg.Filter = "tiff files (*.tiff)|*.tiff|All files (*.*|*.*";
-            saveFileDlg.FileName = _formOne._nucleiFileName+"_Detected and drawn Nuclei";
+            saveFileDlg.FileName = _formOne._nucleiFileName+"_Detected+drawn Nuclei";
 
+            if (saveFileDlg.FileName.Length >= 248)
+                saveFileDlg.FileName = "_Detected and drawn Nucle";
 
             if (saveFileDlg.ShowDialog() == DialogResult.OK)
             {
@@ -243,8 +250,9 @@ namespace TelomereAnalyzer
         {
             SaveFileDialog saveFileDlg = new SaveFileDialog();
             saveFileDlg.Filter = "tiff files (*.tiff)|*.tiff|All files (*.*|*.*";
-            saveFileDlg.FileName = _formOne._nucleiFileName+"_Detected and drawn Nuclei merged with Threhold Telomere";
-
+            saveFileDlg.FileName = _formOne._nucleiFileName+"_Detected+drawn Nuclei+Threhold Telomere";
+            if (saveFileDlg.FileName.Length >= 248)
+                saveFileDlg.FileName = "_Detected+drawn Nuclei+Threhold Telomere";
 
             if (saveFileDlg.ShowDialog() == DialogResult.OK)
             {
@@ -260,7 +268,8 @@ namespace TelomereAnalyzer
             SaveFileDialog saveFileDlg = new SaveFileDialog();
             saveFileDlg.Filter = "Excel files (*.xlsx)|*.xlsx|Excel files (*.xls)|*.xls|All files (*.*)|*.*";
             saveFileDlg.FileName = _formOne._nucleiFileName+"_Telomere Analysis";
-
+            if (saveFileDlg.FileName.Length >= 248)
+                saveFileDlg.FileName = "_Telomere Analysis";
             if (saveFileDlg.ShowDialog() == DialogResult.OK)
             {
                 wb.SaveAs(saveFileDlg.FileName);
