@@ -1,12 +1,9 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Drawing;
-using System.Linq;
 using System.Windows.Forms;
 using Emgu.CV;
 using Emgu.CV.Structure;
-using System.IO;
-using System.Drawing.Drawing2D;
 
 
 namespace TelomereAnalyzer
@@ -26,10 +23,12 @@ namespace TelomereAnalyzer
         public bool _mergeToOneResultfile = true;
 
         #region stuff for vessel analysis
-        VesselClass[] _vesselsFound = null;         // Result of thresholding procedure
-        VesselAnalysisClass _vesselAnalysis = null;  // Cluster analysis
+        // Result of thresholding procedure
+        VesselClass[] _vesselsFound = null;
+        // Cluster analysis
+        VesselAnalysisClass _vesselAnalysis = null;  
         public Emgu.CV.UI.ImageBox ImageBoxTesting;
-        public Label lblElmiTesting;
+        public Label lblTesting;
 
         #endregion(stuff for vessel analysis)
 
@@ -53,8 +52,7 @@ namespace TelomereAnalyzer
 
             _oriImage = imageToAnalyze.ToBitmap();
             _grayImage = imageToAnalyze.Convert<Gray, byte>();
-            Application.DoEvents();
-
+            //Application.DoEvents();
             if (_imgProcessor == null)
                 _imgProcessor = new vesselDetectorClass(this);
 
