@@ -28,7 +28,14 @@ namespace TelomereAnalyzer
         public Boolean _finishedDrawingOfOneNucleus = false;
         public Boolean _pressedBtnApply = false;
         ImageBox _imgBx;
-
+        /*----------------------------------------------------------------------------------------*\
+        |* Initializes the 2. Form and positions all its controls. Displays the Image with the    *|
+        |* automatically detected Nucleiborders in a Picture Box. Creates an Image Box that       *|
+        |* alignes with the Picture Box and is on top of the Picture Box. The User has the        *|
+        |* ability to draw on the Image Box so that it gives the Illusion that they draw on the   *|
+        |* displayed Image itself.                                                                *|
+        |* Calls DisplayAllNucleiAsCheckboxesBeginning()                                          *|
+        \*----------------------------------------------------------------------------------------*/
         public FormTwo(Nuclei allNuclei, Image<Bgr, byte> rawNucleiImageNormalized)
         {
             InitializeComponent();
@@ -43,7 +50,7 @@ namespace TelomereAnalyzer
             ShowImageOnForm(pcBxOriImage, _NucleiImageWithAutomaticEdgesToDrawOn);
             _imgBx = new ImageBox();
             pcBxOriImage.Controls.Add(_imgBx);
-            //Displaying the Image in the PictureBox and aligning the ImageBox with the PictureBox on top of it
+            //Aligning the PictureBox with and on top of the ImageBox
             try
             {
                 _imgBx.Width = _NucleiImageWithAutomaticEdgesToDrawOn.Width;
@@ -63,7 +70,11 @@ namespace TelomereAnalyzer
             _imgBx.Paint += new PaintEventHandler(OnPaint);
             DisplayAllNucleiAsCheckboxesBeginning();
         }
-
+        /*----------------------------------------------------------------------------------------*\
+        |* Automatically creates a CheckBox for each Nucleus and adds it to a Panel at            *|
+        |* the Beginning. The User has the Ability to select/deselect the Nuclei that should      *|
+        |* go into the analysis through clicking on the Checkboxes.                               *|
+        \*----------------------------------------------------------------------------------------*/
         private void DisplayAllNucleiAsCheckboxesBeginning()
         {
             pnlSelectNuclei.Controls.Clear();
@@ -92,7 +103,11 @@ namespace TelomereAnalyzer
             }
             Refresh();
         }
-
+        /*----------------------------------------------------------------------------------------*\
+        |* Automatically creates a CheckBox for each Nucleus and adds it to a Panel every         *|
+        |* time a new Nucleus is drawn by the User and added through clicking on the Button       *|
+        |* Add-Nucleus. Calls CreateNucleiLabelOnImageBox                                         *|
+        \*----------------------------------------------------------------------------------------*/
         private void DisplayAddedNucleusAsCheckboxes(Nucleus nucleus)
         {
             CheckBox checkBox = new CheckBox();
@@ -106,11 +121,12 @@ namespace TelomereAnalyzer
             checkBox.CheckedChanged += new EventHandler(CheckBoxChanged);
             pnlSelectNuclei.Controls.Add(checkBox);
         }
-
+        /*----------------------------------------------------------------------------------------*\
+        |* Creates a Label with the Nucleus Name for each selected Nucleus.                       *|
+        |* The Location of the Label is the last Point in the Nucleus Contour-Array.              *|
+        \*----------------------------------------------------------------------------------------*/
         private void CreateNucleiLabelOnImageBox(PointF[] contour, String nucleusName)
         {
-            //fügt jedem Nucleus ein Label hinzu --> funktioniert aber irgendwie werden die ersten beiden Nuclei übersprungen --> sie haben kein Label
-            //Speichert den letzten Punkt der Konturpunkt-Liste
             PointF lastPoint = contour[contour.Length - 1];
             Label label = new Label();
             label.Name = "lbl" + nucleusName;
@@ -118,12 +134,14 @@ namespace TelomereAnalyzer
             label.ForeColor = Color.White;
             label.Text = nucleusName;
             label.Location = Point.Round(lastPoint);
-            //panel1.Controls.Add(label);
-            //pcBxOriImage.Controls.Add(label);
             _imgBx.Controls.Add(label);
             label.Show();
         }
-
+        /*----------------------------------------------------------------------------------------*\
+        |* Is called everytime a Checkbox is checked or unchecked through clicking on it.         *|
+        |* Changes the ForeColor of a Label from white to red in order to identify checked or     *|
+        |* Redraws the whole Image with all selected Nuclei-Borders and Labels.                   *|
+        \*----------------------------------------------------------------------------------------*/
         private void CheckBoxChanged(object sender, EventArgs e)
         {
             //Label hiding/showing if Checkbox not checked/checked
@@ -144,7 +162,7 @@ namespace TelomereAnalyzer
                     }
                 }
             }
-            //attempt to redraw the shown Image with deselected Nuclei without their borders and redraw them when selected again
+            //Redraing of Image when selecting/deselecting a Nucleus
             _NucleiImageWithAutomaticEdgesToDrawOn = _RawNucleiImage;
             if (_allNuclei._LstAllNuclei != null)
             {
@@ -156,7 +174,7 @@ namespace TelomereAnalyzer
                         {
                             foreach (CheckBox checkBx in pnlSelectNuclei.Controls.OfType<CheckBox>())
                             {
-                                //If the Nuclei Name equals an checked Checkbox the Nucleus should be redrawn
+                                //If the Nuclei Name equals a checked Checkbox the Nucleus should be redrawn
                                 if (checkBx.Text.Equals(_allNuclei._LstAllNuclei.ElementAt(E)._nucleusName))
                                 {
                                     if (checkBx.Checked)
@@ -172,8 +190,12 @@ namespace TelomereAnalyzer
             }
             ShowImageOnForm(pcBxOriImage, _NucleiImageWithAutomaticEdgesToDrawOn);
         }
-
         #region Nuclei Borders drawn by User--------------------------------------------------------
+        /*----------------------------------------------------------------------------------------*\
+        |* This region handles the Function of drawing the Nuclei Borders by using the Mouse.     *|
+        |* The User draws on an Imagebox that is created during Runtime and not on the Image      *|
+        |* itself. This is necessary so that the User can draw freely.                            *|
+        \*----------------------------------------------------------------------------------------*/
         public enum MouseButtonStatus : int
         {
             UNDEFINED = 0,
@@ -187,13 +209,11 @@ namespace TelomereAnalyzer
             MIDDLE = 2,
             RIGHT = 3
         }
-
         public struct MouseCoordinate
         {
             public float X;
             public float Y;
         }
-
         MouseCoordinate[] _mouseCoordinates = null;
         PointF[] _malKurve = null;
 
@@ -201,23 +221,10 @@ namespace TelomereAnalyzer
         {
             public MouseButtonStatus status;
             public MouseButton button;
-
             public Int32 firstX;
             public Int32 firstY;
-            /* public Int32 lastX;
-             public Int32 lastY;       So könnte man das für bestimmte "Interpolationen" z.B. von Spline Zwischenabschnitten machen, insbesondere Chaincode basiert. 
-             public Int32 currentX;    Ich denke, wir brauchen das zur Zeit nicht. Aber schon mal zur Erinnerung hier "merken". Zur Zeit ist es ja eher einfach, weil wir nur kurze miteinander verbundene Strecken um den Kern malen
-             public Int32 currentY; */
         }
-
         MouseStatus _mouseStatus = new MouseStatus();
-        /*
-        public Form1()
-        {
-            InitializeComponent();
-        }
-        */
-
         private void OnMouseDown(object sender, MouseEventArgs e)
         {
             _mouseCoordinates = null;
@@ -232,40 +239,25 @@ namespace TelomereAnalyzer
             _mouseStatus.firstX = e.X;
             _mouseStatus.firstY = e.Y;
 
-            /* _mouseStatus.currentX= e.X;
-             _mouseStatus.currentY= e.Y;
-             _mouseStatus.lastX= e.X;
-             _mouseStatus.lastY= e.Y; */
-
             AddMouseCoordinate(e.X, e.Y);
-            //Invalidate();
             Refresh();
         }
 
         private void OnMouseUp(object sender, MouseEventArgs e)
         {
             _mouseStatus.status = MouseButtonStatus.UP;
-            /* _mouseStatus.currentX= e.X;
-             _mouseStatus.currentY= e.Y;
-             _mouseStatus.lastX= e.X;
-             _mouseStatus.lastY= e.Y;*/
-
             AddMouseCoordinate(e.X, e.Y);
-            //if (chbCloseContour.Checked == true)
             AddMouseCoordinate(_mouseStatus.firstX, _mouseStatus.firstY);
-            //Invalidate();
-            //Update(); //Invalidate alleine called nicht unbedingt OnPaint, Update forciert den Call von OnPaint --> funktioniert nicht
             _finishedDrawingOfOneNucleus = true;
-            this.Refresh(); //Forciert Invalidate und ein redraw und called OnPaint         
+            //.Refresh forces the Calling of Invalidate()
+            this.Refresh();      
         }
 
         private void OnMouseMove(object sender, MouseEventArgs e)
         {
             if (_mouseStatus.status != MouseButtonStatus.DOWN)
                 return;
-
             AddMouseCoordinate(e.X, e.Y);
-            //Invalidate();
             Refresh();
         }
 
@@ -287,19 +279,10 @@ namespace TelomereAnalyzer
 
         private void OnPaint(object sender, PaintEventArgs e)
         {
-            // Nur mal so zum Ausprobieren.
             if (_mouseCoordinates == null)
                 return;
             if (_mouseCoordinates.Length < 2)
                 return;
-
-            //Graphics g = Graphics.FromImage(_btmNucleiImageEdgesDetected);
-            //hier wird ein PointF-Array erstellt nach den Koordinaten des _mouseCoordinates-Array --> brauch ich noch später für die Speicherung der selbst gezeichneten Nuclei-Umrandungen
-            /*
-            PointF[] malKurve = new PointF[_mouseCoordinates.Length];
-            for (Int32 P = 0; P < _mouseCoordinates.Length; P++)
-                malKurve[P] = new PointF(_mouseCoordinates[P].X, _mouseCoordinates[P].Y);
-            */
 
             _malKurve = new PointF[_mouseCoordinates.Length];
             for (Int32 P = 0; P < _mouseCoordinates.Length; P++)
@@ -307,12 +290,15 @@ namespace TelomereAnalyzer
 
             e.Graphics.DrawLines(Pens.Green, _malKurve);
             _NucleiImageWithAutomaticEdgesToDrawOn = new Image<Bgr, byte>(_btmNucleiImageWithAutomaticEdges);
-            //g.DrawLines(Pens.Blue, malKurve); //Wird zwar gemalt aber verschoben vom Klick-Point
             ShowImageOnForm(pcBxOriImage, _NucleiImageWithAutomaticEdgesToDrawOn);
-            //_mouseCoordinates = null;
         }
         #endregion
-
+        /*----------------------------------------------------------------------------------------*\
+        |* After drawing a Nucleus the User can add it by clicking on the Add Nucleus-Button.     *|
+        |* Draws the Nuclei Border on the Image permanently (Can be reverted by deselecting the   *|
+        |* corresponding Checkbox). Also creates a new Nucleus-Object and adds it to the List     *|
+        |* where all Nuclei that should be analysed are in.                                       *|
+        \*----------------------------------------------------------------------------------------*/
         private void OnAddNucleus(object sender, EventArgs e)
         {
             if (!_finishedDrawingOfOneNucleus)
@@ -322,7 +308,7 @@ namespace TelomereAnalyzer
             graphics.DrawLines(Pens.Green, _malKurve);
             _NucleiImageWithAutomaticEdgesToDrawOn = new Image<Bgr, byte>(_btmNucleiImageWithAutomaticEdges);
             ShowImageOnForm(pcBxOriImage, _NucleiImageWithAutomaticEdgesToDrawOn);
-            //hier erstellte Nuclei haben noch keinen Center Point!! Der Center Point ist hier also null!!
+            //Nuclei that are created here do not have a center point
             Int32 nucleiNumber = _allNuclei._LstAllNuclei.Count + 1;
             Nucleus nucleus = new Nucleus("Nucleus " + nucleiNumber, _malKurve);
             _allNuclei.AddNucleusToNucleiList(nucleus);
@@ -330,14 +316,13 @@ namespace TelomereAnalyzer
             _mouseCoordinates = null;
             _malKurve = null;
             DisplayAddedNucleusAsCheckboxes(nucleus);
-            //
         }
-        /*
-         * Hier werden alle Checkboxen im Panel durchgegangen.
-         * Wenn die Checkbox nicht ausgewählt wurde, wird das Nucleus-Objekt in der Nucleus Liste, des Nuclei-Objekts
-         * gelöscht. Dies muss dann noch an das Nuclei-Objekt in FormOne übergeben werden, damit dann dort die Telomer-Spots
-         * zu den einzelnen Nuclei zugeordnet werden.
-         */
+        /*----------------------------------------------------------------------------------------*\
+        |* If the User is content with their choice of Nuclei, they can click on the Apply-Button.*|
+        |* All Checkboxes in the panel are reviewed if their checked or not.                      *|
+        |* If a Checkbox is not checked then their Nucleus-Object information is removed out of   *|
+        |* the Nuclei-List that contains all Nuclei that should be analysed.                      *|
+        \*----------------------------------------------------------------------------------------*/
         private void OnApply(object sender, EventArgs e)
         {
             _pressedBtnApply = true;
@@ -353,23 +338,18 @@ namespace TelomereAnalyzer
                             continue;
                         if (checkBox.Name.Equals("chkBx" + _allNuclei._LstAllNuclei[n]._nucleusName))
                         {
-                            _allNuclei.DrawContour(_NucleiImageWithAutomaticEdgesToDrawOn, _allNuclei._LstAllNuclei[n]._nucleusContourPoints, new Bgr(Color.Red)); //funktioniert nicht bzw. ist nicht sichtbar
-                            /*
-                                SolidBrush redBrush = new SolidBrush(Color.Red);
-                                graphics.FillPolygon(redBrush, _allNuclei._LstAllNuclei[n]._nucleusContourPoints);
-                                Hier sollen einfach nur die Namen der Nuclei auf dem Bild angezeigt werden bzw. verschwinden, wenn sie abgewählt sind
-                            */
-                            _NucleiImageWithAutomaticEdgesToDrawOn = new Image<Bgr, byte>(_btmNucleiImageWithAutomaticEdges);
-                            ShowImageOnForm(pcBxOriImage, _NucleiImageWithAutomaticEdgesToDrawOn);
-                            Refresh();
                             _allNuclei._LstAllNuclei.Remove(_allNuclei._LstAllNuclei[n]);
                         }
                     }
                 }
             }
-
         }
-
+        /*---------------------------------------------------------------------------------------*\
+        |* Displays a Bitmap in a Picture Box.                                                   *|
+        |* If it is the first time that an Image is displayed in this Picture Box than the       *|
+        |* attributes of the Picture Box are altered to match the Bitmap.                        *|
+        |* If not the Bitmap is simply shown in the Picture Box                                  *|
+        \*---------------------------------------------------------------------------------------*/
         public void ShowImageOnForm(PictureBox picBox, Image<Bgr, byte> image)
         {
             try
@@ -380,7 +360,6 @@ namespace TelomereAnalyzer
                     picBox.Width = image.Width;
                     picBox.Height = image.Height;
                     picBox.MaximumSize = image.Size;
-                    //picBox.Refresh();
                     Refresh();
                 }
                 else
@@ -391,24 +370,5 @@ namespace TelomereAnalyzer
                 Console.WriteLine(ex.ToString());
             }
         }
-
-        /*
-        private void FormTwo_OnClosing(object sender, FormClosingEventArgs e)
-        {
-            if (!_pressedBtnApply)
-            {
-                DialogResult result = MessageBox.Show("You should press on Apply first to save your Changes. Do you really want to close this Window?", string.Empty, MessageBoxButtons.YesNo);
-                if (result == DialogResult.No)
-                    e.Cancel = true;
-            }
-            else
-            {
-                Invalidate();
-                //Environment.Exit(0);
-                System.Windows.Forms.Application.Exit();
-                //this.Close();
-            }
-        }
-        */
     }
 }

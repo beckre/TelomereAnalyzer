@@ -254,7 +254,7 @@ namespace TelomereAnalyzer
             lblInstructions.Text = "Analyzing...";
             _NucleiImageEdgesDetectedAndDrawn = formTwo._NucleiImageWithAutomaticEdgesToDrawOn;
             _btmNucleiImageMergedWithTresholdImage = MergeImages(_NucleiImageEdgesDetectedAndDrawn.ToBitmap(), _TelomereImageAutoLevel.ToBitmap());
-            ShowBitmapOnForm(ImageBoxOne, _NucleiImageEdgesDetected.ToBitmap());
+            ShowBitmapOnForm(ImageBoxOne, _NucleiImageEdgesDetectedAndDrawn.ToBitmap());
             Image<Gray, byte> telomereImageToDrawOn = new Image<Gray, byte>(_btmTelomereImageThreshold);  
             DetectingTelomeres(telomereImageToDrawOn);
         }
@@ -393,16 +393,24 @@ namespace TelomereAnalyzer
         \*---------------------------------------------------------------------------------------*/
         public void ShowBitmapOnForm(ImageBox imageBox, Bitmap bitmap)
         {
-            if (imageBox.BackgroundImage == null)
+            try
             {
-                imageBox.BackgroundImage = bitmap;
-                imageBox.Width = bitmap.Width;
-                imageBox.Height = bitmap.Height;
-                imageBox.MaximumSize = bitmap.Size;
-                imageBox.Refresh();
+                if (imageBox.BackgroundImage == null)
+                {
+                    imageBox.BackgroundImage = bitmap;
+                    imageBox.Width = bitmap.Width;
+                    imageBox.Height = bitmap.Height;
+                    imageBox.MaximumSize = bitmap.Size;
+                    imageBox.Refresh();
+                }
+                else
+                    imageBox.BackgroundImage = bitmap;
             }
-            else
-                imageBox.BackgroundImage = bitmap;
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
+
         }
         /*---------------------------------------------------------------------------------------*\
         |* Checks if an Image is null                                                            *|
