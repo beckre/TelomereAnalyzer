@@ -122,24 +122,5 @@ namespace TelomereAnalyzer
                 return false;
             return true;
         }
-        /*
-        public Boolean IsCenterPointOfTelomereInNucleus(PointF[] contour, PointF centerPointOfTelomere)
-        {
-            bool result = false;
-            int j = contour.Count() - 1;
-            for (int i = 0; i < contour.Count(); i++)
-            {
-                if (contour[i].Y < centerPointOfTelomere.Y && contour[j].Y >= centerPointOfTelomere.Y || contour[j].Y < centerPointOfTelomere.Y && contour[i].Y >= centerPointOfTelomere.Y)
-                {
-                    if (contour[i].X + (centerPointOfTelomere.Y - contour[i].Y) / (contour[j].Y - contour[i].Y) * (contour[j].X - contour[i].X) < centerPointOfTelomere.X)
-                    {
-                        result = !result;
-                    }
-                }
-                j = i;
-            }
-            return result;
-        }
-        */
     }
 }

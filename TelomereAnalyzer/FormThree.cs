@@ -32,7 +32,6 @@ namespace TelomereAnalyzer
             ws.Name = "Telomere";
             CreateExcelFile();
             InitializeComponent();
-
         }
         /*----------------------------------------------------------------------------------------*\
         |* Fills the Excel Workbook with Headers.                                                 *|
@@ -54,7 +53,6 @@ namespace TelomereAnalyzer
             ws.Cells[1, 11] = "Stddev";
             ws.Cells[1, 12] = "Mean";
             ws.Cells[1, 13] = "Average of Means";
-
             FillExcelFile();
         }
         /*----------------------------------------------------------------------------------------*\
@@ -167,7 +165,6 @@ namespace TelomereAnalyzer
             else if (saveFileDlg.ShowDialog() == DialogResult.Cancel)
                 return;
         }
-
         private void OnSaveThresholdTelomereImage(object sender, EventArgs e)
         {
             SaveFileDialog saveFileDlg = new SaveFileDialog();
@@ -183,7 +180,6 @@ namespace TelomereAnalyzer
             else if (saveFileDlg.ShowDialog() == DialogResult.Cancel)
                 return;
         }
-
         private void OnSaveThresholdTelomereOverlayNucleiImage(object sender, EventArgs e)
         {
             SaveFileDialog saveFileDlg = new SaveFileDialog();
@@ -199,7 +195,6 @@ namespace TelomereAnalyzer
             else if (saveFileDlg.ShowDialog() == DialogResult.Cancel)
                 return;
         }
-
         private void OnSaveDetectedNucleiImage(object sender, EventArgs e)
         {
             SaveFileDialog saveFileDlg = new SaveFileDialog();
@@ -215,7 +210,6 @@ namespace TelomereAnalyzer
             else if (saveFileDlg.ShowDialog() == DialogResult.Cancel)
                 return;
         }
-
         private void OnSaveDetectedAndDrawnNucleiImage(object sender, EventArgs e)
         {
             SaveFileDialog saveFileDlg = new SaveFileDialog();
@@ -247,7 +241,6 @@ namespace TelomereAnalyzer
             else if (saveFileDlg.ShowDialog() == DialogResult.Cancel)
                 return;
         }
-
         private void OnExportExcel(object sender, EventArgs e)
         {
             SaveFileDialog saveFileDlg = new SaveFileDialog();
