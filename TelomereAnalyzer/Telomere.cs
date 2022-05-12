@@ -74,7 +74,7 @@ namespace TelomereAnalyzer
         }
         /*----------------------------------------------------------------------------------------*\
         |* This Methods gets the amount of Pixels that are in a Telomere Spot.                    *|
-        |* Telomere-Contour-Coordinates are. In order to do that two other Image is created out   *|
+        |* In order to do that two other Image is created out                                     *|
         |* of the Telomere Image that is significantly smaller. It only has the size of the       *|
         |* smallest rectangle (region of interest) that aligns over the Telomere Spot.            *|
         |* The Telomere Spot in one of the roi Images is firstly filled in red. Then every Pixel  *|

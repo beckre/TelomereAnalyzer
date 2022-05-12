@@ -18,10 +18,11 @@ namespace TelomereAnalyzer
         public List<Telomere> _lstNucleusTelomeres = null;
 
         //Images for getting all the Pixels inside the Telomere-Contour
-        //Must be different when 16Bit or 8Bit Image --> First only 16 Bit is handled
         Image<Bgr, byte> _imageForFilledPolygon;
         List<PointF> _allNucleusPoints;
-
+        /*----------------------------------------------------------------------------------------*\
+        |* This Class is for managing and storing single Nucleus  Objects                         *|
+        \*----------------------------------------------------------------------------------------*/
         public Nucleus(String nucleusName, PointF centerPoint, PointF[] contourPoints)
         {
             this._nucleusName = nucleusName;
@@ -31,7 +32,7 @@ namespace TelomereAnalyzer
             _allNucleusPoints = new List<PointF>();
         }
 
-        //Selbst gemalte und hinzugefügte Nuclei haben noch keinen Center Point --> nicht schlimm, wird nicht gebraucht
+        //Nuclei drawn by the User do not have a center point --> does not have consequences for the rest of the analysis
         public Nucleus(String nucleusName, PointF[] contourPoints)
         {
             this._nucleusName = nucleusName;
@@ -39,24 +40,34 @@ namespace TelomereAnalyzer
             _lstNucleusTelomeres = new List<Telomere>();
             _allNucleusPoints = new List<PointF>();
         }
-
+        /*----------------------------------------------------------------------------------------*\
+        |* This Method adds every Telomere that is inside of this Nucleus to it's Telomere-List   *|
+        |* The examination if a Telomere belongs to a Nucleus is handled in FormOne and in        *|
+        |* Nucleus.isTelomereContourInThisNucleus()                                               *|
+        \*----------------------------------------------------------------------------------------*/
         public void AddTelomereToTelomereList(Telomere telomere)
         {
             _lstNucleusTelomeres.Add(telomere);
         }
-
+        /*----------------------------------------------------------------------------------------*\
+        |* This Methods gets the amount of Pixels that are in a Nucleus Spot.                     *|
+        |* In order to do that another Image is created out of the Nuclei Image.                  *|
+        |* The Nucleus in the other Images is firstly filled in red. Then every Pixel             *|
+        |* in the roi Image is checked if it's red. If red, then the Coordinate to that Pixel is  *|
+        |* stored inside a list. This List contains every Pixel of the Nucleus at the end.        *|
+        |* To access the original Pixel values the reference Image is used.                       *|
+        \*----------------------------------------------------------------------------------------*/
         public void getAmountOfPixelsInNucleusArea(Image<Gray, byte> imageForReference)
-        {   //No ROI here
-
+        {   
             Bitmap btmReference = new Bitmap(imageForReference.ToBitmap());
             Graphics graphics = Graphics.FromImage(btmReference);
+
             //First the Polygon is filled in red in the reference Bitmap
             SolidBrush redBrush = new SolidBrush(Color.Red);
             graphics.FillPolygon(redBrush, _nucleusContourPoints);
-            _imageForFilledPolygon = new Image<Bgr, byte>(btmReference);
-            _imageForFilledPolygon.Save(@"D:\Hochschule Emden Leer - Bachelor Bioinformatik\Praxisphase Bachelorarbeit Vorbereitungen\Praktikumsstelle\MHH Hannover Telomere\WE Transfer\Bilder filled Polygon\ROI Red Nucleus " + this._nucleusName + ".jpg");
-            Bitmap btmp = _imageForFilledPolygon.ToBitmap();
 
+            _imageForFilledPolygon = new Image<Bgr, byte>(btmReference);
+            Bitmap btmp = _imageForFilledPolygon.ToBitmap();
             //Then every Pixel in the filled Polygon Image is checked if it's red --> if yes, then the Pixel is added to the List of every Pixel of the entirety of the Telomere
             int width = btmp.Width;
             int height = btmp.Height;
@@ -70,7 +81,7 @@ namespace TelomereAnalyzer
                         Point p = new Point();
                         p.X = w;
                         p.Y = h;
-                        _allNucleusPoints.Add(p); // Liste war null
+                        _allNucleusPoints.Add(p);
                     }
                 }
             }
@@ -84,7 +95,10 @@ namespace TelomereAnalyzer
                 }
             }
         }
-
+        /*----------------------------------------------------------------------------------------*\
+        |* Checks if any point of a Telomere-Contour is inside of a Nucleus.                      *|
+        |* If yes, then return true, if yes return false.                                         *|
+        \*----------------------------------------------------------------------------------------*/
         public Boolean isTelomereContourInThisNucleus(PointF[] telomereContour)
         {
             if (_allNucleusPoints.Count <= 0)
