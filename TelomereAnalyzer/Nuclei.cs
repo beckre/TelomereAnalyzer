@@ -9,7 +9,7 @@ namespace TelomereAnalyzer
 {
     public class Nuclei
     {
-        public List<Nucleus> _LstAllNuclei = null;
+        public List<Nucleus> _lstAllNuclei = null;
         public Image<Bgr, byte> _imageToDrawOn = null;
         public Bitmap _btmImageToDrawOn = null;
 
@@ -23,7 +23,7 @@ namespace TelomereAnalyzer
 
         public Nuclei( )
         {
-            _LstAllNuclei = new List<Nucleus>();
+            _lstAllNuclei = new List<Nucleus>();
         }
 
         public void SetAttributes(String resultValues, Int32 contourFound, PointF[] centerPoints, PointF[][] allContours)
@@ -36,8 +36,8 @@ namespace TelomereAnalyzer
 
         public void AddNucleusToNucleiList(Nucleus nucleus)
         {
-            if (_LstAllNuclei != null)
-                _LstAllNuclei.Add(nucleus);
+            if (_lstAllNuclei != null)
+                _lstAllNuclei.Add(nucleus);
         }
 
         /*
@@ -46,25 +46,25 @@ namespace TelomereAnalyzer
 
         public void PrepareDrawingCenterPoints()
         {
-            if (_LstAllNuclei != null)
-                for (Int32 E = 0; E < _LstAllNuclei.Count; E++)
+            if (_lstAllNuclei != null)
+                for (Int32 E = 0; E < _lstAllNuclei.Count; E++)
                 {
-                    if(_LstAllNuclei.ElementAt(E) != null)
-                        DrawPoint(_imageToDrawOn, _LstAllNuclei.ElementAt(E)._nucleusCenterPoint);
+                    if(_lstAllNuclei.ElementAt(E) != null)
+                        DrawPoint(_imageToDrawOn, _lstAllNuclei.ElementAt(E)._nucleusCenterPoint);
                 }
         }
 
         public void PrepareDrawingContoursByNucleus(Bgr color)
         {
-            if(_LstAllNuclei != null)
+            if(_lstAllNuclei != null)
             {
-                for(Int32 E = 0; E < _LstAllNuclei.Count; E++)
+                for(Int32 E = 0; E < _lstAllNuclei.Count; E++)
                 {
-                    if(_LstAllNuclei.ElementAt(E) != null)
+                    if(_lstAllNuclei.ElementAt(E) != null)
                     {
-                        if(_LstAllNuclei.ElementAt(E)._nucleusContourPoints != null)
+                        if(_lstAllNuclei.ElementAt(E)._nucleusContourPoints != null)
                         {
-                            _imageToDrawOn = DrawContour(_imageToDrawOn, _LstAllNuclei.ElementAt(E)._nucleusContourPoints, color);
+                            _imageToDrawOn = DrawContour(_imageToDrawOn, _lstAllNuclei.ElementAt(E)._nucleusContourPoints, color);
                             _btmImageToDrawOn = _imageToDrawOn.ToBitmap();
                         }
                     }

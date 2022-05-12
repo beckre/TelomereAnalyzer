@@ -12,7 +12,7 @@ namespace TelomereAnalyzer
 {
     public class AllTelomeres
     {
-        public List<Telomere> _LstAllTelomeres = null;
+        public List<Telomere> _lstAllTelomeres = null;
         public Image<Bgr, byte> _imageToDrawOn = null;
         public Bitmap _btmImageToDrawOn = null;
 
@@ -23,7 +23,7 @@ namespace TelomereAnalyzer
 
         public AllTelomeres()
         {
-            _LstAllTelomeres = new List<Telomere>();
+            _lstAllTelomeres = new List<Telomere>();
         }
 
         public void SetAttributes(String resultValues, Int32 contourFound, PointF[] centerPoints, PointF[][] allContours)
@@ -37,17 +37,17 @@ namespace TelomereAnalyzer
         //Im Moment werden absolut alle validen Telomere hier eingespeichert, auch die, die außerhabl von Nuclei-Bereichen sind
         public void AddTelomereToAllTelomeresList(Telomere telomere)
         {
-            if (_LstAllTelomeres != null)
-                _LstAllTelomeres.Add(telomere);
+            if (_lstAllTelomeres != null)
+                _lstAllTelomeres.Add(telomere);
         }
 
         public void PrepareDrawingCenterPoints()
         {
-            if (_LstAllTelomeres != null)
-                for (Int32 E = 0; E < _LstAllTelomeres.Count; E++)
+            if (_lstAllTelomeres != null)
+                for (Int32 E = 0; E < _lstAllTelomeres.Count; E++)
                 {
-                    if (_LstAllTelomeres.ElementAt(E) != null)
-                        DrawPoint(_LstAllTelomeres.ElementAt(E)._telomereCenterPoint);
+                    if (_lstAllTelomeres.ElementAt(E) != null)
+                        DrawPoint(_lstAllTelomeres.ElementAt(E)._telomereCenterPoint);
                 }
 
 
@@ -55,15 +55,15 @@ namespace TelomereAnalyzer
 
         public void PrepareDrawingContoursByTelomere()
         {
-            if (_LstAllTelomeres != null)
+            if (_lstAllTelomeres != null)
             {
-                for (Int32 E = 0; E < _LstAllTelomeres.Count; E++)
+                for (Int32 E = 0; E < _lstAllTelomeres.Count; E++)
                 {
-                    if (_LstAllTelomeres.ElementAt(E) != null)
+                    if (_lstAllTelomeres.ElementAt(E) != null)
                     {
-                        if (_LstAllTelomeres.ElementAt(E)._telomereContourPoints != null)
+                        if (_lstAllTelomeres.ElementAt(E)._telomereContourPoints != null)
                         {
-                            DrawContour(_LstAllTelomeres.ElementAt(E)._telomereContourPoints);
+                            DrawContour(_lstAllTelomeres.ElementAt(E)._telomereContourPoints);
                             /*
                             Point[] points = _allNucleiCoordinates.ElementAt(E)._contourPoints;
                             for (Int32 J = 0; J < points.Length; J++)

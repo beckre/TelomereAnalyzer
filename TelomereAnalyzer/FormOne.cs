@@ -336,14 +336,14 @@ namespace TelomereAnalyzer
         public void AllocateTelomeresToNucleus()
         {
             _allTelomeres = _EdgeDetection._allTelomeres;
-            for (Int32 n = 0; n < _allNuclei._LstAllNuclei.Count; n++)
+            for (Int32 n = 0; n < _allNuclei._lstAllNuclei.Count; n++)
             {
-                _allNuclei._LstAllNuclei[n].getAmountOfPixelsInNucleusArea(_uploadedRawNucleiImage);
+                _allNuclei._lstAllNuclei[n].getAmountOfPixelsInNucleusArea(_uploadedRawNucleiImage);
                 //Goes through every existing telomere per Nucleus --> checks if any contour-Point of the Telomere is in the Nucleus-Area
-                for (Int32 t = 0; t < _allTelomeres._LstAllTelomeres.Count; t++)
+                for (Int32 t = 0; t < _allTelomeres._lstAllTelomeres.Count; t++)
                 {
-                    if (_allNuclei._LstAllNuclei[n].isTelomereContourInThisNucleus(_allTelomeres._LstAllTelomeres[t]._telomereContourPoints))
-                        _allNuclei._LstAllNuclei[n].AddTelomereToTelomereList(_allTelomeres._LstAllTelomeres[t]);
+                    if (_allNuclei._lstAllNuclei[n].isTelomereContourInThisNucleus(_allTelomeres._lstAllTelomeres[t]._telomereContourPoints))
+                        _allNuclei._lstAllNuclei[n].AddTelomereToTelomereList(_allTelomeres._lstAllTelomeres[t]);
                 }
             }
             /* For Testing the Allocation of the Telomeres to their Nucleus

@@ -15,7 +15,7 @@ namespace TelomereAnalyzer
         public String _nucleusName = "";
         public PointF _nucleusCenterPoint = new Point();
         public PointF[] _nucleusContourPoints = null;
-        public List<Telomere> _LstNucleusTelomeres = null;
+        public List<Telomere> _lstNucleusTelomeres = null;
 
         //Images for getting all the Pixels inside the Telomere-Contour
         //Must be different when 16Bit or 8Bit Image --> First only 16 Bit is handled
@@ -27,7 +27,7 @@ namespace TelomereAnalyzer
             this._nucleusName = nucleusName;
             this._nucleusCenterPoint = centerPoint;
             this._nucleusContourPoints = contourPoints;
-            _LstNucleusTelomeres = new List<Telomere>();
+            _lstNucleusTelomeres = new List<Telomere>();
             _allNucleusPoints = new List<PointF>();
         }
 
@@ -36,13 +36,13 @@ namespace TelomereAnalyzer
         {
             this._nucleusName = nucleusName;
             this._nucleusContourPoints = contourPoints;
-            _LstNucleusTelomeres = new List<Telomere>();
+            _lstNucleusTelomeres = new List<Telomere>();
             _allNucleusPoints = new List<PointF>();
         }
 
         public void AddTelomereToTelomereList(Telomere telomere)
         {
-            _LstNucleusTelomeres.Add(telomere);
+            _lstNucleusTelomeres.Add(telomere);
         }
 
         public void getAmountOfPixelsInNucleusArea(Image<Gray, byte> imageForReference)
