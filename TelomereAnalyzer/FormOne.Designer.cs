@@ -109,7 +109,7 @@ namespace TelomereAnalyzer
             // 
             this.tIFFToolStripMenuItem.BackColor = System.Drawing.SystemColors.MenuHighlight;
             this.tIFFToolStripMenuItem.Name = "tIFFToolStripMenuItem";
-            this.tIFFToolStripMenuItem.Size = new System.Drawing.Size(231, 34);
+            this.tIFFToolStripMenuItem.Size = new System.Drawing.Size(270, 34);
             this.tIFFToolStripMenuItem.Text = "Nuclei Image";
             this.tIFFToolStripMenuItem.Click += new System.EventHandler(this.OnUploadNucleiImage);
             // 
@@ -117,7 +117,7 @@ namespace TelomereAnalyzer
             // 
             this.telomerImageToolStripMenuItem.BackColor = System.Drawing.SystemColors.MenuHighlight;
             this.telomerImageToolStripMenuItem.Name = "telomerImageToolStripMenuItem";
-            this.telomerImageToolStripMenuItem.Size = new System.Drawing.Size(231, 34);
+            this.telomerImageToolStripMenuItem.Size = new System.Drawing.Size(270, 34);
             this.telomerImageToolStripMenuItem.Text = "Telomer Image";
             this.telomerImageToolStripMenuItem.Click += new System.EventHandler(this.OnUploadTelomereImage);
             // 
@@ -184,6 +184,7 @@ namespace TelomereAnalyzer
             this.MinimizeBox = false;
             this.MinimumSize = new System.Drawing.Size(3087, 1407);
             this.Name = "FormOne";
+            this.Text = "Telomere Analyzer";
             ((System.ComponentModel.ISupportInitialize)(this.ImageBoxOne)).EndInit();
             this.grpBoxSelectDialog.ResumeLayout(false);
             this.grpBoxSelectDialog.PerformLayout();
