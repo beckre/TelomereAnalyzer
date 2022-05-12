@@ -18,7 +18,7 @@ namespace TelomereAnalyzer
         PointF[] _nucleiCenterPoints = null;
         PointF[][] _nucleiAllContours = null;
         /*----------------------------------------------------------------------------------------*\
-        |* This Class is for managing and storing all the Nucleus-Objects.                       *|
+        |* This Class is for managing and storing all the Nucleus-Objects.                        *|
         \*----------------------------------------------------------------------------------------*/
         public Nuclei()
         {

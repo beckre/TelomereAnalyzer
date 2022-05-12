@@ -13,10 +13,9 @@ namespace TelomereAnalyzer
     public class Telomere
     {
         public String _telomereName = "";
-        //Nucleus _nucleusOfTelomere = null;
         public PointF _telomereCenterPoint = new PointF();
         public PointF[] _telomereContourPoints = null;
-        //Stuff for Calculations
+        //Vairables for Calculations
         public double _area;
         public float _lowestX;
         public float _highestX;
@@ -29,30 +28,28 @@ namespace TelomereAnalyzer
         public double _mean;
 
         //Images for getting all the Pixels inside the Telomere-Contour
-        //Must be different when 16Bit or 8Bit Image --> First only 16 Bit is handled
         Image<Bgr, byte> _ROIimageForFilledPolygon;
         Image<Gray, byte> _ROIimageForTelomerePolygon;
         Point _location;
         public List<Point> _allTelomerePoints;
-
+        /*----------------------------------------------------------------------------------------*\
+        |* This Class is for managing and storing single Telomere Objects                         *|
+        \*----------------------------------------------------------------------------------------*/
         public Telomere(String telomereName, PointF centerPoint, PointF[] contourPoints)
         {
             this._telomereName = telomereName;
             this._telomereCenterPoint = centerPoint;
             this._telomereContourPoints = contourPoints;
             _allTelomerePoints = new List<Point>();
-            //this._contour = contourPoints;
-            // Nun müsste in der Contour<PointF> Liste das gleiche drin sein wie in dem telomer-Contour Array 
-            /*
-            for(Int32 i = 0; i < _telomereContourPoints.Length; i++)
-            {
-                _contour.Insert(i, _telomereContourPoints[i]);
-
-            }
-            */
         }
-
         #region Calculations--------------------------------------------------------------------------------------------------------
+        /*----------------------------------------------------------------------------------------*\
+        |* This region handles all the Calculations that should be done.                          *|
+        \*----------------------------------------------------------------------------------------*/
+        /*----------------------------------------------------------------------------------------*\
+        |* This Methods checks what the lowest X and Y and the highest X and Y values out of the  *|
+        |* Telomere-Contour-Coordinates are.                                                      *|
+        \*----------------------------------------------------------------------------------------*/
         public void getLowestAndHighestXY()
         {
             _lowestX = float.PositiveInfinity;
@@ -75,39 +72,37 @@ namespace TelomereAnalyzer
             _location.X = (int)_lowestX;
             _location.Y = (int)_lowestY;
         }
-
+        /*----------------------------------------------------------------------------------------*\
+        |* This Methods gets the amount of Pixels that are in a Telomere Spot.                    *|
+        |* Telomere-Contour-Coordinates are. In order to do that two other Image is created out   *|
+        |* of the Telomere Image that is significantly smaller. It only has the size of the       *|
+        |* smallest rectangle (region of interest) that aligns over the Telomere Spot.            *|
+        |* The Telomere Spot in one of the roi Images is firstly filled in red. Then every Pixel  *|
+        |* in the roi Image is checked if it's red. If red, then the Coordinate to that Pixel is  *|
+        |* stored inside a list. This List contains every Pixel of the Telomere at the end.       *|
+        |* To access the original Pixel values the uncoloured roi Image is used.                  *|
+        \*----------------------------------------------------------------------------------------*/
         public void getAmountOfPixelsInTelomereArea(Image<Gray, byte> imageForReference)
         {
-            //imageForReference.Save(@"D:\Hochschule Emden Leer - Bachelor Bioinformatik\Praxisphase Bachelorarbeit Vorbereitungen\Praktikumsstelle\MHH Hannover Telomere\WE Transfer\Bilder filled Polygon\Referenz-Bild.jpg");
             Rectangle rec = Rectangle.Empty;
             rec.Width = (int)(_highestX - _lowestX);
             rec.Height = (int)(_highestY - _lowestY);
             rec.Location = _location;
-            //imageForReference.ROI = rec;
-            //Copies the segment of the roi into this image
             _ROIimageForTelomerePolygon = imageForReference.Copy(rec);
-            //Bitmap btmReference = new Bitmap(imageForReference.ToBitmap());
             Bitmap btmReference = new Bitmap(imageForReference.ToBitmap());
             Graphics graphics = Graphics.FromImage(btmReference);
 
             //First the Polygon is filled in red in the reference Bitmap
             SolidBrush redBrush = new SolidBrush(Color.Red);
             graphics.FillPolygon(redBrush, _telomereContourPoints);
-            //imageForReference = new Image<Bgr, UInt16>(btmReference);
+
             Image<Bgr, byte> tempRedFilledPolygonImg = new Image<Bgr, byte>(btmReference);
-            //tempRedFilledPolygonImg.Save(@"D:\Hochschule Emden Leer - Bachelor Bioinformatik\Praxisphase Bachelorarbeit Vorbereitungen\Praktikumsstelle\MHH Hannover Telomere\WE Transfer\Bilder filled Polygon\Reference Telomer " + this._telomereName + ".jpg");
-            //tempRedFilledPolygonImg.ROI = rec;
             _ROIimageForFilledPolygon = tempRedFilledPolygonImg.Copy(rec);
 
-            //_ROIimageForFilledPolygon.Save(@"D:\Hochschule Emden Leer - Bachelor Bioinformatik\Praxisphase Bachelorarbeit Vorbereitungen\Praktikumsstelle\MHH Hannover Telomere\WE Transfer\Bilder filled Polygon\ROI Red Telomer " + this._telomereName + ".jpg");
-            //_ROIimageForTelomerePolygon.Save(@"D:\Hochschule Emden Leer - Bachelor Bioinformatik\Praxisphase Bachelorarbeit Vorbereitungen\Praktikumsstelle\MHH Hannover Telomere\WE Transfer\Bilder filled Polygon\ROI Telomer " + this._telomereName + ".jpg");
-
             Bitmap btmp = _ROIimageForFilledPolygon.ToBitmap();
-
             //Then every Pixel in the ROI filled Polygon Image is checked if it's red --> if yes, then the Pixel is added to the List of every Pixel of the entirety of the Telomere
             int width = btmp.Width;
             int height = btmp.Height;
-
             for (int h = 0; h < height; h++)
             {
                 for (int w = 0; w < width; w++)
@@ -131,27 +126,21 @@ namespace TelomereAnalyzer
                     _allTelomerePoints.Add(point);
                 }
             }
-
             _area = _allTelomerePoints.Count;
         }
-
+        /*----------------------------------------------------------------------------------------*\
+        |* Calculates the other needed values for the Excel-Sheet.                                *|
+        |* Sum: This is the sum of all the intensities of all Pixels inside the Telomere          *|
+        |* Min: This is the lowest Pixel-intensity value of all Pixels in the Telomere            *|
+        |* Man: This is the highest Pixel-intensity value of all Pixels in the Telomere           *|
+        |* Mean: This is the mean of the Pixel-Intensities of all Pixels in the Telomere          *|
+        |* stdDev: This is the standard deviation belonging to the mean                           *|
+        \*----------------------------------------------------------------------------------------*/
         public void getSumMinMaxMeanStddevOfTelomere(Image<Gray, byte> imageForReference)
         {
             Bitmap btmp = null;
-            /*
-            if (_telomereContourPoints.Length < 8)
-            {
-                //temporäre Lösung für sehr kleine Telomere unter 8 Pixel --> muss noch geändert werden
-                btmp = imageForReference.ToBitmap();
-            }
-            */
-            //else
-            //{
-                btmp = _ROIimageForTelomerePolygon.ToBitmap();
-            //}
+            btmp = _ROIimageForTelomerePolygon.ToBitmap();
             List<double> redOfPixel = new List<double>();
-            //Bitmap btmp = new Bitmap(image.ToBitmap());
-
             _sum = 0;
             int tempMin = int.MaxValue;
             int tempMax = int.MinValue;
@@ -166,11 +155,10 @@ namespace TelomereAnalyzer
                     tempMin = tempColor.R;
                 if (tempColor.R > tempMax)
                     tempMax = tempColor.R;
-
             }
             _min = tempMin;
             _max = tempMax;
-            if(_area <= 0)
+            if (_area <= 0)
             {
                 _min = 0;
                 _max = 0;
@@ -179,11 +167,10 @@ namespace TelomereAnalyzer
                 _mean = _sum / _allTelomerePoints.Count;
             else
                 _mean = 0;
-            //Calculate the standard deviation
+            //Calculates the standard deviation
             double ret = 0;
             //Perform the Sum of (value-avg)^2
             double sum = redOfPixel.Sum(d => (d - _mean) * (d - _mean));
-            //Put it all together
             ret = Math.Sqrt(sum / _allTelomerePoints.Count);
             _stdDev = ret;
         }
