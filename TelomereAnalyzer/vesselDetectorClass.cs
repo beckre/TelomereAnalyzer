@@ -85,7 +85,7 @@ namespace TelomereAnalyzer
 
             //_parentControl.labOutPut.Text = "Image equilization...";
             Console.WriteLine("Image equilization...");
-            _parentControl.lblElmiTesting.Text = "Image equilization...";
+            //_parentControl.lblElmiTesting.Text = "Image equilization...";
             Application.DoEvents();
 
             #region--1. Grayscale image erzeugen
@@ -95,13 +95,13 @@ namespace TelomereAnalyzer
             Application.DoEvents();
 
             // _parentControl._grayImage.Save("E:\\1.jpg");
-            _parentControl._grayImage.Save("D:\\Hochschule Emden Leer - Bachelor Bioinformatik\\Praxisphase Bachelorarbeit Vorbereitungen\\Praktikumsstelle\\MHH Hannover Telomere\\Programm Bilder\\1_ImageEqualization.tiff");
+            //_parentControl._grayImage.Save("D:\\Hochschule Emden Leer - Bachelor Bioinformatik\\Praxisphase Bachelorarbeit Vorbereitungen\\Praktikumsstelle\\MHH Hannover Telomere\\Programm Bilder\\1_ImageEqualization.tiff");
             _settingsVesselDetector.imgBrightness = OptimizeBrightnessForVessels(_settingsVesselDetector.imgBrightness);
             // _parentControl._grayImage.Save("E:\\2.jpg");
-            _parentControl._grayImage.Save("D:\\Hochschule Emden Leer - Bachelor Bioinformatik\\Praxisphase Bachelorarbeit Vorbereitungen\\Praktikumsstelle\\MHH Hannover Telomere\\Programm Bilder\\2_ImageEqualization_Done.tiff");
+            //_parentControl._grayImage.Save("D:\\Hochschule Emden Leer - Bachelor Bioinformatik\\Praxisphase Bachelorarbeit Vorbereitungen\\Praktikumsstelle\\MHH Hannover Telomere\\Programm Bilder\\2_ImageEqualization_Done.tiff");
             //_parentControl.labOutPut.Text = "Image equilization...done. Adapt image energy for optimized vessels display... done";
             Console.WriteLine("Image equilization...done. Adapt image energy for optimized vessels display... done");
-            _parentControl.lblElmiTesting.Text = "Image equilization...done. Adapt image energy for optimized vessels display... done";
+            //_parentControl.lblElmiTesting.Text = "Image equilization...done. Adapt image energy for optimized vessels display... done";
             #endregion
 
             #region--2. Binary image erzeugen
@@ -115,9 +115,9 @@ namespace TelomereAnalyzer
              * Übergangsweise wird das generierte Bild von einem Extra Fenster von ElmiWood dargestellt
              */
             //_parentControl.labOutPut.Text = "Calculate threshold...";
-            _parentControl.ImageBoxElmiTesting.BackgroundImage = shadowImage.ToBitmap();
+            //_parentControl.ImageBoxElmiTesting.BackgroundImage = shadowImage.ToBitmap();
             Console.WriteLine("Calculate threshold...");
-            _parentControl.lblElmiTesting.Text = "Calculate threshold...";
+            //_parentControl.lblElmiTesting.Text = "Calculate threshold...";
             Application.DoEvents();
 
             CvInvoke.cvThreshold(shadowImage, shadowImage, _settingsVesselDetector.minPixelEnergy, 255, THRESH.CV_THRESH_TOZERO);
@@ -144,7 +144,7 @@ namespace TelomereAnalyzer
 
             //_parentControl.labOutPut.Text = "Calculate threshold... done";
             //Übergangsweise wird das generierte Bild von einem Extra Fenster von ElmiWood dargestellt
-            _parentControl.ImageBoxElmiTesting.BackgroundImage = shadowImage.ToBitmap();
+            _parentControl.ImageBoxTesting.BackgroundImage = shadowImage.ToBitmap();
             Console.WriteLine("Calculate threshold... done");
             _parentControl.lblElmiTesting.Text = "Calculate threshold... done";
             //_parentControl.picBox.Image = shadowImage.ToBitmap();
