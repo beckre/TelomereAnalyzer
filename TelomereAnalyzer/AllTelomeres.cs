@@ -20,12 +20,13 @@ namespace TelomereAnalyzer
         Int32 _allTelomeresContourFound = 0;
         PointF[] _allTelomeresCenterPoints = null;
         PointF[][] _allTelomeresAllContours = null;
-
+        /*----------------------------------------------------------------------------------------*\
+        |* This Class is for managing and storing all the Telomere-Objects.                       *|
+        \*----------------------------------------------------------------------------------------*/
         public AllTelomeres()
         {
             _lstAllTelomeres = new List<Telomere>();
         }
-
         public void SetAttributes(String resultValues, Int32 contourFound, PointF[] centerPoints, PointF[][] allContours)
         {
             this._allTelomeresResultValues = resultValues;
@@ -33,14 +34,20 @@ namespace TelomereAnalyzer
             this._allTelomeresCenterPoints = centerPoints;
             this._allTelomeresAllContours = allContours;
         }
-
-        //Im Moment werden absolut alle validen Telomere hier eingespeichert, auch die, die außerhabl von Nuclei-Bereichen sind
+        /*----------------------------------------------------------------------------------------*\
+        |* This Method adds EVERY Telomere-Contour that is found to a List.                       *|
+        |* Also contains Telomeres that are outside of a Nucleus. The Allocation of the Telomers  *|
+        |* to their Nucleus happens in FormOne and the Nucleus Class.                             *|
+        \*----------------------------------------------------------------------------------------*/
         public void AddTelomereToAllTelomeresList(Telomere telomere)
         {
             if (_lstAllTelomeres != null)
                 _lstAllTelomeres.Add(telomere);
         }
-
+        #region Drawing of Telomere-Coordinates-------------------------------------------------------------------
+        /*----------------------------------------------------------------------------------------*\
+        |* Methods for drawing the Telomer-Borders and Center Point.                              *|
+        \*----------------------------------------------------------------------------------------*/
         public void PrepareDrawingCenterPoints()
         {
             if (_lstAllTelomeres != null)
@@ -49,10 +56,7 @@ namespace TelomereAnalyzer
                     if (_lstAllTelomeres.ElementAt(E) != null)
                         DrawPoint(_lstAllTelomeres.ElementAt(E)._telomereCenterPoint);
                 }
-
-
         }
-
         public void PrepareDrawingContoursByTelomere()
         {
             if (_lstAllTelomeres != null)
@@ -64,20 +68,12 @@ namespace TelomereAnalyzer
                         if (_lstAllTelomeres.ElementAt(E)._telomereContourPoints != null)
                         {
                             DrawContour(_lstAllTelomeres.ElementAt(E)._telomereContourPoints);
-                            /*
-                            Point[] points = _allNucleiCoordinates.ElementAt(E)._contourPoints;
-                            for (Int32 J = 0; J < points.Length; J++)
-                            {
-                                DrawContour(points[J]);
-                            }
-                            */
                         }
                     }
 
                 }
             }
         }
-
         private void DrawPoint(PointF point)
         {
             Int32 sizeCross = 5;
@@ -94,36 +90,28 @@ namespace TelomereAnalyzer
 
             if (IsImageOkay(_imageToDrawOn))
             {
-                /*Hier Center Points malen
+                /*Drawing Center Points
                 _imageToDrawOn.DrawPolyline(halfLRCross, false, colorBlue, 1);
                 _imageToDrawOn.DrawPolyline(halfTBCross, false, colorBlue, 1);
                 */
             }
-
         }
-
         private void DrawContour(PointF[] contour)
         {
-            /*
-            Bgr color = new Bgr(Color.Yellow);
-
-            _imageToDrawOn.DrawPolyline(contour, true, color, 1);
-            */
-
             Bgr color = new Bgr(Color.DarkViolet);
             _btmImageToDrawOn = _imageToDrawOn.ToBitmap();
-
-            //_imageToDrawOn.DrawPolyline(contour, true, color, 1);
             Graphics graphics = Graphics.FromImage(_btmImageToDrawOn);
             graphics.DrawPolygon(Pens.Blue, contour);
             _imageToDrawOn = new Image<Bgr, byte>(_btmImageToDrawOn);
         }
-
+        #endregion
         public void PrintResultValues()
         {
             Console.WriteLine(_allTelomeresContourFound.ToString() + " Objekte gefunden\n\n" + _allTelomeresResultValues);
         }
-
+        /*---------------------------------------------------------------------------------------*\
+        |* Checks if an Image is null                                                            *|
+        \*---------------------------------------------------------------------------------------*/
         public Boolean IsImageOkay(Image<Bgr, byte> image)
         {
             if (image == null)

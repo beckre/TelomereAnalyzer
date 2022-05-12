@@ -104,7 +104,7 @@ namespace TelomereAnalyzer
                     ws.Cells[counter, 7] = lsTelomeres[t]._area;
 
                     /*
-                    here the sum and the min and max values of the telomere are calculated and written in the 8. column of the Excel file.
+                    here the sum and the min and max values of the telomere are calculated and written in the 8., 9. and 10. column of the Excel file.
                     The sum is the sum of all pixel values in the telomere.
                     The min/max are the min/max values of the pixel values in the telomere.
                     */
@@ -117,8 +117,7 @@ namespace TelomereAnalyzer
                     //here the mean and stdv is written in the 11. and 12. column of the Excel file
                     ws.Cells[counter, 11] = lsTelomeres[t]._stdDev;
                     ws.Cells[counter, 12] = lsTelomeres[t]._mean;
-
-                    //here the average of means is written in the 13. column of the Excel file
+     
                     sum += lsTelomeres[t]._mean;
                     counter++;
                     telomereNumber++;
@@ -127,6 +126,7 @@ namespace TelomereAnalyzer
                     averageOfMeans = sum / lsTelomeres.Count;
                 else
                     averageOfMeans = 0;
+                //here the average of means is written in the 13. column of the Excel file
                 ws.Cells[counter - 1, 13] = averageOfMeans;
             }
         }
