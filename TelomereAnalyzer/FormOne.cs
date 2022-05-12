@@ -385,6 +385,7 @@ namespace TelomereAnalyzer
         {
             FormThree formThree = new FormThree(this, _allNuclei, _allTelomeres);
             formThree.Show();
+            lblInstructions.Text = "Please upload another Nuclei and Telomere Image for the next analysis.";
         }
         /*---------------------------------------------------------------------------------------*\
         |* Displays a Bitmap in an Image Box.                                                    *|
