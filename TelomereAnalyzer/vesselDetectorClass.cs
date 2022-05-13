@@ -28,7 +28,6 @@ namespace TelomereAnalyzer
 
         Settings _settingsVesselDetector;
 
-        VesselClass[] _vessels = null;
         //StochasticsClass _mathStochastics = null;
         Image<Hsv, Byte> _resultVesselImg = null;
 
@@ -69,7 +68,7 @@ namespace TelomereAnalyzer
         }
     */
 
-        public bool DoThresholding(ref VesselClass[] vesselsFound)
+        public bool DoThresholding()
         {
             Gray colorWhite = new Gray(255);
             MemStorage mem = new MemStorage();
