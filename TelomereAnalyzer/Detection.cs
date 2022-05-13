@@ -12,23 +12,18 @@ namespace TelomereAnalyzer
         public FormOne _formOne = null;
         public Image<Gray, byte> _nucleiBitonalForEdgeDetection = null;
 
-        vesselDetectorClass _imgProcessor = null;
-
         public Bitmap _oriImage = null;
         public Image<Gray, byte> _grayImage = null;
+
+        vesselDetectorClass _imgProcessor = null;
 
         public String _resultFile = null;
 
         public bool _mergeToOneResultfile = true;
 
         #region stuff for vessel analysis
-        // Result of thresholding procedure
-    
-        // Cluster analysis
-        VesselAnalysisClass _vesselAnalysis = null;  
-        public Emgu.CV.UI.ImageBox ImageBoxTesting;
-        public Label lblTesting;
-
+        //public Emgu.CV.UI.ImageBox ImageBoxTesting;
+        //public Label lblTesting;
         #endregion(stuff for vessel analysis)
 
         public Detection(FormOne formOne)
@@ -37,13 +32,6 @@ namespace TelomereAnalyzer
         }
         public bool DoAnalyze(Image<Gray, byte> imageToAnalyze)
         {
-            /*
-            if (_vesselAnalysis != null)
-                _vesselAnalysis.Dispose();
-            */
-
-            _vesselAnalysis = null;
-
             _oriImage = imageToAnalyze.ToBitmap();
             _grayImage = imageToAnalyze.Convert<Gray, byte>();
 

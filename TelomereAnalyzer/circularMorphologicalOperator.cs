@@ -1,20 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Windows.Forms;
-using Emgu.CV;
-using Emgu.CV.Util;
-using Emgu.CV.CvEnum;
-using Emgu.CV.Structure;
+﻿
 
 namespace TelomereAnalyzer
 {
-    public class circularMorphologicalOperator : IDisposable
+    public class circularMorphologicalOperator //: IDisposable
     {
+        /*
         public Int32 _radius = 0;
         public Int32[,] pixArray;
         public circularMorphologicalOperator(Int32 iR)   // Currently cirlces, only!
@@ -54,5 +44,7 @@ namespace TelomereAnalyzer
             StructuringElementEx structElement = new StructuringElementEx(pixArray, _radius, _radius);
             return structElement;
         }
+        */
     }
+
 }

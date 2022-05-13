@@ -306,7 +306,6 @@ namespace TelomereAnalyzer
             }
         }
         #endregion
-
         protected override void OnFormClosing(FormClosingEventArgs e)
         {
             wb.Close();

@@ -29,7 +29,7 @@ namespace TelomereAnalyzer
         Settings _settingsVesselDetector;
 
         //StochasticsClass _mathStochastics = null;
-        Image<Hsv, Byte> _resultVesselImg = null;
+        //Image<Hsv, Byte> _resultVesselImg = null;
 
         public vesselDetectorClass(Detection parentControl)
         {
