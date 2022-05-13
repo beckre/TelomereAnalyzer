@@ -126,7 +126,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AllTelomeres.cs" />
-    <Compile Include="circularMorphologicalOperator.cs" />
     <Compile Include="Detection.cs">
       <SubType>Form</SubType>
     </Compile>

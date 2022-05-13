@@ -26,7 +26,6 @@ namespace TelomereAnalyzer
         String _telomereFilePathName;
         public String _nucleiFileName;
         public String _telomereFileName;
-
         /*
          * All Images are stored individually because the User should have
          * the Option to store the Images at different stages at the End.
@@ -77,7 +76,6 @@ namespace TelomereAnalyzer
 
         //Image for Testing the Allocation of the Telomeres to their belonging Nucleus
         public Image<Bgr, byte> _TestingAllocatingTelomeresToNucleus = null;
-
 
         public FormOne()
         {
@@ -384,7 +382,9 @@ namespace TelomereAnalyzer
         public void DisplayEndResults()
         {
             FormThree formThree = new FormThree(this, _allNuclei, _allTelomeres);
+            btnStart.Hide();
             formThree.ShowDialog();
+            btnStart.Show();
             lblInstructions.Text = "Please upload another Nuclei and Telomere Image for the next analysis.";
         }
         /*---------------------------------------------------------------------------------------*\
