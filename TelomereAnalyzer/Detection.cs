@@ -38,29 +38,17 @@ namespace TelomereAnalyzer
         public bool DoAnalyze(Image<Gray, byte> imageToAnalyze)
         {
             /*
-            if (_vesselsFound != null)
-            {
-                for (Int32 V = 0; V < _vesselsFound.Length; V++)
-                    _vesselsFound[V].Dispose();
-            }
-            _vesselsFound = null;
-            */
             if (_vesselAnalysis != null)
                 _vesselAnalysis.Dispose();
+            */
 
             _vesselAnalysis = null;
 
             _oriImage = imageToAnalyze.ToBitmap();
             _grayImage = imageToAnalyze.Convert<Gray, byte>();
-            //Application.DoEvents();
+
             if (_imgProcessor == null)
                 _imgProcessor = new vesselDetectorClass(this);
-            /*
-            if (_imgProcessor.DoThresholding(ref _vesselsFound) == false)
-            {
-                return false;
-            }
-            */
             _imgProcessor.DoThresholding();
             return true;
         }

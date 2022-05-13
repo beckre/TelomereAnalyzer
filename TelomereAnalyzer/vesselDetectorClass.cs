@@ -47,27 +47,6 @@ namespace TelomereAnalyzer
             _settingsVesselDetector.minPixelEnergy = 25.0;
             _settingsVesselDetector.maxPixelEnergy = 255.0;
         }
-        /*
-        public void Dispose()
-        {
-            GC.SuppressFinalize(this);
-            if (_vessels != null)
-            {
-                foreach (VesselClass vessel in _vessels)
-                    vessel.Dispose();
-                _vessels = null;
-            }
-            /*
-            if (_mathStochastics != null)
-                _mathStochastics.Dispose();
-            _mathStochastics = null;
-            
-            if (_resultVesselImg != null)
-                _resultVesselImg.Dispose();
-            _resultVesselImg = null;
-        }
-    */
-
         public bool DoThresholding()
         {
             Gray colorWhite = new Gray(255);

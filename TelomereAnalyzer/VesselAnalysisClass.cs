@@ -4,8 +4,9 @@ using System.Drawing;
 
 namespace TelomereAnalyzer
 {
-    public class VesselAnalysisClass : IDisposable
+    public class VesselAnalysisClass //: IDisposable
     {
+        /*
         Detection _parentForm = null;
         public VesselClass[] _vesselInTissue = null;
 
@@ -517,7 +518,7 @@ namespace TelomereAnalyzer
                (centerVesselY - heightToleranceCenterVessel) <= (centerClusterVesselY + heightToleranceClusterVessel))
               return true;
 
-            return false;     */
+            return false;     
         }
         #endregion (cluster vessels)
 
@@ -652,7 +653,7 @@ namespace TelomereAnalyzer
                               the search vessel's y coordinates DO NOT TAKE THAT NEIGHBOR AND THAT CLUSTER THEN!
 
 
-            */
+            
 
 
             Point testPoint = new Point(0, 0);
@@ -811,6 +812,7 @@ namespace TelomereAnalyzer
                 All vessels are sorted in y++ direction. The three top vessels are located at [0] .. [2]
                 We need three vessels, which are located at the right side of the cluster
              */
+        /*
             Int32 uniHeight = 0;
 
             try
@@ -889,8 +891,9 @@ namespace TelomereAnalyzer
 
         protected bool VesselHit(VesselClass vessel, spotField testSpot)
         {
-            Int32 orbitalX = Convert.ToInt32((vessel._boundingBox.Width / 2.0)  /* * _dHorizontalToleranceMultiplicator  */);
-            Int32 orbitalY = Convert.ToInt32((vessel._boundingBox.Height / 2.0) /*   * _dHorizontalToleranceMultiplicator   */);
+            Int32 orbitalX = Convert.ToInt32((vessel._boundingBox.Width / 2.0)  /* * _dHorizontalToleranceMultiplicator  *///);
+        /*
+            Int32 orbitalY = Convert.ToInt32((vessel._boundingBox.Height / 2.0) /*   * _dHorizontalToleranceMultiplicator   );
 
             // Two rectangles intersect if and only if (Xt2 >= Xs1 && Xt1 <= Xs2) && (Yt2 >= Ys1 && Yt1 <= Ys2)
             Int32 Xs1 = testSpot.Xo;
@@ -938,6 +941,9 @@ namespace TelomereAnalyzer
 
             return false;
         }
+        
         #endregion (supercluster analysis)
+        */
     }
+
 }

@@ -142,13 +142,19 @@ namespace TelomereAnalyzer
             saveFileDlg.FileName = _formOne._nucleiFileName + "_Auto-Level Nuclei";
             if (saveFileDlg.FileName.Length >= 248)
                 saveFileDlg.FileName = "_Auto-Level Nuclei";
-
-            if (saveFileDlg.ShowDialog() == DialogResult.OK)
+            try
             {
-                _formOne._btmNucleiImageAutoLevel.Save(saveFileDlg.FileName);
+                if (saveFileDlg.ShowDialog() == DialogResult.OK)
+                {
+                    _formOne._btmNucleiImageAutoLevel.Save(saveFileDlg.FileName);
+                }
+                else if (saveFileDlg.ShowDialog() == DialogResult.Cancel)
+                    return;
             }
-            else if (saveFileDlg.ShowDialog() == DialogResult.Cancel)
-                return;
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
         }
         private void OnSaveAutoLevelTelomereImage(object sender, EventArgs e)
         {
@@ -157,13 +163,19 @@ namespace TelomereAnalyzer
             saveFileDlg.FileName = _formOne._telomereFileName + "_Auto-Level Telomere";
             if (saveFileDlg.FileName.Length >= 248)
                 saveFileDlg.FileName = "_Auto-Level Telomere";
-
-            if (saveFileDlg.ShowDialog() == DialogResult.OK)
+            try
             {
-                _formOne._btmTelomereImageAutoLevel.Save(saveFileDlg.FileName);
+                if (saveFileDlg.ShowDialog() == DialogResult.OK)
+                {
+                    _formOne._btmTelomereImageAutoLevel.Save(saveFileDlg.FileName);
+                }
+                else if (saveFileDlg.ShowDialog() == DialogResult.Cancel)
+                    return;
             }
-            else if (saveFileDlg.ShowDialog() == DialogResult.Cancel)
-                return;
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
         }
         private void OnSaveThresholdTelomereImage(object sender, EventArgs e)
         {
@@ -172,13 +184,19 @@ namespace TelomereAnalyzer
             saveFileDlg.FileName = _formOne._telomereFileName + "_Threshold Telomere";
             if (saveFileDlg.FileName.Length >= 248)
                 saveFileDlg.FileName = "_Threshold Telomere";
-
-            if (saveFileDlg.ShowDialog() == DialogResult.OK)
+            try
             {
-                _formOne._btmTelomereImageThreshold.Save(saveFileDlg.FileName);
+                if (saveFileDlg.ShowDialog() == DialogResult.OK)
+                {
+                    _formOne._btmTelomereImageThreshold.Save(saveFileDlg.FileName);
+                }
+                else if (saveFileDlg.ShowDialog() == DialogResult.Cancel)
+                    return;
             }
-            else if (saveFileDlg.ShowDialog() == DialogResult.Cancel)
-                return;
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
         }
         private void OnSaveThresholdTelomereOverlayNucleiImage(object sender, EventArgs e)
         {
@@ -187,13 +205,19 @@ namespace TelomereAnalyzer
             saveFileDlg.FileName = _formOne._nucleiFileName + "_Threshold Telomere+Nuclei";
             if (saveFileDlg.FileName.Length >= 248)
                 saveFileDlg.FileName = "_Threshold Telomere Overlay Nuclei";
-
-            if (saveFileDlg.ShowDialog() == DialogResult.OK)
+            try
             {
-                _formOne._btmTelomereImageHalfTransparent.Save(saveFileDlg.FileName);
+                if (saveFileDlg.ShowDialog() == DialogResult.OK)
+                {
+                    _formOne._btmTelomereImageHalfTransparent.Save(saveFileDlg.FileName);
+                }
+                else if (saveFileDlg.ShowDialog() == DialogResult.Cancel)
+                    return;
             }
-            else if (saveFileDlg.ShowDialog() == DialogResult.Cancel)
-                return;
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
         }
         private void OnSaveDetectedNucleiImage(object sender, EventArgs e)
         {
@@ -202,13 +226,19 @@ namespace TelomereAnalyzer
             saveFileDlg.FileName = _formOne._nucleiFileName + "_Detected Nuclei";
             if (saveFileDlg.FileName.Length >= 248)
                 saveFileDlg.FileName = "_Detected Nuclei";
-
-            if (saveFileDlg.ShowDialog() == DialogResult.OK)
+            try
             {
-                _formOne._NucleiImageEdgesDetected.Save(saveFileDlg.FileName);
+                if (saveFileDlg.ShowDialog() == DialogResult.OK)
+                {
+                    _formOne._NucleiImageEdgesDetected.Save(saveFileDlg.FileName);
+                }
+                else if (saveFileDlg.ShowDialog() == DialogResult.Cancel)
+                    return;
             }
-            else if (saveFileDlg.ShowDialog() == DialogResult.Cancel)
-                return;
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
         }
         private void OnSaveDetectedAndDrawnNucleiImage(object sender, EventArgs e)
         {
@@ -218,13 +248,19 @@ namespace TelomereAnalyzer
 
             if (saveFileDlg.FileName.Length >= 248)
                 saveFileDlg.FileName = "_Detected and drawn Nucle";
-
-            if (saveFileDlg.ShowDialog() == DialogResult.OK)
+            try
             {
-                _formOne._NucleiImageEdgesDetectedAndDrawn.Save(saveFileDlg.FileName);
+                if (saveFileDlg.ShowDialog() == DialogResult.OK)
+                {
+                    _formOne._NucleiImageEdgesDetectedAndDrawn.Save(saveFileDlg.FileName);
+                }
+                else if (saveFileDlg.ShowDialog() == DialogResult.Cancel)
+                    return;
             }
-            else if (saveFileDlg.ShowDialog() == DialogResult.Cancel)
-                return;
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
         }
         private void OnSaveMergedDetectedAndDrawnNucleiImage(object sender, EventArgs e)
         {
@@ -233,13 +269,19 @@ namespace TelomereAnalyzer
             saveFileDlg.FileName = _formOne._nucleiFileName + "_Detected+drawn Nuclei+Threhold Telomere";
             if (saveFileDlg.FileName.Length >= 248)
                 saveFileDlg.FileName = "_Detected+drawn Nuclei+Threhold Telomere";
-
-            if (saveFileDlg.ShowDialog() == DialogResult.OK)
+            try
             {
-                _formOne._btmNucleiImageMergedWithTresholdImage.Save(saveFileDlg.FileName);
+                if (saveFileDlg.ShowDialog() == DialogResult.OK)
+                {
+                    _formOne._btmNucleiImageMergedWithTresholdImage.Save(saveFileDlg.FileName);
+                }
+                else if (saveFileDlg.ShowDialog() == DialogResult.Cancel)
+                    return;
             }
-            else if (saveFileDlg.ShowDialog() == DialogResult.Cancel)
-                return;
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
         }
         private void OnExportExcel(object sender, EventArgs e)
         {
@@ -248,13 +290,20 @@ namespace TelomereAnalyzer
             saveFileDlg.FileName = _formOne._nucleiFileName + "_Telomere Analysis";
             if (saveFileDlg.FileName.Length >= 248)
                 saveFileDlg.FileName = "_Telomere Analysis";
-            if (saveFileDlg.ShowDialog() == DialogResult.OK)
+            try
             {
-                wb.SaveAs(saveFileDlg.FileName);
-                wb.Close();
+                if (saveFileDlg.ShowDialog() == DialogResult.OK)
+                {
+                    wb.SaveAs(saveFileDlg.FileName);
+                    wb.Close();
+                }
+                else if (saveFileDlg.ShowDialog() == DialogResult.Cancel)
+                    return;
             }
-            else if (saveFileDlg.ShowDialog() == DialogResult.Cancel)
-                return;
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
         }
         #endregion
     }
