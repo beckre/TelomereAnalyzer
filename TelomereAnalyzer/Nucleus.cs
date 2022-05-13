@@ -54,7 +54,7 @@ namespace TelomereAnalyzer
         |* To access the original Pixel values the reference Image is used.                       *|
         \*----------------------------------------------------------------------------------------*/
         public void getAmountOfPixelsInNucleusArea(Image<Gray, byte> imageForReference)
-        {   
+        {
             Bitmap btmReference = new Bitmap(imageForReference.ToBitmap());
             Graphics graphics = Graphics.FromImage(btmReference);
 

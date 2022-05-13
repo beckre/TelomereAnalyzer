@@ -157,7 +157,6 @@ namespace TelomereAnalyzer
             _formOne._TelomereImageTelomeresDetected = _ProcessedImage;
             _formOne._TestingTelomereImageTelomeresDetected = _allTelomeres._imageToDrawOn;
         }
-
         protected void AddContourPoints(ref PointF[][] allContours, PointF[] points)
         {
             PointF[][] tmp = null;
@@ -173,7 +172,6 @@ namespace TelomereAnalyzer
             tmp[elements] = points;
             allContours = tmp;
         }
-
         protected void AddCenterPoint(ref PointF[] centerPoints, PointF centerPoint)
         {
             PointF[] tmp = null;

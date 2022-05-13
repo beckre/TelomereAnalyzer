@@ -243,7 +243,7 @@ namespace TelomereAnalyzer
             AddMouseCoordinate(_mouseStatus.firstX, _mouseStatus.firstY);
             _finishedDrawingOfOneNucleus = true;
             //.Refresh forces the Calling of Invalidate()
-            this.Refresh();      
+            this.Refresh();
         }
 
         private void OnMouseMove(object sender, MouseEventArgs e)

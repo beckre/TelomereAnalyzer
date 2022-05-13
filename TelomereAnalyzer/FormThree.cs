@@ -117,7 +117,7 @@ namespace TelomereAnalyzer
                     //here the mean and stdv is written in the 11. and 12. column of the Excel file
                     ws.Cells[counter, 11] = lsTelomeres[t]._stdDev;
                     ws.Cells[counter, 12] = lsTelomeres[t]._mean;
-     
+
                     sum += lsTelomeres[t]._mean;
                     counter++;
                     telomereNumber++;
@@ -278,7 +278,7 @@ namespace TelomereAnalyzer
                 else if (saveFileDlg.ShowDialog() == DialogResult.Cancel)
                     return;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Console.WriteLine(ex.ToString());
             }
@@ -299,7 +299,7 @@ namespace TelomereAnalyzer
                 else if (saveFileDlg.ShowDialog() == DialogResult.Cancel)
                     return;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Console.WriteLine(ex.ToString());
             }

@@ -6,9 +6,10 @@ using Emgu.CV.CvEnum;
 
 namespace TelomereAnalyzer
 {
-    public class vesselDetectorClass
+    public class vesselDetection
     {
         Detection _parentControl = null;
+
         struct Settings
         {
             /*
@@ -28,7 +29,12 @@ namespace TelomereAnalyzer
 
         Settings _settingsVesselDetector;
 
-        public vesselDetectorClass(Detection parentControl)
+        /*----------------------------------------------------------------------------------------*\
+        |* This Class starts the prepares and edits the Nuclei Image so that the Nuclei can       *|
+        |* be detected and borders can be drawn around them. Several Methods of the emgu-cv       *|
+        |* library are used.                                                                      *|
+        \*----------------------------------------------------------------------------------------*/
+        public vesselDetection(Detection parentControl)
         {
             //parentControl is an Object of the Detection Class
             _parentControl = parentControl;
@@ -43,6 +49,12 @@ namespace TelomereAnalyzer
             _settingsVesselDetector.minPixelEnergy = 25.0;
             _settingsVesselDetector.maxPixelEnergy = 255.0;
         }
+        /*----------------------------------------------------------------------------------------*\
+        |* Edits the Nuclei Image so that the Nuclei can be detected.                             *|
+        |* The final edited Image is stored in the FormOne._nucleiBitonalForEdgeDetection Image.  *|
+        |* From there it is given to an Edge Detection-Object where the Contours of the edited    *|
+        |* Nuclei Image are found and borders are drawn around them.                              *|
+        \*----------------------------------------------------------------------------------------*/
         public bool DoThresholding()
         {
             Gray colorWhite = new Gray(255);

@@ -142,7 +142,7 @@ namespace TelomereAnalyzer
         /*----------------------------------------------------------------------------------------*\
         |* Is called when clicking on the Start-Button that appears after uploading a Nuclei      *|
         |* and Telomer Image.                                                                     *|
-        |* Starting Point of all Analyses.  Calls AutoLevel()                          *|
+        |* Starting Point of all Analyses.  Calls AutoLevel()                                     *|
         \*----------------------------------------------------------------------------------------*/
         private void OnStart(object sender, EventArgs e)
         {
@@ -254,7 +254,7 @@ namespace TelomereAnalyzer
             _NucleiImageEdgesDetectedAndDrawn = formTwo._NucleiImageWithAutomaticEdgesToDrawOn;
             _btmNucleiImageMergedWithTresholdImage = MergeImages(_NucleiImageEdgesDetectedAndDrawn.ToBitmap(), _TelomereImageAutoLevel.ToBitmap());
             ShowBitmapOnForm(ImageBoxOne, _NucleiImageEdgesDetectedAndDrawn.ToBitmap());
-            Image<Gray, byte> telomereImageToDrawOn = new Image<Gray, byte>(_btmTelomereImageThreshold);  
+            Image<Gray, byte> telomereImageToDrawOn = new Image<Gray, byte>(_btmTelomereImageThreshold);
             DetectingTelomeres(telomereImageToDrawOn);
         }
 
@@ -408,7 +408,7 @@ namespace TelomereAnalyzer
                 else
                     imageBox.BackgroundImage = bitmap;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Console.WriteLine(ex.ToString());
             }
