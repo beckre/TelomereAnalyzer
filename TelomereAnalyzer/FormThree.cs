@@ -295,7 +295,7 @@ namespace TelomereAnalyzer
                 if (saveFileDlg.ShowDialog() == DialogResult.OK)
                 {
                     wb.SaveAs(saveFileDlg.FileName);
-                    wb.Close();
+                    //wb.Close();
                 }
                 else if (saveFileDlg.ShowDialog() == DialogResult.Cancel)
                     return;
@@ -306,5 +306,11 @@ namespace TelomereAnalyzer
             }
         }
         #endregion
+
+        protected override void OnFormClosing(FormClosingEventArgs e)
+        {
+            wb.Close();
+            base.OnFormClosing(e);
+        }
     }
 }
