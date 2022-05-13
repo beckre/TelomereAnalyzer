@@ -1,5 +1,4 @@
-﻿using System;
-using System.Drawing;
+﻿using System.Drawing;
 using System.Windows.Forms;
 using Emgu.CV;
 using Emgu.CV.Structure;
@@ -17,14 +16,9 @@ namespace TelomereAnalyzer
 
         vesselDetectorClass _imgProcessor = null;
 
-        public String _resultFile = null;
+        //public String _resultFile = null;
 
-        public bool _mergeToOneResultfile = true;
-
-        #region stuff for vessel analysis
-        //public Emgu.CV.UI.ImageBox ImageBoxTesting;
-        //public Label lblTesting;
-        #endregion(stuff for vessel analysis)
+        //public bool _mergeToOneResultfile = true;
 
         public Detection(FormOne formOne)
         {

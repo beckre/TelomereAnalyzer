@@ -6,7 +6,7 @@ using Emgu.CV.CvEnum;
 
 namespace TelomereAnalyzer
 {
-    public class vesselDetectorClass //: IDisposable
+    public class vesselDetectorClass
     {
         Detection _parentControl = null;
         struct Settings
@@ -28,17 +28,13 @@ namespace TelomereAnalyzer
 
         Settings _settingsVesselDetector;
 
-        //StochasticsClass _mathStochastics = null;
-        //Image<Hsv, Byte> _resultVesselImg = null;
-
         public vesselDetectorClass(Detection parentControl)
         {
             //parentControl is an Object of the Detection Class
             _parentControl = parentControl;
             InitializeGlobalParameter();
-            //_mathStochastics = new StochasticsClass();
         }
-        //Values defined through testing
+        //Values are defined through testing
         protected void InitializeGlobalParameter()
         {
             _settingsVesselDetector.imgBrightness = 0.0;
