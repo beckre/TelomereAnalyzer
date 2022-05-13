@@ -295,7 +295,6 @@ namespace TelomereAnalyzer
                 if (saveFileDlg.ShowDialog() == DialogResult.OK)
                 {
                     wb.SaveAs(saveFileDlg.FileName);
-                    //wb.Close();
                 }
                 else if (saveFileDlg.ShowDialog() == DialogResult.Cancel)
                     return;

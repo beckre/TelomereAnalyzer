@@ -5,7 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 using Emgu.CV;
 using Emgu.CV.Structure;
-using Emgu.CV.CvEnum;
 using System.Drawing;
 
 namespace TelomereAnalyzer
@@ -15,7 +14,7 @@ namespace TelomereAnalyzer
         public String _telomereName = "";
         public PointF _telomereCenterPoint = new PointF();
         public PointF[] _telomereContourPoints = null;
-        //Vairables for Calculations
+        //Variables for Calculations
         public double _area;
         public float _lowestX;
         public float _highestX;

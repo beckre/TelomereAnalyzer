@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
 using System.Windows.Forms;
 using Emgu.CV;
 using Emgu.CV.Structure;
@@ -15,10 +16,6 @@ namespace TelomereAnalyzer
         public Image<Gray, byte> _grayImage = null;
 
         vesselDetectorClass _imgProcessor = null;
-
-        //public String _resultFile = null;
-
-        //public bool _mergeToOneResultfile = true;
 
         public Detection(FormOne formOne)
         {
