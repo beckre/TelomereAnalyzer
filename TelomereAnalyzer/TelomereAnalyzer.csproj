@@ -153,10 +153,8 @@
     <Compile Include="Nucleus.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="StochasticsClass.cs" />
     <Compile Include="Telomere.cs" />
     <Compile Include="VesselAnalysisClass.cs" />
-    <Compile Include="VesselClass.cs" />
     <Compile Include="vesselDetectorClass.cs" />
     <EmbeddedResource Include="Detection.resx">
       <DependentUpon>Detection.cs</DependentUpon>

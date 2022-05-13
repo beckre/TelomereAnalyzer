@@ -1,22 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 using Emgu.CV;
-using Emgu.CV.Features2D;
 using Emgu.CV.Structure;
-using Emgu.Util;
 using Emgu.CV.CvEnum;
 
 
 namespace TelomereAnalyzer
 {
-    public class vesselDetectorClass : IDisposable
+    public class vesselDetectorClass //: IDisposable
     {
         Detection _parentControl = null;
         struct Settings
@@ -39,7 +29,7 @@ namespace TelomereAnalyzer
         Settings _settingsVesselDetector;
 
         VesselClass[] _vessels = null;
-        StochasticsClass _mathStochastics = null;
+        //StochasticsClass _mathStochastics = null;
         Image<Hsv, Byte> _resultVesselImg = null;
 
         public vesselDetectorClass(Detection parentControl)
@@ -47,7 +37,7 @@ namespace TelomereAnalyzer
             //parentControl is an Object of the Detection Class
             _parentControl = parentControl;
             InitializeGlobalParameter();
-            _mathStochastics = new StochasticsClass();
+            //_mathStochastics = new StochasticsClass();
         }
         //Values defined through testing
         protected void InitializeGlobalParameter()
@@ -58,6 +48,7 @@ namespace TelomereAnalyzer
             _settingsVesselDetector.minPixelEnergy = 25.0;
             _settingsVesselDetector.maxPixelEnergy = 255.0;
         }
+        /*
         public void Dispose()
         {
             GC.SuppressFinalize(this);
@@ -67,13 +58,16 @@ namespace TelomereAnalyzer
                     vessel.Dispose();
                 _vessels = null;
             }
+            /*
             if (_mathStochastics != null)
                 _mathStochastics.Dispose();
             _mathStochastics = null;
+            
             if (_resultVesselImg != null)
                 _resultVesselImg.Dispose();
             _resultVesselImg = null;
         }
+    */
 
         public bool DoThresholding(ref VesselClass[] vesselsFound)
         {
