@@ -9,7 +9,7 @@ using Emgu.CV.UI;
 
 namespace TelomereAnalyzer
 {
-    public partial class FormTwo : Form
+    public partial class NucleiSelection : Form
     {
         public Nuclei _allNuclei = null;
         //Final Images
@@ -29,7 +29,7 @@ namespace TelomereAnalyzer
         |* displayed Image itself.                                                                *|
         |* Calls DisplayAllNucleiAsCheckboxesBeginning()                                          *|
         \*----------------------------------------------------------------------------------------*/
-        public FormTwo(Nuclei allNuclei, Image<Bgr, byte> rawNucleiImageNormalized)
+        public NucleiSelection(Nuclei allNuclei, Image<Bgr, byte> rawNucleiImageNormalized)
         {
             InitializeComponent();
             this._allNuclei = allNuclei;

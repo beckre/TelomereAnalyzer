@@ -6,9 +6,9 @@ using mso = Microsoft.Office.Interop.Excel;
 
 namespace TelomereAnalyzer
 {
-    public partial class FormThree : Form
+    public partial class Calculations : Form
     {
-        FormOne _formOne;
+        StartOperation _startOperation;
         Nuclei _allNuclei = null;
         List<Nucleus> _Lstnuclei = null;
         AllTelomeres _allTelomeres = null;
@@ -20,9 +20,9 @@ namespace TelomereAnalyzer
         |* Initializes all Attributes. Creates an Excel Workbook that is filled in this class.    *|
         |* Calls CreateExcelFile()                                                                *|
         \*----------------------------------------------------------------------------------------*/
-        public FormThree(FormOne formOne, Nuclei nuclei, AllTelomeres allTelomeres)
+        public Calculations(StartOperation startOperation, Nuclei nuclei, AllTelomeres allTelomeres)
         {
-            this._formOne = formOne;
+            this._startOperation = startOperation;
             this._allNuclei = nuclei;
             _Lstnuclei = _allNuclei._lstAllNuclei;
             this._allTelomeres = allTelomeres;
@@ -100,7 +100,7 @@ namespace TelomereAnalyzer
                     the area is the amount of pixels inside the telomere
                     */
 
-                    lsTelomeres[t].getAmountOfPixelsInTelomereArea(_formOne._TelomereImageAutoLevel);
+                    lsTelomeres[t].getAmountOfPixelsInTelomereArea(_startOperation._TelomereImageAutoLevel);
                     ws.Cells[counter, 7] = lsTelomeres[t]._area;
 
                     /*
@@ -109,7 +109,7 @@ namespace TelomereAnalyzer
                     The min/max are the min/max values of the pixel values in the telomere.
                     */
 
-                    lsTelomeres[t].getSumMinMaxMeanStddevOfTelomere(_formOne._TelomereImageAutoLevel);
+                    lsTelomeres[t].getSumMinMaxMeanStddevOfTelomere(_startOperation._TelomereImageAutoLevel);
                     ws.Cells[counter, 8] = lsTelomeres[t]._sum;
                     ws.Cells[counter, 9] = lsTelomeres[t]._min;
                     ws.Cells[counter, 10] = lsTelomeres[t]._max;
@@ -139,14 +139,14 @@ namespace TelomereAnalyzer
         {
             SaveFileDialog saveFileDlg = new SaveFileDialog();
             saveFileDlg.Filter = "tiff files (*.tiff)|*.tiff|All files (*.*|*.*";
-            saveFileDlg.FileName = _formOne._nucleiFileName + "_Auto-Level Nuclei";
+            saveFileDlg.FileName = _startOperation._nucleiFileName + "_Auto-Level Nuclei";
             if (saveFileDlg.FileName.Length >= 248)
                 saveFileDlg.FileName = "_Auto-Level Nuclei";
             try
             {
                 if (saveFileDlg.ShowDialog() == DialogResult.OK)
                 {
-                    _formOne._btmNucleiImageAutoLevel.Save(saveFileDlg.FileName);
+                    _startOperation._btmNucleiImageAutoLevel.Save(saveFileDlg.FileName);
                 }
                 else if (saveFileDlg.ShowDialog() == DialogResult.Cancel)
                     return;
@@ -160,14 +160,14 @@ namespace TelomereAnalyzer
         {
             SaveFileDialog saveFileDlg = new SaveFileDialog();
             saveFileDlg.Filter = "tiff files (*.tiff)|*.tiff|All files (*.*|*.*";
-            saveFileDlg.FileName = _formOne._telomereFileName + "_Auto-Level Telomere";
+            saveFileDlg.FileName = _startOperation._telomereFileName + "_Auto-Level Telomere";
             if (saveFileDlg.FileName.Length >= 248)
                 saveFileDlg.FileName = "_Auto-Level Telomere";
             try
             {
                 if (saveFileDlg.ShowDialog() == DialogResult.OK)
                 {
-                    _formOne._btmTelomereImageAutoLevel.Save(saveFileDlg.FileName);
+                    _startOperation._btmTelomereImageAutoLevel.Save(saveFileDlg.FileName);
                 }
                 else if (saveFileDlg.ShowDialog() == DialogResult.Cancel)
                     return;
@@ -181,14 +181,14 @@ namespace TelomereAnalyzer
         {
             SaveFileDialog saveFileDlg = new SaveFileDialog();
             saveFileDlg.Filter = "tiff files (*.tiff)|*.tiff|All files (*.*|*.*";
-            saveFileDlg.FileName = _formOne._telomereFileName + "_Threshold Telomere";
+            saveFileDlg.FileName = _startOperation._telomereFileName + "_Threshold Telomere";
             if (saveFileDlg.FileName.Length >= 248)
                 saveFileDlg.FileName = "_Threshold Telomere";
             try
             {
                 if (saveFileDlg.ShowDialog() == DialogResult.OK)
                 {
-                    _formOne._btmTelomereImageThreshold.Save(saveFileDlg.FileName);
+                    _startOperation._btmTelomereImageThreshold.Save(saveFileDlg.FileName);
                 }
                 else if (saveFileDlg.ShowDialog() == DialogResult.Cancel)
                     return;
@@ -202,14 +202,14 @@ namespace TelomereAnalyzer
         {
             SaveFileDialog saveFileDlg = new SaveFileDialog();
             saveFileDlg.Filter = "tiff files (*.tiff)|*.tiff|All files (*.*|*.*";
-            saveFileDlg.FileName = _formOne._nucleiFileName + "_Threshold Telomere+Nuclei";
+            saveFileDlg.FileName = _startOperation._nucleiFileName + "_Threshold Telomere+Nuclei";
             if (saveFileDlg.FileName.Length >= 248)
                 saveFileDlg.FileName = "_Threshold Telomere Overlay Nuclei";
             try
             {
                 if (saveFileDlg.ShowDialog() == DialogResult.OK)
                 {
-                    _formOne._btmTelomereImageHalfTransparent.Save(saveFileDlg.FileName);
+                    _startOperation._btmTelomereImageHalfTransparent.Save(saveFileDlg.FileName);
                 }
                 else if (saveFileDlg.ShowDialog() == DialogResult.Cancel)
                     return;
@@ -223,14 +223,14 @@ namespace TelomereAnalyzer
         {
             SaveFileDialog saveFileDlg = new SaveFileDialog();
             saveFileDlg.Filter = "tiff files (*.tiff)|*.tiff|All files (*.*|*.*";
-            saveFileDlg.FileName = _formOne._nucleiFileName + "_Detected Nuclei";
+            saveFileDlg.FileName = _startOperation._nucleiFileName + "_Detected Nuclei";
             if (saveFileDlg.FileName.Length >= 248)
                 saveFileDlg.FileName = "_Detected Nuclei";
             try
             {
                 if (saveFileDlg.ShowDialog() == DialogResult.OK)
                 {
-                    _formOne._NucleiImageEdgesDetected.Save(saveFileDlg.FileName);
+                    _startOperation._NucleiImageEdgesDetected.Save(saveFileDlg.FileName);
                 }
                 else if (saveFileDlg.ShowDialog() == DialogResult.Cancel)
                     return;
@@ -244,7 +244,7 @@ namespace TelomereAnalyzer
         {
             SaveFileDialog saveFileDlg = new SaveFileDialog();
             saveFileDlg.Filter = "tiff files (*.tiff)|*.tiff|All files (*.*|*.*";
-            saveFileDlg.FileName = _formOne._nucleiFileName + "_Detected+drawn Nuclei";
+            saveFileDlg.FileName = _startOperation._nucleiFileName + "_Detected+drawn Nuclei";
 
             if (saveFileDlg.FileName.Length >= 248)
                 saveFileDlg.FileName = "_Detected and drawn Nucle";
@@ -252,7 +252,7 @@ namespace TelomereAnalyzer
             {
                 if (saveFileDlg.ShowDialog() == DialogResult.OK)
                 {
-                    _formOne._NucleiImageEdgesDetectedAndDrawn.Save(saveFileDlg.FileName);
+                    _startOperation._NucleiImageEdgesDetectedAndDrawn.Save(saveFileDlg.FileName);
                 }
                 else if (saveFileDlg.ShowDialog() == DialogResult.Cancel)
                     return;
@@ -266,14 +266,14 @@ namespace TelomereAnalyzer
         {
             SaveFileDialog saveFileDlg = new SaveFileDialog();
             saveFileDlg.Filter = "tiff files (*.tiff)|*.tiff|All files (*.*|*.*";
-            saveFileDlg.FileName = _formOne._nucleiFileName + "_Detected+drawn Nuclei+Threhold Telomere";
+            saveFileDlg.FileName = _startOperation._nucleiFileName + "_Detected+drawn Nuclei+Threhold Telomere";
             if (saveFileDlg.FileName.Length >= 248)
                 saveFileDlg.FileName = "_Detected+drawn Nuclei+Threhold Telomere";
             try
             {
                 if (saveFileDlg.ShowDialog() == DialogResult.OK)
                 {
-                    _formOne._btmNucleiImageMergedWithTresholdImage.Save(saveFileDlg.FileName);
+                    _startOperation._btmNucleiImageMergedWithTresholdImage.Save(saveFileDlg.FileName);
                 }
                 else if (saveFileDlg.ShowDialog() == DialogResult.Cancel)
                     return;
@@ -287,7 +287,7 @@ namespace TelomereAnalyzer
         {
             SaveFileDialog saveFileDlg = new SaveFileDialog();
             saveFileDlg.Filter = "Excel files (*.xlsx)|*.xlsx|Excel files (*.xls)|*.xls|All files (*.*)|*.*";
-            saveFileDlg.FileName = _formOne._nucleiFileName + "_Telomere Analysis";
+            saveFileDlg.FileName = _startOperation._nucleiFileName + "_Telomere Analysis";
             if (saveFileDlg.FileName.Length >= 248)
                 saveFileDlg.FileName = "_Telomere Analysis";
             try

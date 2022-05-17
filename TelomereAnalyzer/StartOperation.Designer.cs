@@ -1,7 +1,7 @@
 ﻿
 namespace TelomereAnalyzer
 {
-    partial class FormOne
+    partial class StartOperation
     {
         /// <summary>
         /// Required designer variable.

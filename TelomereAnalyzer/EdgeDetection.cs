@@ -9,7 +9,7 @@ namespace TelomereAnalyzer
 {
     class EdgeDetection
     {
-        FormOne _formOne = null;
+        StartOperation _formOne = null;
         Image<Bgr, byte> _ProcessedImage = null;
         Bitmap _btmProcessedImage = null;
         public Nuclei _allNuclei = null;
@@ -18,7 +18,7 @@ namespace TelomereAnalyzer
         |* This Class is for detecting the Edges/Contours of the Nuclei that were detected with   *|
         |* the Detection Class.                                                                   *|
         \*----------------------------------------------------------------------------------------*/
-        public EdgeDetection(FormOne formOne)
+        public EdgeDetection(StartOperation formOne)
         {
             this._formOne = formOne;
             _allNuclei = new Nuclei();

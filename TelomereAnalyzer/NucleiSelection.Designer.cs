@@ -1,7 +1,7 @@
 ﻿
 namespace TelomereAnalyzer
 {
-    partial class FormTwo
+    partial class NucleiSelection
     {
         /// <summary>
         /// Required designer variable.

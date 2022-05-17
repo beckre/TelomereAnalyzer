@@ -9,7 +9,7 @@ namespace TelomereAnalyzer
 {
     public partial class Detection : Form
     {
-        public FormOne _formOne = null;
+        public StartOperation _formOne = null;
         public Image<Gray, byte> _nucleiBitonalForEdgeDetection = null;
 
         public Bitmap _oriImage = null;
@@ -21,7 +21,7 @@ namespace TelomereAnalyzer
         |* This Class starts the preparations for the Nuclei Image so that the Nuclei can         *|
         |* be detected and borders can be drawn around them                                       *|
         \*----------------------------------------------------------------------------------------*/
-        public Detection(FormOne formOne)
+        public Detection(StartOperation formOne)
         {
             _formOne = formOne;
         }

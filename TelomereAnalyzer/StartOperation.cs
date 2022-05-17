@@ -12,7 +12,7 @@ using ImageMagick;
 
 namespace TelomereAnalyzer
 {
-    public partial class FormOne : Form
+    public partial class StartOperation : Form
     {
         Detection _detection;
         EdgeDetection _EdgeDetection;
@@ -77,7 +77,7 @@ namespace TelomereAnalyzer
         //Image for Testing the Allocation of the Telomeres to their belonging Nucleus
         public Image<Bgr, byte> _TestingAllocatingTelomeresToNucleus = null;
 
-        public FormOne()
+        public StartOperation()
         {
             InitializeComponent();
             var dllDirectory = @"./OpenCv";
@@ -247,11 +247,11 @@ namespace TelomereAnalyzer
             }
             _btmNucleiImageEdgesDetected = _NucleiImageEdgesDetected.ToBitmap();
             _allNuclei = _EdgeDetection._allNuclei;
-            FormTwo formTwo = new FormTwo(_allNuclei, _NucleiImageAutoLevel.Convert<Bgr, byte>());
+            NucleiSelection nucleiSelection = new NucleiSelection(_allNuclei, _NucleiImageAutoLevel.Convert<Bgr, byte>());
             //.ShowDialog() instead of .Show() because it prevents the User to interact with the 1. Form unless the 2. is closed
-            formTwo.ShowDialog();
+            nucleiSelection.ShowDialog();
             lblInstructions.Text = "Analyzing...";
-            _NucleiImageEdgesDetectedAndDrawn = formTwo._NucleiImageWithAutomaticEdgesToDrawOn;
+            _NucleiImageEdgesDetectedAndDrawn = nucleiSelection._NucleiImageWithAutomaticEdgesToDrawOn;
             _btmNucleiImageMergedWithTresholdImage = MergeImages(_NucleiImageEdgesDetectedAndDrawn.ToBitmap(), _TelomereImageAutoLevel.ToBitmap());
             ShowBitmapOnForm(ImageBoxOne, _NucleiImageEdgesDetectedAndDrawn.ToBitmap());
             Image<Gray, byte> telomereImageToDrawOn = new Image<Gray, byte>(_btmTelomereImageThreshold);
@@ -381,9 +381,9 @@ namespace TelomereAnalyzer
         \*---------------------------------------------------------------------------------------*/
         public void DisplayEndResults()
         {
-            FormThree formThree = new FormThree(this, _allNuclei, _allTelomeres);
+            Calculations calculations = new Calculations(this, _allNuclei, _allTelomeres);
             btnStart.Hide();
-            formThree.ShowDialog();
+            calculations.ShowDialog();
             btnStart.Show();
             lblInstructions.Text = "Please upload another Nuclei and Telomere Image for the next analysis.";
         }

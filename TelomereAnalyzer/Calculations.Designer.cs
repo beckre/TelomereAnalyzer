@@ -1,7 +1,7 @@
 ﻿
 namespace TelomereAnalyzer
 {
-    partial class FormThree
+    partial class Calculations
     {
         /// <summary>
         /// Required designer variable.
