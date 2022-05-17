@@ -412,7 +412,6 @@ namespace TelomereAnalyzer
             {
                 Console.WriteLine(ex.ToString());
             }
-
         }
         /*---------------------------------------------------------------------------------------*\
         |* Checks if an Image is null                                                            *|
