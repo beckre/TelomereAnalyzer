@@ -16,7 +16,7 @@ namespace TelomereAnalyzer
     {
         Detection _detection;
         EdgeDetection _EdgeDetection;
-        Nuclei _allNuclei;
+        AllNuclei _allNuclei;
         AllTelomeres _allTelomeres;
 
         Boolean _nucleiImageUploaded = false;

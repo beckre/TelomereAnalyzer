@@ -11,7 +11,7 @@ namespace TelomereAnalyzer
 {
     public partial class NucleiSelection : Form
     {
-        public Nuclei _allNuclei = null;
+        public AllNuclei _allNuclei = null;
         //Final Images
         public Image<Bgr, byte> _NucleiImageWithAutomaticEdgesToDrawOn = null;
         public Bitmap _btmNucleiImageWithAutomaticEdges = null;
@@ -29,7 +29,7 @@ namespace TelomereAnalyzer
         |* displayed Image itself.                                                                *|
         |* Calls DisplayAllNucleiAsCheckboxesBeginning()                                          *|
         \*----------------------------------------------------------------------------------------*/
-        public NucleiSelection(Nuclei allNuclei, Image<Bgr, byte> rawNucleiImageNormalized)
+        public NucleiSelection(AllNuclei allNuclei, Image<Bgr, byte> rawNucleiImageNormalized)
         {
             InitializeComponent();
             this._allNuclei = allNuclei;

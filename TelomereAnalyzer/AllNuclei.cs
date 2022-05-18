@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace TelomereAnalyzer
 {
-    public class Nuclei
+    public class AllNuclei
     {
         public List<Nucleus> _lstAllNuclei = null;
         public Image<Bgr, byte> _imageToDrawOn = null;
@@ -20,7 +20,7 @@ namespace TelomereAnalyzer
         /*----------------------------------------------------------------------------------------*\
         |* This Class is for managing and storing all the Nucleus-Objects.                        *|
         \*----------------------------------------------------------------------------------------*/
-        public Nuclei()
+        public AllNuclei()
         {
             _lstAllNuclei = new List<Nucleus>();
         }

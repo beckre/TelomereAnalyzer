@@ -9,7 +9,7 @@ namespace TelomereAnalyzer
     public partial class Calculations : Form
     {
         StartOperation _startOperation;
-        Nuclei _allNuclei = null;
+        AllNuclei _allNuclei = null;
         List<Nucleus> _Lstnuclei = null;
         AllTelomeres _allTelomeres = null;
 
@@ -20,7 +20,7 @@ namespace TelomereAnalyzer
         |* Initializes all Attributes. Creates an Excel Workbook that is filled in this class.    *|
         |* Calls CreateExcelFile()                                                                *|
         \*----------------------------------------------------------------------------------------*/
-        public Calculations(StartOperation startOperation, Nuclei nuclei, AllTelomeres allTelomeres)
+        public Calculations(StartOperation startOperation, AllNuclei nuclei, AllTelomeres allTelomeres)
         {
             this._startOperation = startOperation;
             this._allNuclei = nuclei;
