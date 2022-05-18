@@ -100,7 +100,7 @@ namespace TelomereAnalyzer
             // lblAutoLevelTelomereImage
             // 
             this.lblAutoLevelTelomereImage.AutoSize = true;
-            this.lblAutoLevelTelomereImage.Location = new System.Drawing.Point(24, 132);
+            this.lblAutoLevelTelomereImage.Location = new System.Drawing.Point(31, 132);
             this.lblAutoLevelTelomereImage.Name = "lblAutoLevelTelomereImage";
             this.lblAutoLevelTelomereImage.Size = new System.Drawing.Size(254, 25);
             this.lblAutoLevelTelomereImage.TabIndex = 14;
@@ -211,7 +211,7 @@ namespace TelomereAnalyzer
             // lblThresholdTemlomereOverlayNucleiImage
             // 
             this.lblThresholdTemlomereOverlayNucleiImage.AutoSize = true;
-            this.lblThresholdTemlomereOverlayNucleiImage.Location = new System.Drawing.Point(27, 334);
+            this.lblThresholdTemlomereOverlayNucleiImage.Location = new System.Drawing.Point(31, 334);
             this.lblThresholdTemlomereOverlayNucleiImage.Name = "lblThresholdTemlomereOverlayNucleiImage";
             this.lblThresholdTemlomereOverlayNucleiImage.Size = new System.Drawing.Size(379, 25);
             this.lblThresholdTemlomereOverlayNucleiImage.TabIndex = 3;
@@ -250,7 +250,7 @@ namespace TelomereAnalyzer
             this.lblInstructionsFormTwo.TabIndex = 0;
             this.lblInstructionsFormTwo.Text = "Please save the Images and Export the Excel File of the Analysis.";
             // 
-            // FormThree
+            // Calculations
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -259,7 +259,7 @@ namespace TelomereAnalyzer
             this.Controls.Add(this.grpBxSaveImages);
             this.MaximumSize = new System.Drawing.Size(875, 1442);
             this.MinimumSize = new System.Drawing.Size(875, 1442);
-            this.Name = "FormThree";
+            this.Name = "Calculations";
             this.grpBxSaveImages.ResumeLayout(false);
             this.grpBxSaveImages.PerformLayout();
             this.grpBx.ResumeLayout(false);
