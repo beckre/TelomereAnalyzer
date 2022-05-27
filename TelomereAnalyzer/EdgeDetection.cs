@@ -10,7 +10,7 @@ namespace TelomereAnalyzer
     class EdgeDetection
     {
         StartOperation _formOne = null;
-        Image<Bgr, byte> _ProcessedImage = null;
+        Image<Bgr, byte> _processedImage = null;
         Bitmap _btmProcessedImage = null;
         public AllNuclei _allNuclei = null;
         public AllTelomeres _allTelomeres = null;
@@ -34,8 +34,8 @@ namespace TelomereAnalyzer
         public void FindingContoursNuclei(Image<Gray, byte> imageForEdgeDetection, Image<Gray, byte> imageNormalizedToDrawOn)
         {
             Image<Gray, byte> grayImage = imageForEdgeDetection;
-            _ProcessedImage = imageNormalizedToDrawOn.Convert<Bgr, byte>();
-            _btmProcessedImage = _ProcessedImage.ToBitmap();
+            _processedImage = imageNormalizedToDrawOn.Convert<Bgr, byte>();
+            _btmProcessedImage = _processedImage.ToBitmap();
             _allNuclei._imageToDrawOn = imageNormalizedToDrawOn.Convert<Bgr, byte>();
 
             MemStorage storage = new MemStorage();
@@ -89,7 +89,7 @@ namespace TelomereAnalyzer
             _allNuclei.PrepareDrawingContoursByNucleus(new Bgr(Color.DarkViolet));
             _allNuclei.PrintResultValues();
             */
-            _formOne._NucleiImageEdgesDetected = _ProcessedImage;
+            _formOne._NucleiImageEdgesDetected = _processedImage;
             _formOne._TestingNucleiImageEdgesDetected = _allNuclei._imageToDrawOn;
         }
         /*----------------------------------------------------------------------------------------*\
@@ -102,7 +102,7 @@ namespace TelomereAnalyzer
         public void FindingContoursTelomeres(Image<Gray, byte> imageForTelomereDetection, Image<Gray, byte> imageNormalizedToDrawOn)
         {
             Image<Gray, byte> grayImage = imageForTelomereDetection;
-            _ProcessedImage = imageNormalizedToDrawOn.Convert<Bgr, byte>();
+            _processedImage = imageNormalizedToDrawOn.Convert<Bgr, byte>();
             _allTelomeres._imageToDrawOn = imageNormalizedToDrawOn.Convert<Bgr, byte>();
 
             MemStorage storage = new MemStorage();
@@ -154,7 +154,7 @@ namespace TelomereAnalyzer
             _allTelomeres.PrepareDrawingContoursByTelomere();
             _allTelomeres.PrintResultValues();
 
-            _formOne._TelomereImageTelomeresDetected = _ProcessedImage;
+            _formOne._TelomereImageTelomeresDetected = _processedImage;
             _formOne._TestingTelomereImageTelomeresDetected = _allTelomeres._imageToDrawOn;
         }
         protected void AddContourPoints(ref PointF[][] allContours, PointF[] points)
@@ -214,10 +214,10 @@ namespace TelomereAnalyzer
         protected void DrawContour(PointF[] contour)
         {
             Bgr color = new Bgr(Color.DarkViolet);
-            _btmProcessedImage = _ProcessedImage.ToBitmap();
+            _btmProcessedImage = _processedImage.ToBitmap();
             Graphics graphics = Graphics.FromImage(_btmProcessedImage);
             graphics.DrawPolygon(Pens.DarkViolet, contour);
-            _ProcessedImage = new Image<Bgr, byte>(_btmProcessedImage);
+            _processedImage = new Image<Bgr, byte>(_btmProcessedImage);
         }
         #endregion
     }
