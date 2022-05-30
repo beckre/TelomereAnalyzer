@@ -316,7 +316,7 @@ namespace TelomereAnalyzer
         /*---------------------------------------------------------------------------------------*\
         |* Initializes the Detection of the Telomeres.                                           *|
         |* Similar Procedure like in DetectNuclei().                                             *|
-        |* Calls AllocateTelomrersToNucleus()                                                    *|
+        |* Calls AllocateTelomeresToNucleus()                                                    *|
         \*---------------------------------------------------------------------------------------*/
         public void DetectingTelomeres(Image<Gray, byte> telomereImage)
         {
