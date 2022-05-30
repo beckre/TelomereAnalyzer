@@ -155,7 +155,7 @@ namespace TelomereAnalyzer
                     }
                 }
             }
-            //Redraing of Image when selecting/deselecting a Nucleus
+            //Redrawing of Image when selecting/deselecting a Nucleus
             _NucleiImageWithAutomaticEdgesToDrawOn = _RawNucleiImage;
             if (_allNuclei._lstAllNuclei != null)
             {
