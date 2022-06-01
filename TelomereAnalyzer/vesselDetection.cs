@@ -64,7 +64,7 @@ namespace TelomereAnalyzer
 
             //_parentControl._grayImage.Save("1_OriImage.tiff");
 
-            #region--2. Generate Binary Image
+            #region Generate Binary Image
             //this is necessary for the further Image editing
             shadowImage = _parentControl._grayImage.ConvertScale<Byte>(_settingsVesselDetector.imgContrast, _settingsVesselDetector.imgBrightness);
             //gamma Correction
