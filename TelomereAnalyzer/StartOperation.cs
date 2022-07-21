@@ -147,14 +147,14 @@ namespace TelomereAnalyzer
         private void OnStart(object sender, EventArgs e)
         {
             if (IsImageOkay(_uploadedRawNucleiImage) && IsImageOkay(_uploadedRawTelomereImage))
-                AutoLevel();
+                AutoLeveling();
         }
 
         /*----------------------------------------------------------------------------------------*\
         |* Auto-Levels the Nuclei and Telomere Images using the MagickImage Library.              *|
         |* Calls Threshold()                                                                      *|
         \*----------------------------------------------------------------------------------------*/
-        private void AutoLevel()
+        private void AutoLeveling()
         {
             MagickImage magickImageNuclei = new MagickImage(_nucleiFilePathName);
             magickImageNuclei.AutoLevel();

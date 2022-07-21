@@ -85,7 +85,7 @@ namespace TelomereAnalyzer
                 testCounter++;
             }
             shadowImage = Bin.Copy();
-            //shadowImage.Save("3_Threshold_Done.tiff");
+            shadowImage.Save(@"D:\Hochschule Emden Leer - Bachelor Bioinformatik\Semester 8 Praxisphase Bachelorarbeit Vorbereitungen\Bachelorarbeit\Programmbeispiel-Ergebnisse\Ergebnis-Teil\3_Threshold_Done.tiff");
             Bin.Dispose();
 
             //gives the edited Image to it's parent (the Detection Object)
