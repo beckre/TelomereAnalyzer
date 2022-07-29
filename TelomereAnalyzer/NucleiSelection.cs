@@ -208,7 +208,7 @@ namespace TelomereAnalyzer
             public float Y;
         }
         MouseCoordinate[] _mouseCoordinates = null;
-        PointF[] _malKurve = null;
+        PointF[] _drawnLines = null;
 
         public struct MouseStatus
         {
@@ -277,11 +277,11 @@ namespace TelomereAnalyzer
             if (_mouseCoordinates.Length < 2)
                 return;
 
-            _malKurve = new PointF[_mouseCoordinates.Length];
+            _drawnLines = new PointF[_mouseCoordinates.Length];
             for (Int32 P = 0; P < _mouseCoordinates.Length; P++)
-                _malKurve[P] = new PointF(_mouseCoordinates[P].X, _mouseCoordinates[P].Y);
+                _drawnLines[P] = new PointF(_mouseCoordinates[P].X, _mouseCoordinates[P].Y);
 
-            e.Graphics.DrawLines(Pens.Green, _malKurve);
+            e.Graphics.DrawLines(Pens.Green, _drawnLines);
             _NucleiImageWithAutomaticEdgesToDrawOn = new Image<Bgr, byte>(_btmNucleiImageWithAutomaticEdges);
             ShowImageOnForm(pcBxOriImage, _NucleiImageWithAutomaticEdgesToDrawOn);
         }
@@ -298,16 +298,16 @@ namespace TelomereAnalyzer
                 return;
 
             Graphics graphics = Graphics.FromImage(_btmNucleiImageWithAutomaticEdges);
-            graphics.DrawLines(Pens.Green, _malKurve);
+            graphics.DrawLines(Pens.Green, _drawnLines);
             _NucleiImageWithAutomaticEdgesToDrawOn = new Image<Bgr, byte>(_btmNucleiImageWithAutomaticEdges);
             ShowImageOnForm(pcBxOriImage, _NucleiImageWithAutomaticEdgesToDrawOn);
             //Nuclei that are created here do not have a center point
             Int32 nucleiNumber = _allNuclei._lstAllNuclei.Count + 1;
-            Nucleus nucleus = new Nucleus("Nucleus " + nucleiNumber, _malKurve);
+            Nucleus nucleus = new Nucleus("Nucleus " + nucleiNumber, _drawnLines);
             _allNuclei.AddNucleusToNucleiList(nucleus);
             _finishedDrawingOfOneNucleus = false;
             _mouseCoordinates = null;
-            _malKurve = null;
+            _drawnLines = null;
             DisplayAddedNucleusAsCheckboxes(nucleus);
         }
         /*----------------------------------------------------------------------------------------*\
